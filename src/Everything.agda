@@ -7,6 +7,8 @@ import Syntax
 
 import CoquandRenaming
 import CoquandSubstitution
+import CoquandConvertibility
 
 import KovacsEmbedding
 import KovacsSubstitution
+import KovacsConvertibility
