@@ -11,4 +11,5 @@ import CoquandConvertibility
 
 import KovacsEmbedding
 import KovacsSubstitution
+import KovacsNormalForm
 import KovacsConvertibility
