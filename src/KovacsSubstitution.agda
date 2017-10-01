@@ -4,11 +4,12 @@ open import KovacsEmbedding public
 
 
 -- Substitutions (Sub ; ∙ ; _,_)
-data _⊢⋆_ : 𝒞 → 𝒞 → Set where
-  []    : ∀ {Γ} → Γ ⊢⋆ []
+data _⊢⋆_ : 𝒞 → 𝒞 → Set
+  where
+    []    : ∀ {Γ} → Γ ⊢⋆ []
 
-  [_,_] : ∀ {Γ Ξ A} → (σ : Γ ⊢⋆ Ξ) (M : Γ ⊢ A)
-                    → Γ ⊢⋆ [ Ξ , A ]
+    [_,_] : ∀ {Γ Ξ A} → (σ : Γ ⊢⋆ Ξ) (M : Γ ⊢ A)
+                      → Γ ⊢⋆ [ Ξ , A ]
 
 
 -- (_ₛ∘ₑ_)
@@ -203,8 +204,8 @@ idgetₛ : ∀ {Γ A} → (i : Γ ∋ A)
                  → getₛ idₛ i ≡ ` i
 idgetₛ zero    = refl
 idgetₛ (suc i) = get◐ (wkₑ idₑ) idₛ i
-               ⦙ ren (wkₑ idₑ) & idgetₛ i
-               ⦙ (_⊢_.` ∘ suc) & idgetₑ i
+               ⦙ wk & idgetₛ i
+               ⦙ ` ∘ suc & idgetₑ i
 
 -- (Tm-idₛ)
 idsub : ∀ {Γ A} → (M : Γ ⊢ A)

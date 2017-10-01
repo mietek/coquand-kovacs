@@ -25,7 +25,7 @@ record Category {ℓ ℓ′}
 𝗦𝗲𝘁 ℓ =
   record
     { idₓ    = id
-    ; _⋄_    = λ g f → g ∘ f
+    ; _⋄_    = _∘_
     ; id₁⋄   = λ f → refl
     ; id₂⋄   = λ f → refl
     ; assoc⋄ = λ h g f → refl

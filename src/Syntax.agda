@@ -21,6 +21,7 @@ data 𝒞 : Set
 
 
 -- Variables (_∈_ ; vz ; vs)
+infix 4 _∋_
 data _∋_ : 𝒞 → 𝒯 → Set
   where
     zero : ∀ {Γ A} → [ Γ , A ] ∋ A
