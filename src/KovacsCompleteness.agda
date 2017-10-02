@@ -25,20 +25,20 @@ data _≫⋆_ : ∀ {Γ Ξ} → Γ ⊢⋆ Ξ → Γ ⊩⋆ Ξ → Set
 
 
 -- (≈ₑ)
-con : ∀ {A Γ Γ′} → {M : Γ ⊢ A} {a : Γ ⊩ A}
-                 → (η : Γ′ ⊇ Γ) → M ≫ a
-                 → ren η M ≫ acc η a
-con {⎵}     {M = M} {N} η p = cast ren∼ η p via
-                                ((λ N′ → ren η M ∼ N′) & (natembⁿᶠ η N ⁻¹))
-con {A ⊃ B} {M = M} {f} η g η′ rewrite ren○ η′ η M ⁻¹
-                            = g (η ○ η′)
+conv : ∀ {A Γ Γ′} → {M : Γ ⊢ A} {a : Γ ⊩ A}
+                  → (η : Γ′ ⊇ Γ) → M ≫ a
+                  → ren η M ≫ acc η a
+conv {⎵}     {M = M} {N} η p = cast ren∼ η p via
+                                 ((λ N′ → ren η M ∼ N′) & (natembⁿᶠ η N ⁻¹))
+conv {A ⊃ B} {M = M} {f} η g η′ rewrite ren○ η′ η M ⁻¹
+                             = g (η ○ η′)
 
 -- (≈ᶜₑ)
-_◧_ : ∀ {Γ Γ′ Ξ} → {σ : Γ ⊢⋆ Ξ} {ρ : Γ ⊩⋆ Ξ}
-                 → (χ : σ ≫⋆ ρ) (η : Γ′ ⊇ Γ)
-                 → σ ◐ η ≫⋆ ρ ⬖ η
-[]        ◧ η = []
-[ χ , p ] ◧ η = [ χ ◧ η , con η p ]
+_◐ᶜᵛ_ : ∀ {Γ Γ′ Ξ} → {σ : Γ ⊢⋆ Ξ} {ρ : Γ ⊩⋆ Ξ}
+                   → (χ : σ ≫⋆ ρ) (η : Γ′ ⊇ Γ)
+                   → σ ◐ η ≫⋆ ρ ◐ᵥ η
+[]        ◐ᶜᵛ η = []
+[ χ , p ] ◐ᶜᵛ η = [ χ ◐ᶜᵛ η , conv η p ]
 
 
 -- (_∼◾≈_)
@@ -75,7 +75,7 @@ eval≫ {σ = σ} {ρ} χ (ƛ M)   = λ η {N} {a} q →
                                          )
                                      ))
                                 ∼⦙≫
-                                eval≫ [ χ ◧ η , q ] M
+                                eval≫ [ χ ◐ᶜᵛ η , q ] M
 eval≫ {σ = σ} {ρ} χ (M ∙ N) rewrite idren (sub σ M) ⁻¹
                             = eval≫ χ M idₑ (eval≫ χ N)
 
@@ -96,12 +96,12 @@ mutual
 
 
 -- (uᶜ≈)
-id₌ : ∀ {Γ} → idₛ {Γ} ≫⋆ idᵥ
-id₌ {[]}        = []
-id₌ {[ Γ , A ]} = [ id₌ ◧ wkₑ idₑ , reflect≫ (` zero) ]
+idᶜᵛ : ∀ {Γ} → idₛ {Γ} ≫⋆ idᵥ
+idᶜᵛ {[]}        = []
+idᶜᵛ {[ Γ , A ]} = [ idᶜᵛ ◐ᶜᵛ wkₑ idₑ , reflect≫ (` zero) ]
 
 
 complete : ∀ {Γ A} → (M : Γ ⊢ A)
                    → M ∼ embⁿᶠ (nf M)
-complete M = cast reify≫ (eval≫ id₌ M) via
+complete M = cast reify≫ (eval≫ idᶜᵛ M) via
                ((_∼ embⁿᶠ (reify (eval idᵥ M))) & idsub M)

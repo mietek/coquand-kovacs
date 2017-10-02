@@ -55,13 +55,13 @@ mutual
 mutual
   -- (⌜⌝Nf-nat)
   natembⁿᶠ : ∀ {A Γ Γ′} → (η : Γ′ ⊇ Γ) (M : Γ ⊢ⁿᶠ A)
-                        → embⁿᶠ (renⁿᶠ η M) ≡ ren η (embⁿᶠ M)
+                        → (embⁿᶠ ∘ renⁿᶠ η) M ≡ (ren η ∘ embⁿᶠ) M
   natembⁿᶠ η (ƛ M)  = ƛ & natembⁿᶠ (liftₑ η) M
   natembⁿᶠ η (ne M) = natembⁿᵉ η M
 
   -- (⌜⌝Ne-nat)
   natembⁿᵉ : ∀ {A Γ Γ′} → (η : Γ′ ⊇ Γ) (M : Γ ⊢ⁿᵉ A)
-                        → embⁿᵉ (renⁿᵉ η M) ≡ ren η (embⁿᵉ M)
+                        → (embⁿᵉ ∘ renⁿᵉ η) M ≡ (ren η ∘ embⁿᵉ) M
   natembⁿᵉ η (` i)   = refl
   natembⁿᵉ η (M ∙ N) = _∙_ & natembⁿᵉ η M ⊗ natembⁿᶠ η N
 
