@@ -10,6 +10,7 @@ import CoquandSubstitution
 import CoquandNormalisation
 import CoquandConvertibility
 import CoquandCompleteness
+import CoquandSoundness
 
 import KovacsEmbedding
 import KovacsSubstitution
@@ -18,3 +19,4 @@ import KovacsNormalisation
 import KovacsConvertibility
 import KovacsCompleteness
 import KovacsPresheafRefinement
+import KovacsSoundness
