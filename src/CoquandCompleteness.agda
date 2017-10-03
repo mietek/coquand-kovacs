@@ -6,6 +6,9 @@ open import CoquandNormalisation public
 open import CoquandConvertibility public
 
 
+--------------------------------------------------------------------------------
+
+
 data CV : ∀ {Γ A} → Γ ⊢ A → Γ ⊩ A → Set
   where
     cv⎵ : ∀ {Γ} → {M : Γ ⊢ ⎵} {f : Γ ⊩ ⎵}
@@ -93,11 +96,11 @@ mutual
                      → CV M (⟪ f ⟫)
 
 postulate
-  ⌊_⌋ᶜᵛ : ∀ {Γ Γ′} → (η : Γ′ ∋⋆ Γ)
+  ⌊_⌋CV⋆ : ∀ {Γ Γ′} → (η : Γ′ ∋⋆ Γ)
                    → CV⋆ ⌊ η ⌋ ⌊ η ⌋ᵥ
 
-idᶜᵛ : ∀ {Γ} → CV⋆ ⌊ idᵣ ⌋ (idᵥ {Γ})
-idᶜᵛ = ⌊ idᵣ ⌋ᶜᵛ
+idCV⋆ : ∀ {Γ} → CV⋆ ⌊ idᵣ ⌋ (idᵥ {Γ})
+idCV⋆ = ⌊ idᵣ ⌋CV⋆
 
 postulate
   aux₄₆₉ : ∀ {Γ A} → (M : Γ ⊢ A)
@@ -118,3 +121,6 @@ thm₃ : ∀ {Γ A} → (M₁ M₂ : Γ ⊢ A) → Eq (⟦ M₁ ⟧ idᵥ) (⟦ 
 thm₃ M₁ M₂ e =  thm₂ M₁
              ⦙∼ ≡→∼ (cor₁ M₁ M₂ e)
              ⦙∼ thm₂ M₂ ⁻¹∼
+
+
+--------------------------------------------------------------------------------

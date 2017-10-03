@@ -4,6 +4,9 @@ open import KovacsEmbedding public
 open import Category
 
 
+--------------------------------------------------------------------------------
+
+
 mutual
   -- (Nfₑ)
   renⁿᶠ : ∀ {Γ Γ′ A} → Γ′ ⊇ Γ → Γ ⊢ⁿᶠ A → Γ′ ⊢ⁿᶠ A
@@ -27,7 +30,8 @@ mutual
   idrenⁿᵉ : ∀ {Γ A} → (M : Γ ⊢ⁿᵉ A)
                     → renⁿᵉ idₑ M ≡ M
   idrenⁿᵉ (` i)   = ` & idgetₑ i
-  idrenⁿᵉ (M ∙ N) = _∙_ & idrenⁿᵉ M ⊗ idrenⁿᶠ N
+  idrenⁿᵉ (M ∙ N) = _∙_ & idrenⁿᵉ M
+                        ⊗ idrenⁿᶠ N
 
 
 mutual
@@ -41,7 +45,8 @@ mutual
   renⁿᵉ○ : ∀ {Γ Γ′ Γ″ A} → (η₁ : Γ″ ⊇ Γ′) (η₂ : Γ′ ⊇ Γ) (M : Γ ⊢ⁿᵉ A)
                          → renⁿᵉ (η₂ ○ η₁) M ≡ (renⁿᵉ η₁ ∘ renⁿᵉ η₂) M
   renⁿᵉ○ η₁ η₂ (` i)   = ` & get○ η₁ η₂ i
-  renⁿᵉ○ η₁ η₂ (M ∙ N) = _∙_ & renⁿᵉ○ η₁ η₂ M ⊗ renⁿᶠ○ η₁ η₂ N
+  renⁿᵉ○ η₁ η₂ (M ∙ N) = _∙_ & renⁿᵉ○ η₁ η₂ M
+                             ⊗ renⁿᶠ○ η₁ η₂ N
 
 
 mutual
@@ -67,7 +72,8 @@ mutual
   natembⁿᵉ : ∀ {A Γ Γ′} → (η : Γ′ ⊇ Γ) (M : Γ ⊢ⁿᵉ A)
                         → (embⁿᵉ ∘ renⁿᵉ η) M ≡ (ren η ∘ embⁿᵉ) M
   natembⁿᵉ η (` i)   = refl
-  natembⁿᵉ η (M ∙ N) = _∙_ & natembⁿᵉ η M ⊗ natembⁿᶠ η N
+  natembⁿᵉ η (M ∙ N) = _∙_ & natembⁿᵉ η M
+                           ⊗ natembⁿᶠ η N
 
 
 --------------------------------------------------------------------------------
@@ -105,3 +111,6 @@ embⁿᵉNT =
     { ϕ    = embⁿᵉ
     ; natϕ = λ η → fext! (λ M → natembⁿᵉ η M)
     }
+
+
+--------------------------------------------------------------------------------

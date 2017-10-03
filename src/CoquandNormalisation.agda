@@ -5,6 +5,9 @@ module CoquandNormalisation where
 open import CoquandSubstitution public
 
 
+--------------------------------------------------------------------------------
+
+
 record 𝔐 : Set₁ where
   field
     𝒲      : Set
@@ -25,9 +28,6 @@ record 𝔐 : Set₁ where
 
     assoc◇ : ∀ {w w′ w″ w‴} → (ξ₁ : w‴ ⊒ w″) (ξ₂ : w″ ⊒ w′) (ξ₃ : w′ ⊒ w)
                             → ξ₁ ◇ (ξ₂ ◇ ξ₃) ≡ (ξ₁ ◇ ξ₂) ◇ ξ₃
-
-
---------------------------------------------------------------------------------
 
 
 module _ {{𝔪 : 𝔐}} where
@@ -93,31 +93,41 @@ module _ {{𝔪 : 𝔐}} where
                     → Un f
 
         un⊃ : ∀ {A B w} → {f : w ⊩ A ⊃ B}
-                        → (h₁ : ∀ {w′} → (ξ : w′ ⊒ w) {a : w′ ⊩ A} (u : Un a)
+                        → (h₁ : ∀ {w′} → (ξ : w′ ⊒ w)
+                                           {a : w′ ⊩ A}
+                                           (u : Un a)
                                         → Un (f ◎⟨ ξ ⟩ a))
-                        → (h₂ : ∀ {w′} → (ξ : w′ ⊒ w) {a₁ a₂ : w′ ⊩ A} (e : Eq a₁ a₂) (u₁ : Un a₁) (u₂ : Un a₂)
+                        → (h₂ : ∀ {w′} → (ξ : w′ ⊒ w)
+                                           {a₁ a₂ : w′ ⊩ A}
+                                           (p : Eq a₁ a₂)
+                                           (u₁ : Un a₁)
+                                           (u₂ : Un a₂)
                                         → Eq (f ◎⟨ ξ ⟩ a₁) (f ◎⟨ ξ ⟩ a₂))
-                        → (h₃ : ∀ {w′ w″} → (ξ₁ : w″ ⊒ w′) (ξ₂ : w′ ⊒ w) {a : w′ ⊩ A} (u : Un a)
-                                           → Eq (acc ξ₁ (f ◎⟨ ξ₂ ⟩ a)) (f ◎⟨ ξ₁ ◇ ξ₂ ⟩ (acc ξ₁ a)))
+                        → (h₃ : ∀ {w′ w″} → (ξ₁ : w″ ⊒ w′)
+                                              (ξ₂ : w′ ⊒ w)
+                                              {a : w′ ⊩ A}
+                                              (u : Un a)
+                                           → Eq (acc ξ₁ (f ◎⟨ ξ₂ ⟩ a))
+                                                 (f ◎⟨ ξ₁ ◇ ξ₂ ⟩ (acc ξ₁ a)))
                         → Un f
 
 
   reflEq : ∀ {A w} → {a : w ⊩ A}
                    → Un a
                    → Eq a a
-  reflEq un⎵            = eq⎵ (λ ξ   → refl)
+  reflEq un⎵            = eq⎵ (λ ξ → refl)
   reflEq (un⊃ h₁ h₂ h₃) = eq⊃ (λ ξ u → reflEq (h₁ ξ u))
 
   _⁻¹Eq : ∀ {A w} → {a₁ a₂ : w ⊩ A}
                   → Eq a₁ a₂
                   → Eq a₂ a₁
-  _⁻¹Eq {⎵}     (eq⎵ h) = eq⎵ (λ ξ   → h ξ ⁻¹)
+  _⁻¹Eq {⎵}     (eq⎵ h) = eq⎵ (λ ξ → h ξ ⁻¹)
   _⁻¹Eq {A ⊃ B} (eq⊃ h) = eq⊃ (λ ξ u → h ξ u ⁻¹Eq)
 
   _⦙Eq_ : ∀ {A w} → {a₁ a₂ a₃ : w ⊩ A}
                   → Eq a₁ a₂ → Eq a₂ a₃
                   → Eq a₁ a₃
-  _⦙Eq_ {⎵}     (eq⎵ h₁) (eq⎵ h₂) = eq⎵ (λ ξ   → h₁ ξ ⦙ h₂ ξ)
+  _⦙Eq_ {⎵}     (eq⎵ h₁) (eq⎵ h₂) = eq⎵ (λ ξ → h₁ ξ ⦙ h₂ ξ)
   _⦙Eq_ {A ⊃ B} (eq⊃ h₁) (eq⊃ h₂) = eq⊃ (λ ξ u → h₁ ξ u ⦙Eq h₂ ξ u)
 
 
@@ -134,7 +144,9 @@ module _ {{𝔪 : 𝔐}} where
   -- (cong◎⟨_⟩Eq)
   postulate
     cong◎Eq : ∀ {A B w w′} → {f₁ f₂ : w ⊩ A ⊃ B} {a₁ a₂ : w′ ⊩ A}
-                           → (ξ : w′ ⊒ w) → Eq f₁ f₂ → Un f₁ → Un f₂ → Eq a₁ a₂ → Un a₁ → Un a₂
+                           → (ξ : w′ ⊒ w)
+                           → Eq f₁ f₂ → Un f₁ → Un f₂
+                           → Eq a₁ a₂ → Un a₁ → Un a₂
                            → Eq (f₁ ◎⟨ ξ ⟩ a₁)
                                  (f₂ ◎⟨ ξ ⟩ a₂)
 
@@ -269,7 +281,8 @@ module _ {{𝔪 : 𝔐}} where
   comp⬖○ : ∀ {Ξ Ξ′ Ξ″ w} → (ρ : w ⊩⋆ Ξ″) (η₁ : Ξ″ ∋⋆ Ξ′) (η₂ : Ξ′ ∋⋆ Ξ)
                          → ρ ⬖ (η₁ ○ η₂) ≡ (ρ ⬖ η₁) ⬖ η₂
   comp⬖○ σ η₁ []         = refl
-  comp⬖○ σ η₁ [ η₂ , z ] = [_,_] & comp⬖○ σ η₁ η₂ ⊗ (get⬖ σ η₁ z ⁻¹)
+  comp⬖○ σ η₁ [ η₂ , z ] = [_,_] & comp⬖○ σ η₁ η₂
+                                 ⊗ (get⬖ σ η₁ z ⁻¹)
 
   -- wk⬖ can’t be stated here
   -- lift⬖ can’t be stated here
@@ -293,7 +306,7 @@ module _ {{𝔪 : 𝔐}} where
       []    : ∀ {w} → Eq⋆ ([] {w}) []
 
       [_,_] : ∀ {Ξ A w} → {ρ₁ ρ₂ : w ⊩⋆ Ξ} {a₁ a₂ : w ⊩ A}
-                        → (ε : Eq⋆ ρ₁ ρ₂) (e : Eq a₁ a₂)
+                        → (χ : Eq⋆ ρ₁ ρ₂) (p : Eq a₁ a₂)
                         → Eq⋆ [ ρ₁ , a₁ ] [ ρ₂ , a₂ ]
 
   data Un⋆ : ∀ {Ξ w} → w ⊩⋆ Ξ → Set
@@ -315,13 +328,13 @@ module _ {{𝔪 : 𝔐}} where
                    → Eq⋆ ρ₁ ρ₂
                    → Eq⋆ ρ₂ ρ₁
   []        ⁻¹Eq⋆ = []
-  [ ε , e ] ⁻¹Eq⋆ = [ ε ⁻¹Eq⋆ , e ⁻¹Eq ]
+  [ χ , p ] ⁻¹Eq⋆ = [ χ ⁻¹Eq⋆ , p ⁻¹Eq ]
 
   _⦙Eq⋆_ : ∀ {Ξ w} → {ρ₁ ρ₂ ρ₃ : w ⊩⋆ Ξ}
                    → Eq⋆ ρ₁ ρ₂ → Eq⋆ ρ₂ ρ₃
                    → Eq⋆ ρ₁ ρ₃
-  []          ⦙Eq⋆ []          = []
-  [ ε₁ , e₁ ] ⦙Eq⋆ [ ε₂ , e₂ ] = [ ε₁ ⦙Eq⋆ ε₂ , e₁ ⦙Eq e₂ ]
+  []         ⦙Eq⋆ []         = []
+  [ χ₁ , p ] ⦙Eq⋆ [ χ₂ , q ] = [ χ₁ ⦙Eq⋆ χ₂ , p ⦙Eq q ]
 
 
   ≡→Eq⋆ : ∀ {Ξ w} → {ρ₁ ρ₂ : w ⊩⋆ Ξ} → ρ₁ ≡ ρ₂ → Un⋆ ρ₁ → Eq⋆ ρ₁ ρ₂
@@ -465,9 +478,6 @@ instance
     }
 
 
---------------------------------------------------------------------------------
-
-
 mutual
   reify : ∀ {A Γ} → Γ ⊩ A → Γ ⊢ A
   reify {⎵}     f = ⟦g⟧⟨ idᵣ ⟩ f
@@ -528,3 +538,6 @@ nf M = reify (⟦ M ⟧ idᵥ)
 postulate
   cor₁ : ∀ {Γ A} → (M₁ M₂ : Γ ⊢ A) → Eq (⟦ M₁ ⟧ idᵥ) (⟦ M₂ ⟧ idᵥ)
                  → nf M₁ ≡ nf M₂
+
+
+--------------------------------------------------------------------------------

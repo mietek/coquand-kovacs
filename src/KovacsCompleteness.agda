@@ -4,6 +4,9 @@ open import KovacsNormalisation public
 open import KovacsConvertibility public
 
 
+--------------------------------------------------------------------------------
+
+
 infix 3 _≫_
 _≫_ : ∀ {A Γ} → Γ ⊢ A → Γ ⊩ A → Set
 
@@ -19,26 +22,28 @@ data _≫⋆_ : ∀ {Γ Ξ} → Γ ⊢⋆ Ξ → Γ ⊩⋆ Ξ → Set
   where
     []    : ∀ {Γ} → ([] {Γ = Γ}) ≫⋆ []
 
-    [_,_] : ∀ {Γ Ξ A} → {σ : Γ ⊢⋆ Ξ} {ρ : Γ ⊩⋆ Ξ}
-                      → (χ : σ ≫⋆ ρ) {M : Γ ⊢ A} {a : Γ ⊩ A} (p : M ≫ a)
+    [_,_] : ∀ {Γ Ξ A} → {σ : Γ ⊢⋆ Ξ} {ρ : Γ ⊩⋆ Ξ} {M : Γ ⊢ A} {a : Γ ⊩ A}
+                      → (χ : σ ≫⋆ ρ) (p : M ≫ a)
                       → [ σ , M ] ≫⋆ [ ρ , a ]
 
 
 -- (≈ₑ)
-conv : ∀ {A Γ Γ′} → {M : Γ ⊢ A} {a : Γ ⊩ A}
+acc≫ : ∀ {A Γ Γ′} → {M : Γ ⊢ A} {a : Γ ⊩ A}
                   → (η : Γ′ ⊇ Γ) → M ≫ a
                   → ren η M ≫ acc η a
-conv {⎵}     {M = M} {N} η p = cast ren∼ η p via
+acc≫ {⎵}     {M = M} {N} η p = cast
+                                 ren∼ η p
+                               via
                                  ((λ N′ → ren η M ∼ N′) & (natembⁿᶠ η N ⁻¹))
-conv {A ⊃ B} {M = M} {f} η g η′ rewrite ren○ η′ η M ⁻¹
+acc≫ {A ⊃ B} {M = M} {f} η g η′ rewrite ren○ η′ η M ⁻¹
                              = g (η ○ η′)
 
 -- (≈ᶜₑ)
-_◐ᶜᵛ_ : ∀ {Γ Γ′ Ξ} → {σ : Γ ⊢⋆ Ξ} {ρ : Γ ⊩⋆ Ξ}
-                   → (χ : σ ≫⋆ ρ) (η : Γ′ ⊇ Γ)
-                   → σ ◐ η ≫⋆ ρ ◐ᵥ η
-[]        ◐ᶜᵛ η = []
-[ χ , p ] ◐ᶜᵛ η = [ χ ◐ᶜᵛ η , conv η p ]
+_⬖≫_ : ∀ {Γ Γ′ Ξ} → {σ : Γ ⊢⋆ Ξ} {ρ : Γ ⊩⋆ Ξ}
+                  → (χ : σ ≫⋆ ρ) (η : Γ′ ⊇ Γ)
+                  → σ ◐ η ≫⋆ ρ ⬖ η
+[]        ⬖≫ η = []
+[ χ , p ] ⬖≫ η = [ χ ⬖≫ η , acc≫ η p ]
 
 
 -- (_∼◾≈_)
@@ -46,10 +51,14 @@ infixl 4 _∼⦙≫_
 _∼⦙≫_ : ∀ {A Γ} → {M₁ M₂ : Γ ⊢ A} {a : Γ ⊩ A}
                 → M₁ ∼ M₂ → M₁ ≫ a
                 → M₂ ≫ a
-_∼⦙≫_ {⎵}     p q = p ⁻¹∼ ⦙∼ q
+_∼⦙≫_ {⎵}     p q =  p ⁻¹∼
+                  ⦙∼ q
 _∼⦙≫_ {A ⊃ B} p f = λ η q →
                         ren∼ η p ∙∼ refl∼
                     ∼⦙≫ f η q
+
+
+--------------------------------------------------------------------------------
 
 
 -- (∈≈)
@@ -65,7 +74,9 @@ eval≫ : ∀ {Γ Ξ A} → {σ : Γ ⊢⋆ Ξ} {ρ : Γ ⊩⋆ Ξ}
                   → sub σ M ≫ eval ρ M
 eval≫ {σ = σ} {ρ} χ (` i)   = get≫ χ i
 eval≫ {σ = σ} {ρ} χ (ƛ M)   = λ η {N} {a} q →
-                                  cast βred∼ (ren (liftₑ η) (sub (liftₛ σ) M)) N via
+                                  cast
+                                    βred∼ (ren (liftₑ η) (sub (liftₛ σ) M)) N
+                                  via
                                     (((ƛ (ren (liftₑ η) (sub (liftₛ σ) M)) ∙ N) ∼_)
                                      & ( sub◑ [ idₛ , N ] (liftₑ η) (sub (liftₛ σ) M) ⁻¹
                                        ⦙ sub● (liftₑ η ◑ [ idₛ , N ]) (liftₛ σ) M ⁻¹
@@ -76,7 +87,7 @@ eval≫ {σ = σ} {ρ} χ (ƛ M)   = λ η {N} {a} q →
                                            ⦙ id₂● (σ ◐ η)
                                            )
                                        )) ⁻¹∼
-                              ∼⦙≫ eval≫ [ χ ◐ᶜᵛ η , q ] M
+                              ∼⦙≫ eval≫ [ χ ⬖≫ η , q ] M
 eval≫ {σ = σ} {ρ} χ (M ∙ N) rewrite idren (sub σ M) ⁻¹
                             = eval≫ χ M idₑ (eval≫ χ N)
 
@@ -86,7 +97,8 @@ mutual
                    → (p : M ≫ a)
                    → M ∼ embⁿᶠ (reify a)
   reify≫ {⎵}     {M = M} p = p
-  reify≫ {A ⊃ B} {M = M} f = ηexp∼ M ⦙∼ ƛ∼ (reify≫ (f (wkₑ idₑ) (reflect≫ (` zero))))
+  reify≫ {A ⊃ B} {M = M} f =  ηexp∼ M
+                           ⦙∼ ƛ∼ (reify≫ (f (wkₑ idₑ) (reflect≫ (` zero))))
 
   -- (u≈)
   reflect≫ : ∀ {A Γ} → (M : Γ ⊢ⁿᵉ A)
@@ -99,12 +111,17 @@ mutual
 
 
 -- (uᶜ≈)
-idᶜᵛ : ∀ {Γ} → idₛ {Γ} ≫⋆ idᵥ
-idᶜᵛ {[]}        = []
-idᶜᵛ {[ Γ , A ]} = [ idᶜᵛ ◐ᶜᵛ wkₑ idₑ , reflect≫ (` zero) ]
+id≫⋆ : ∀ {Γ} → idₛ {Γ} ≫⋆ idᵥ
+id≫⋆ {[]}        = []
+id≫⋆ {[ Γ , A ]} = [ id≫⋆ ⬖≫ wkₑ idₑ , reflect≫ (` zero) ]
 
 
 complete : ∀ {Γ A} → (M : Γ ⊢ A)
                    → M ∼ embⁿᶠ (nf M)
-complete M = cast reify≫ (eval≫ idᶜᵛ M) via
+complete M = cast
+               reify≫ (eval≫ id≫⋆ M)
+             via
                ((_∼ embⁿᶠ (reify (eval idᵥ M))) & idsub M)
+
+
+--------------------------------------------------------------------------------
