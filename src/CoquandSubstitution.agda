@@ -1,6 +1,7 @@
 module CoquandSubstitution where
 
 open import CoquandRenaming public
+open import Category
 
 
 -- Substitutions

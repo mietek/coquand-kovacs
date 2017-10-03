@@ -1,7 +1,7 @@
 module KovacsEmbedding where
 
 open import Syntax public
-open import Category public
+open import Category
 
 
 -- Embeddings (OPE ; ∙ ; drop ; keep)

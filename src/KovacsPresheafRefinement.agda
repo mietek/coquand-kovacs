@@ -2,6 +2,7 @@ module KovacsPresheafRefinement where
 
 open import KovacsSubstitution public
 open import KovacsNormalisation public
+open import Category
 
 
 -- (Tyᴺ-idₑ)
@@ -33,37 +34,6 @@ get◐ᵥ : ∀ {Γ Γ′ Ξ A} → (η : Γ′ ⊇ Γ) (ρ : Γ ⊩⋆ Ξ) (i :
                      → getᵥ (ρ ◐ᵥ η) i ≡ (acc η ∘ getᵥ ρ) i
 get◐ᵥ η [ ρ , a ] zero    = refl
 get◐ᵥ η [ ρ , a ] (suc i) = get◐ᵥ η ρ i
-
-
---------------------------------------------------------------------------------
-
-
-accPsh : 𝒯 → Presheaf₀ 𝗢𝗣𝗘
-accPsh A =
-  record
-    { φₓ   = _⊩ A
-    ; φₘ   = acc
-    ; idφₘ = fext! idacc
-    ; φₘ⋄  = λ η₁ η₂ → fext! (acc○ η₂ η₁)
-    }
-
-flip◐ᵥPsh : 𝒞 → Presheaf₀ 𝗢𝗣𝗘
-flip◐ᵥPsh Ξ =
-  record
-    { φₓ   = _⊩⋆ Ξ
-    ; φₘ   = flip _◐ᵥ_
-    ; idφₘ = fext! id₁◐ᵥ
-    ; φₘ⋄  = λ η₁ η₂ → fext! (λ ρ → comp◐○ᵥ η₂ η₁ ρ ⁻¹)
-    }
-
-
-getᵥNT : ∀ {Ξ A} → (i : Ξ ∋ A)
-                 → NaturalTransformation (flip◐ᵥPsh Ξ) (accPsh A)
-getᵥNT i =
-  record
-    { ϕ    = flip getᵥ i
-    ; natϕ = λ η → fext! (λ ρ → get◐ᵥ η ρ i)
-    }
 
 
 --------------------------------------------------------------------------------
@@ -192,34 +162,6 @@ mutual
 --------------------------------------------------------------------------------
 
 
--- TODO
--- evalNT : ∀ {Ξ A} → (M : Ξ ⊢ A)
---                  → NaturalTransformation (flip◐ᵥPsh Ξ) (accPsh A)
--- evalNT M =
---   record
---     { ϕ    = flip eval M
---     ; natϕ = λ η → fext! (λ ρ → eval◐ᵥ {ρ = ρ} η {!!} M)
---     }
-
--- TODO
--- reifyNT : ∀ {A} → NaturalTransformation (accPsh A) (renⁿᶠPsh A)
--- reifyNT =
---   record
---     { ϕ    = reify
---     ; natϕ = λ η → fext! (λ a → natreify η a {!!})
---     }
-
-reflectNT : ∀ {A} → NaturalTransformation (renⁿᵉPsh A) (accPsh A)
-reflectNT =
-  record
-    { ϕ    = reflect
-    ; natϕ = λ η → fext! (λ M → natreflect η M)
-    }
-
-
---------------------------------------------------------------------------------
-
-
 -- (OPEᴺ)
 _◑ᵥ_ : ∀ {Γ Ξ Ξ′} → Ξ′ ⊇ Ξ → Γ ⊩⋆ Ξ′ → Γ ⊩⋆ Ξ
 done    ◑ᵥ ρ         = ρ
@@ -293,3 +235,59 @@ id₁●ᵥ [ ρ , a ] = [_, a ] & ( comp●◑ᵥ [ ρ , a ] (wkₑ idₑ) id�
                             ⦙ id₁●ᵥ (idₑ ◑ᵥ ρ)
                             ⦙ id₁◑ᵥ ρ
                             )
+
+
+--------------------------------------------------------------------------------
+
+
+accPsh : 𝒯 → Presheaf₀ 𝗢𝗣𝗘
+accPsh A =
+  record
+    { φₓ   = _⊩ A
+    ; φₘ   = acc
+    ; idφₘ = fext! idacc
+    ; φₘ⋄  = λ η₁ η₂ → fext! (acc○ η₂ η₁)
+    }
+
+flip◐ᵥPsh : 𝒞 → Presheaf₀ 𝗢𝗣𝗘
+flip◐ᵥPsh Ξ =
+  record
+    { φₓ   = _⊩⋆ Ξ
+    ; φₘ   = flip _◐ᵥ_
+    ; idφₘ = fext! id₁◐ᵥ
+    ; φₘ⋄  = λ η₁ η₂ → fext! (λ ρ → comp◐○ᵥ η₂ η₁ ρ ⁻¹)
+    }
+
+
+getᵥNT : ∀ {Ξ A} → (i : Ξ ∋ A)
+                 → NaturalTransformation (flip◐ᵥPsh Ξ) (accPsh A)
+getᵥNT i =
+  record
+    { ϕ    = flip getᵥ i
+    ; natϕ = λ η → fext! (λ ρ → get◐ᵥ η ρ i)
+    }
+
+
+-- TODO
+-- evalNT : ∀ {Ξ A} → (M : Ξ ⊢ A)
+--                  → NaturalTransformation (flip◐ᵥPsh Ξ) (accPsh A)
+-- evalNT M =
+--   record
+--     { ϕ    = flip eval M
+--     ; natϕ = λ η → fext! (λ ρ → eval◐ᵥ {ρ = ρ} η {!!} M)
+--     }
+
+-- TODO
+-- reifyNT : ∀ {A} → NaturalTransformation (accPsh A) (renⁿᶠPsh A)
+-- reifyNT =
+--   record
+--     { ϕ    = reify
+--     ; natϕ = λ η → fext! (λ a → natreify η a {!!})
+--     }
+
+reflectNT : ∀ {A} → NaturalTransformation (renⁿᵉPsh A) (accPsh A)
+reflectNT =
+  record
+    { ϕ    = reflect
+    ; natϕ = λ η → fext! (λ M → natreflect η M)
+    }

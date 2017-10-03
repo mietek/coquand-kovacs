@@ -33,9 +33,9 @@ data CV⋆ : ∀ {Γ Ξ} → Γ ⊢⋆ Ξ → Γ ⊩⋆ Ξ → Set
 
 
 postulate
-  congCV : ∀ {Γ A} → {M M′ : Γ ⊢ A} {a : Γ ⊩ A}
-                   → M ∼ M′ → CV M′ a
-                   → CV M a
+  congCV : ∀ {Γ A} → {M₁ M₂ : Γ ⊢ A} {a : Γ ⊩ A}
+                   → M₁ ∼ M₂ → CV M₁ a
+                   → CV M₂ a
 
 -- (cong↑⟨_⟩CV)
 postulate
@@ -47,19 +47,19 @@ postulate
 postulate
   getCV : ∀ {Γ Ξ A} → {σ : Γ ⊢⋆ Ξ} {ρ : Γ ⊩⋆ Ξ}
                     → (i : Ξ ∋ A) → CV⋆ σ ρ
-                    → CV (sub σ (` i)) (getₑ ρ i)
+                    → CV (sub σ (` i)) (getᵥ ρ i)
 
 -- (cong↑⟨_⟩CV⋆)
 postulate
   accCV⋆ : ∀ {Γ Γ′ Ξ} → {σ : Γ ⊢⋆ Ξ} {ρ : Γ ⊩⋆ Ξ}
                       → (η : Γ′ ∋⋆ Γ) → CV⋆ σ ρ
-                      → CV⋆ (η ◑ σ) (η ◨ ρ)
+                      → CV⋆ (η ◑ σ) (η ⬗ ρ)
 
 -- (cong↓⟨_⟩CV⋆)
 postulate
   getCV⋆ : ∀ {Γ Ξ Ξ′} → {σ : Γ ⊢⋆ Ξ′} {ρ : Γ ⊩⋆ Ξ′}
                       → (η : Ξ′ ∋⋆ Ξ) → CV⋆ σ ρ
-                      → CV⋆ (σ ◐ η) (ρ ◧ η)
+                      → CV⋆ (σ ◐ η) (ρ ⬖ η)
 
 
 --------------------------------------------------------------------------------
@@ -93,11 +93,11 @@ mutual
                      → CV M (⟪ f ⟫)
 
 postulate
-  ⌊_⌋ₖ : ∀ {Γ Γ′} → (η : Γ′ ∋⋆ Γ)
-                  → CV⋆ ⌊ η ⌋ ⌊ η ⌋ₑ
+  ⌊_⌋ᶜᵛ : ∀ {Γ Γ′} → (η : Γ′ ∋⋆ Γ)
+                   → CV⋆ ⌊ η ⌋ ⌊ η ⌋ᵥ
 
-idₖ : ∀ {Γ} → CV⋆ ⌊ idᵣ ⌋ (idₑ {Γ})
-idₖ = ⌊ idᵣ ⌋ₖ
+idᶜᵛ : ∀ {Γ} → CV⋆ ⌊ idᵣ ⌋ (idᵥ {Γ})
+idᶜᵛ = ⌊ idᵣ ⌋ᶜᵛ
 
 postulate
   aux₄₆₉ : ∀ {Γ A} → (M : Γ ⊢ A)
@@ -113,8 +113,8 @@ postulate
                  → M ∼ nf M
 
 -- Theorem 3.
-thm₃ : ∀ {Γ A} → (M M′ : Γ ⊢ A) → Eq (⟦ M ⟧ idₑ) (⟦ M′ ⟧ idₑ)
-               → M ∼ M′
-thm₃ M M′ e =  thm₂ M
-            ⦙∼ ≡→∼ (cor₁ M M′ e)
-            ⦙∼ thm₂ M′ ⁻¹∼
+thm₃ : ∀ {Γ A} → (M₁ M₂ : Γ ⊢ A) → Eq (⟦ M₁ ⟧ idᵥ) (⟦ M₂ ⟧ idᵥ)
+               → M₁ ∼ M₂
+thm₃ M₁ M₂ e =  thm₂ M₁
+             ⦙∼ ≡→∼ (cor₁ M₁ M₂ e)
+             ⦙∼ thm₂ M₂ ⁻¹∼

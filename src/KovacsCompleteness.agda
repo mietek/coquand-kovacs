@@ -43,11 +43,13 @@ _◐ᶜᵛ_ : ∀ {Γ Γ′ Ξ} → {σ : Γ ⊢⋆ Ξ} {ρ : Γ ⊩⋆ Ξ}
 
 -- (_∼◾≈_)
 infixl 4 _∼⦙≫_
-_∼⦙≫_ : ∀ {A Γ} → {M M′ : Γ ⊢ A} {a : Γ ⊩ A}
-                → M ∼ M′ → M′ ≫ a
-                → M ≫ a
-_∼⦙≫_ {⎵}     p q = p ⦙∼ q
-_∼⦙≫_ {A ⊃ B} p f = λ η q → ren∼ η p ∙∼ refl∼ ∼⦙≫ f η q
+_∼⦙≫_ : ∀ {A Γ} → {M₁ M₂ : Γ ⊢ A} {a : Γ ⊩ A}
+                → M₁ ∼ M₂ → M₁ ≫ a
+                → M₂ ≫ a
+_∼⦙≫_ {⎵}     p q = p ⁻¹∼ ⦙∼ q
+_∼⦙≫_ {A ⊃ B} p f = λ η q →
+                        ren∼ η p ∙∼ refl∼
+                    ∼⦙≫ f η q
 
 
 -- (∈≈)
@@ -63,19 +65,18 @@ eval≫ : ∀ {Γ Ξ A} → {σ : Γ ⊢⋆ Ξ} {ρ : Γ ⊩⋆ Ξ}
                   → sub σ M ≫ eval ρ M
 eval≫ {σ = σ} {ρ} χ (` i)   = get≫ χ i
 eval≫ {σ = σ} {ρ} χ (ƛ M)   = λ η {N} {a} q →
-                                cast βred∼ (ren (liftₑ η) (sub (liftₛ σ) M)) N via
-                                  (((ƛ (ren (liftₑ η) (sub (liftₛ σ) M)) ∙ N) ∼_)
-                                   & ( sub◑ [ idₛ , N ] (liftₑ η) (sub (liftₛ σ) M) ⁻¹
-                                     ⦙ sub● (liftₑ η ◑ [ idₛ , N ]) (liftₛ σ) M ⁻¹
-                                     ⦙ (λ σ′ → sub [ σ′ , N ] M)
-                                       & ( comp●◑ [ η ◑ idₛ , N ] (wkₑ idₑ) σ
-                                         ⦙ (σ ●_) & id₁◑ (η ◑ idₛ)
-                                         ⦙ comp●◑ idₛ η σ ⁻¹
-                                         ⦙ id₂● (σ ◐ η)
-                                         )
-                                     ))
-                                ∼⦙≫
-                                eval≫ [ χ ◐ᶜᵛ η , q ] M
+                                  cast βred∼ (ren (liftₑ η) (sub (liftₛ σ) M)) N via
+                                    (((ƛ (ren (liftₑ η) (sub (liftₛ σ) M)) ∙ N) ∼_)
+                                     & ( sub◑ [ idₛ , N ] (liftₑ η) (sub (liftₛ σ) M) ⁻¹
+                                       ⦙ sub● (liftₑ η ◑ [ idₛ , N ]) (liftₛ σ) M ⁻¹
+                                       ⦙ (λ σ′ → sub [ σ′ , N ] M)
+                                         & ( comp●◑ [ η ◑ idₛ , N ] (wkₑ idₑ) σ
+                                           ⦙ (σ ●_) & id₁◑ (η ◑ idₛ)
+                                           ⦙ comp●◑ idₛ η σ ⁻¹
+                                           ⦙ id₂● (σ ◐ η)
+                                           )
+                                       )) ⁻¹∼
+                              ∼⦙≫ eval≫ [ χ ◐ᶜᵛ η , q ] M
 eval≫ {σ = σ} {ρ} χ (M ∙ N) rewrite idren (sub σ M) ⁻¹
                             = eval≫ χ M idₑ (eval≫ χ N)
 
@@ -92,7 +93,9 @@ mutual
                      → embⁿᵉ M ≫ reflect M
   reflect≫ {⎵}     M = refl∼
   reflect≫ {A ⊃ B} M η {N} {a} rewrite natembⁿᵉ η M ⁻¹
-                     = λ p → refl∼ ∙∼ reify≫ p ∼⦙≫ reflect≫ (renⁿᵉ η M ∙ reify a)
+                     = λ p →
+                           refl∼ ∙∼ reify≫ p ⁻¹∼
+                       ∼⦙≫ reflect≫ (renⁿᵉ η M ∙ reify a)
 
 
 -- (uᶜ≈)

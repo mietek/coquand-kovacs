@@ -1,6 +1,7 @@
 module KovacsNormalForm where
 
 open import KovacsEmbedding public
+open import Category
 
 
 mutual
@@ -14,6 +15,7 @@ mutual
   renⁿᵉ η (` i)   = ` (getₑ η i)
   renⁿᵉ η (M ∙ N) = renⁿᵉ η M ∙ renⁿᶠ η N
 
+
 mutual
   -- (Nf-idₑ)
   idrenⁿᶠ : ∀ {Γ A} → (M : Γ ⊢ⁿᶠ A)
@@ -26,6 +28,7 @@ mutual
                     → renⁿᵉ idₑ M ≡ M
   idrenⁿᵉ (` i)   = ` & idgetₑ i
   idrenⁿᵉ (M ∙ N) = _∙_ & idrenⁿᵉ M ⊗ idrenⁿᶠ N
+
 
 mutual
   -- (Nf-∘ₑ)
@@ -51,6 +54,7 @@ mutual
   embⁿᵉ : ∀ {Γ A} → Γ ⊢ⁿᵉ A → Γ ⊢ A
   embⁿᵉ (` i)   = ` i
   embⁿᵉ (M ∙ N) = embⁿᵉ M ∙ embⁿᶠ N
+
 
 mutual
   -- (⌜⌝Nf-nat)

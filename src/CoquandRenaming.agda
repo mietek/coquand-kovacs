@@ -1,7 +1,7 @@
 module CoquandRenaming where
 
 open import Syntax public
-open import Category public
+open import Category
 
 
 -- Renamings

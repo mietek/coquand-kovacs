@@ -38,63 +38,26 @@ _⨾_ = flip _∘_
 
 
 infix 6 _⁻¹
-_⁻¹ : ∀ {ℓ} → {X : Set ℓ} {x x′ : X}
-            → x ≡ x′ → x′ ≡ x
+_⁻¹ : ∀ {ℓ} → {X : Set ℓ} {x₁ x₂ : X}
+            → x₁ ≡ x₂ → x₂ ≡ x₁
 refl ⁻¹ = refl
 
 infixr 4 _⦙_
-_⦙_ : ∀ {ℓ} → {X : Set ℓ} {x x′ x″ : X}
-            → x ≡ x′ → x′ ≡ x″ → x ≡ x″
+_⦙_ : ∀ {ℓ} → {X : Set ℓ} {x₁ x₂ x₃ : X}
+            → x₁ ≡ x₂ → x₂ ≡ x₃ → x₁ ≡ x₃
 refl ⦙ refl = refl
 
 infixl 9 _&_
-_&_ : ∀ {ℓ ℓ′} → {X : Set ℓ} {Y : Set ℓ′} {x x′ : X}
-               → (f : X → Y) → x ≡ x′
-               → f x ≡ f x′
+_&_ : ∀ {ℓ ℓ′} → {X : Set ℓ} {Y : Set ℓ′} {x₁ x₂ : X}
+               → (f : X → Y) → x₁ ≡ x₂
+               → f x₁ ≡ f x₂
 f & refl = refl
 
 infixl 8 _⊗_
-_⊗_ : ∀ {ℓ ℓ′} → {X : Set ℓ} {Y : Set ℓ′} {f f′ : X → Y} {x x′ : X}
-               → f ≡ f′ → x ≡ x′
-               → f x ≡ f′ x′
+_⊗_ : ∀ {ℓ ℓ′} → {X : Set ℓ} {Y : Set ℓ′} {f₁ f₂ : X → Y} {x₁ x₂ : X}
+               → f₁ ≡ f₂ → x₁ ≡ x₂
+               → f₁ x₁ ≡ f₂ x₂
 refl ⊗ refl = refl
-
-
-sym : ∀ {ℓ} → {X : Set ℓ} {x x′ : X}
-            → x ≡ x′ → x′ ≡ x
-sym = _⁻¹
-
-trans : ∀ {ℓ} → {X : Set ℓ} {x x′ x″ : X}
-            → x ≡ x′ → x′ ≡ x″ → x ≡ x″
-trans = _⦙_
-
-cong : ∀ {ℓ ℓ′} → {X : Set ℓ} {Y : Set ℓ′} {x x′ : X}
-                → (f : X → Y) → x ≡ x′
-                → f x ≡ f x′
-cong = _&_
-
-cong² : ∀ {ℓ ℓ′ ℓ″} → {X : Set ℓ} {Y : Set ℓ′} {Z : Set ℓ″} {x x′ : X} {y y′ : Y}
-                    → (f : X → Y → Z) → x ≡ x′ → y ≡ y′
-                    → f x y ≡ f x′ y′
-cong² f p q = f & p ⊗ q
-
-
-module ≡-Reasoning {ℓ} {X : Set ℓ} where
-  infix 1 begin_
-  begin_ : ∀ {x x′ : X} → x ≡ x′ → x ≡ x′
-  begin p = p
-
-  infixr 2 _≡⟨⟩_
-  _≡⟨⟩_ : ∀ (x {x′} : X) → x ≡ x′ → x ≡ x′
-  x ≡⟨⟩ p = p
-
-  infixr 2 _≡⟨_⟩_
-  _≡⟨_⟩_ : ∀ (x {x′ x″} : X) → x ≡ x′ → x′ ≡ x″ → x ≡ x″
-  x ≡⟨ p ⟩ q = p ⦙ q
-
-  infix 3 _∎
-  _∎ : ∀ (x : X) → x ≡ x
-  x ∎ = refl
 
 
 case_of_ : ∀ {ℓ ℓ′} → {X : Set ℓ} {Y : Set ℓ′}
@@ -102,18 +65,18 @@ case_of_ : ∀ {ℓ ℓ′} → {X : Set ℓ} {Y : Set ℓ′}
 case x of f = f x
 
 cast_via_ : ∀ {ℓ} → {X Y : Set ℓ}
-                 → X → X ≡ Y → Y
+                  → X → X ≡ Y → Y
 cast x via refl = x
 
 
 postulate
-  fext! : ∀ {ℓ ℓ′} → {X : Set ℓ} {P : X → Set ℓ′} {f g : (x : X) → P x}
-                   → ((x : X) → f x ≡ g x)
-                   → f ≡ g
+  fext! : ∀ {ℓ ℓ′} → {X : Set ℓ} {P : X → Set ℓ′} {f₁ f₂ : (x : X) → P x}
+                   → ((x : X) → f₁ x ≡ f₂ x)
+                   → f₁ ≡ f₂
 
-  fext¡ : ∀ {ℓ ℓ′} → {X : Set ℓ} {P : X → Set ℓ′} {f g : {x : X} → P x}
-                   → ({x : X} → f {x} ≡ g {x})
-                   → (λ {x} → f {x}) ≡ (λ {x} → g {x})
+  fext¡ : ∀ {ℓ ℓ′} → {X : Set ℓ} {P : X → Set ℓ′} {f₁ f₂ : {x : X} → P x}
+                   → ({x : X} → f₁ {x} ≡ f₂ {x})
+                   → (λ {x} → f₁ {x}) ≡ (λ {x} → f₂ {x})
 
 
 data ⊥ : Set where

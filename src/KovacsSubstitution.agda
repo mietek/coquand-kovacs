@@ -1,6 +1,7 @@
 module KovacsSubstitution where
 
 open import KovacsEmbedding public
+open import Category
 
 
 -- Substitutions (Sub ; ∙ ; _,_)

@@ -12,21 +12,21 @@ data _∼_ : ∀ {Γ A} → Γ ⊢ A → Γ ⊢ A → Set
     refl∼ : ∀ {Γ A} → {M : Γ ⊢ A}
                     → M ∼ M
 
-    _⁻¹∼  : ∀ {Γ A} → {M M′ : Γ ⊢ A}
-                    → (p : M ∼ M′)
-                    → M′ ∼ M
+    _⁻¹∼  : ∀ {Γ A} → {M₁ M₂ : Γ ⊢ A}
+                    → (p : M₁ ∼ M₂)
+                    → M₂ ∼ M₁
 
-    _⦙∼_  : ∀ {Γ A} → {M M′ M″ : Γ ⊢ A}
-                    → (p : M ∼ M′) (q : M′ ∼ M″)
-                    → M ∼ M″
+    _⦙∼_  : ∀ {Γ A} → {M₁ M₂ M₃ : Γ ⊢ A}
+                    → (p : M₁ ∼ M₂) (q : M₂ ∼ M₃)
+                    → M₁ ∼ M₃
 
-    ƛ∼    : ∀ {Γ A B} → {M M′ : [ Γ , A ] ⊢ B}
-                      → (p : M ∼ M′)
-                      → ƛ M ∼ ƛ M′
+    ƛ∼    : ∀ {Γ A B} → {M₁ M₂ : [ Γ , A ] ⊢ B}
+                      → (p : M₁ ∼ M₂)
+                      → ƛ M₁ ∼ ƛ M₂
 
-    _∙∼_  : ∀ {Γ A B} → {M M′ : Γ ⊢ A ⊃ B} {N N′ : Γ ⊢ A}
-                      → (p : M ∼ M′) (q : N ∼ N′)
-                      → M ∙ N ∼ M′ ∙ N′
+    _∙∼_  : ∀ {Γ A B} → {M₁ M₂ : Γ ⊢ A ⊃ B} {N₁ N₂ : Γ ⊢ A}
+                      → (p : M₁ ∼ M₂) (q : N₁ ∼ N₂)
+                      → M₁ ∙ N₁ ∼ M₂ ∙ N₂
 
     βred∼ : ∀ {Γ A B} → (M : [ Γ , A ] ⊢ B) (N : Γ ⊢ A)
                       → (ƛ M) ∙ N ∼ sub [ idₛ , N ] M
@@ -39,9 +39,9 @@ data _∼_ : ∀ {Γ A} → Γ ⊢ A → Γ ⊢ A → Set
 
 
 -- (~ₑ)
-ren∼ : ∀ {Γ Γ′ A} → {M M′ : Γ ⊢ A}
-                  → (η : Γ′ ⊇ Γ) → M ∼ M′
-                  → ren η M ∼ ren η M′
+ren∼ : ∀ {Γ Γ′ A} → {M₁ M₂ : Γ ⊢ A}
+                  → (η : Γ′ ⊇ Γ) → M₁ ∼ M₂
+                  → ren η M₁ ∼ ren η M₂
 ren∼ η refl∼       = refl∼
 ren∼ η (p ⁻¹∼)     = ren∼ η p ⁻¹∼
 ren∼ η (p ⦙∼ q)    = ren∼ η p ⦙∼ ren∼ η q
