@@ -104,7 +104,9 @@ id₁◐ (wkₑ η)   = ((idₛ ◐_) ∘ wkₑ) & id₂○ η ⁻¹
                ⦙ comp◐○ (wkₑ idₑ) η idₛ ⁻¹
                ⦙ wkₛ & id₁◐ η
 id₁◐ (liftₑ η) = [_, ` zero ] & ( comp◐○ (liftₑ η) (wkₑ idₑ) idₛ
-                                ⦙ ((idₛ ◐_) ∘ wkₑ) & (id₁○ η ⦙ id₂○ η ⁻¹)
+                                ⦙ ((idₛ ◐_) ∘ wkₑ) & ( id₁○ η
+                                                     ⦙ id₂○ η ⁻¹
+                                                     )
                                 ⦙ comp◐○ (wkₑ idₑ) η idₛ ⁻¹
                                 ⦙ (_◐ wkₑ idₑ) & id₁◐ η
                                 )

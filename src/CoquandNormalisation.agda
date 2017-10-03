@@ -131,6 +131,15 @@ module _ {{𝔪 : 𝔐}} where
   _⦙Eq_ {A ⊃ B} (eq⊃ h₁) (eq⊃ h₂) = eq⊃ (λ ξ u → h₁ ξ u ⦙Eq h₂ ξ u)
 
 
+  instance
+    perEq : ∀ {A w} → PER (w ⊩ A) Eq
+    perEq =
+      record
+        { _⁻¹ = _⁻¹Eq
+        ; _⦙_ = _⦙Eq_
+        }
+
+
   ≡→Eq : ∀ {A w} → {a₁ a₂ : w ⊩ A} → a₁ ≡ a₂ → Un a₁ → Eq a₁ a₂
   ≡→Eq refl u = reflEq u
 
@@ -191,7 +200,7 @@ module _ {{𝔪 : 𝔐}} where
                            → (ξ₁ : w′ ⊒ w) (ξ₂ : w″ ⊒ w′) → Un f → Un a
                            → Eq (acc ξ₁ f ◎⟨ ξ₂ ⟩ acc ξ₂ a)
                                  (acc ξ₂ (f ◎⟨ ξ₁ ⟩ a))
-  acc◎Eq ξ₁ ξ₂ (un⊃ h₁ h₂ h₃) u = h₃ ξ₂ ξ₁ u ⁻¹Eq
+  acc◎Eq ξ₁ ξ₂ (un⊃ h₁ h₂ h₃) u = h₃ ξ₂ ξ₁ u ⁻¹
 
 
 --------------------------------------------------------------------------------
@@ -335,6 +344,15 @@ module _ {{𝔪 : 𝔐}} where
                    → Eq⋆ ρ₁ ρ₃
   []         ⦙Eq⋆ []         = []
   [ χ₁ , p ] ⦙Eq⋆ [ χ₂ , q ] = [ χ₁ ⦙Eq⋆ χ₂ , p ⦙Eq q ]
+
+
+  instance
+    perEq⋆ : ∀ {Ξ w} → PER (w ⊩⋆ Ξ) Eq⋆
+    perEq⋆ =
+      record
+        { _⁻¹ = _⁻¹Eq⋆
+        ; _⦙_ = _⦙Eq⋆_
+        }
 
 
   ≡→Eq⋆ : ∀ {Ξ w} → {ρ₁ ρ₂ : w ⊩⋆ Ξ} → ρ₁ ≡ ρ₂ → Un⋆ ρ₁ → Eq⋆ ρ₁ ρ₂
