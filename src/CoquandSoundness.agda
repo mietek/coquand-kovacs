@@ -47,12 +47,12 @@ postulate
                                    (cong⬗Un⋆ (η′ ○ η) υ , u))
 
 ⟦_⟧⬗Eq (M ∙ N) η υ =
-    cong◎Eq idᵣ (⟦ M ⟧⬗Eq η υ) (⟦ M ⟧Un (cong⬗Un⋆ η υ)) (congaccUn η (⟦ M ⟧Un υ))
-                (⟦ N ⟧⬗Eq η υ) (⟦ N ⟧Un (cong⬗Un⋆ η υ)) (congaccUn η (⟦ N ⟧Un υ))
-  ⦙ acc◎idEq η (⟦ M ⟧Un υ) (congaccUn η (⟦ N ⟧Un υ))
-  ⦙ (cong◎Eq η ((lidaccEq (⟦ M ⟧Un υ)) ⁻¹) (⟦ M ⟧Un υ) (congaccUn idᵣ (⟦ M ⟧Un υ))
-               (reflEq (congaccUn η (⟦ N ⟧Un υ))) (congaccUn η (⟦ N ⟧Un υ)) (congaccUn η (⟦ N ⟧Un υ))
-  ⦙ acc◎Eq idᵣ η (⟦ M ⟧Un υ) (⟦ N ⟧Un υ))
+    cong⟦∙⟧Eq idᵣ (⟦ M ⟧⬗Eq η υ) (⟦ M ⟧Un (cong⬗Un⋆ η υ)) (congaccUn η (⟦ M ⟧Un υ))
+                  (⟦ N ⟧⬗Eq η υ) (⟦ N ⟧Un (cong⬗Un⋆ η υ)) (congaccUn η (⟦ N ⟧Un υ))
+  ⦙ acc⟦∙⟧idEq η (⟦ M ⟧Un υ) (congaccUn η (⟦ N ⟧Un υ))
+  ⦙ (cong⟦∙⟧Eq η ((lidaccEq (⟦ M ⟧Un υ)) ⁻¹) (⟦ M ⟧Un υ) (congaccUn idᵣ (⟦ M ⟧Un υ))
+                 (reflEq (congaccUn η (⟦ N ⟧Un υ))) (congaccUn η (⟦ N ⟧Un υ)) (congaccUn η (⟦ N ⟧Un υ))
+  ⦙ acc⟦∙⟧Eq idᵣ η (⟦ M ⟧Un υ) (⟦ N ⟧Un υ))
 
 
 -- ⟦_⟧⬗Eq⋆ = symEq ∘ ↑⟨_⟩Eq⋆⟦_⟧ₛ
@@ -115,8 +115,8 @@ renlift⟦_⟧Eq (ƛ M) η₁ η₂ υ u =
                               ((cong⬗Un⋆ η′ (cong⬗Un⋆ η₂ (cong⬖Un⋆ η₁ υ)) , congaccUn η′ u) , u′))
 
 renlift⟦_⟧Eq (M ∙ N) η₁ η₂ υ u =
-  cong◎Eq idᵣ (renlift⟦ M ⟧Eq η₁ η₂ υ u) (⟦ ren (liftᵣ η₁) M ⟧Un (cong⬗Un⋆ η₂ υ , u)) (⟦ M ⟧Un (cong⬗Un⋆ η₂ (cong⬖Un⋆ η₁ υ) , u))
-              (renlift⟦ N ⟧Eq η₁ η₂ υ u) (⟦ ren (liftᵣ η₁) N ⟧Un (cong⬗Un⋆ η₂ υ , u)) (⟦ N ⟧Un (cong⬗Un⋆ η₂ (cong⬖Un⋆ η₁ υ) , u))
+  cong⟦∙⟧Eq idᵣ (renlift⟦ M ⟧Eq η₁ η₂ υ u) (⟦ ren (liftᵣ η₁) M ⟧Un (cong⬗Un⋆ η₂ υ , u)) (⟦ M ⟧Un (cong⬗Un⋆ η₂ (cong⬖Un⋆ η₁ υ) , u))
+                (renlift⟦ N ⟧Eq η₁ η₂ υ u) (⟦ ren (liftᵣ η₁) N ⟧Un (cong⬗Un⋆ η₂ υ , u)) (⟦ N ⟧Un (cong⬗Un⋆ η₂ (cong⬖Un⋆ η₁ υ) , u))
 
 
 --------------------------------------------------------------------------------
@@ -138,8 +138,8 @@ renwk⟦_⟧Eq (ƛ M) η υ u =
                           (cong⬗Un⋆ η′ (cong⬖Un⋆ η υ) , u′))
 
 renwk⟦_⟧Eq (M ∙ N) η υ u =
-  cong◎Eq idᵣ (renwk⟦ M ⟧Eq η υ u) (⟦ ren (wkᵣ η) M ⟧Un (υ , u)) (⟦ M ⟧Un (cong⬖Un⋆ η υ))
-              (renwk⟦ N ⟧Eq η υ u) (⟦ ren (wkᵣ η) N ⟧Un (υ , u)) (⟦ N ⟧Un (cong⬖Un⋆ η υ))
+  cong⟦∙⟧Eq idᵣ (renwk⟦ M ⟧Eq η υ u) (⟦ ren (wkᵣ η) M ⟧Un (υ , u)) (⟦ M ⟧Un (cong⬖Un⋆ η υ))
+                (renwk⟦ N ⟧Eq η υ u) (⟦ ren (wkᵣ η) N ⟧Un (υ , u)) (⟦ N ⟧Un (cong⬖Un⋆ η υ))
 
 
 --------------------------------------------------------------------------------
@@ -197,8 +197,8 @@ sublift⟦_⟧Eq (ƛ M) σ υ u =
                           ((cong⬗Un⋆ η′ (⟦ σ ⟧Un⋆ υ) , congaccUn η′ u) , u′))
 
 sublift⟦_⟧Eq (M ∙ N) σ υ u =
-  cong◎Eq idᵣ (sublift⟦ M ⟧Eq σ υ u) (⟦ sub (liftₛ σ) M ⟧Un (υ , u)) (⟦ M ⟧Un (⟦ σ ⟧Un⋆ υ , u))
-              (sublift⟦ N ⟧Eq σ υ u) (⟦ sub (liftₛ σ) N ⟧Un (υ , u)) (⟦ N ⟧Un (⟦ σ ⟧Un⋆ υ , u))
+  cong⟦∙⟧Eq idᵣ (sublift⟦ M ⟧Eq σ υ u) (⟦ sub (liftₛ σ) M ⟧Un (υ , u)) (⟦ M ⟧Un (⟦ σ ⟧Un⋆ υ , u))
+                (sublift⟦ N ⟧Eq σ υ u) (⟦ sub (liftₛ σ) N ⟧Un (υ , u)) (⟦ N ⟧Un (⟦ σ ⟧Un⋆ υ , u))
 
 
 --------------------------------------------------------------------------------
@@ -232,8 +232,8 @@ subwk⟦_⟧Eq (ƛ {A = A′} M) σ υ u =
   eq⊃ (λ η u′ → subliftwk⟦ M ⟧Eq σ η υ u u′)
 
 subwk⟦_⟧Eq (M ∙ N) σ υ u =
-  cong◎Eq idᵣ (subwk⟦ M ⟧Eq σ υ u) (⟦ sub (wkₛ σ) M ⟧Un (υ , u)) (⟦ sub σ M ⟧Un υ)
-              (subwk⟦ N ⟧Eq σ υ u) (⟦ sub (wkₛ σ) N ⟧Un (υ , u)) (⟦ sub σ N ⟧Un υ)
+  cong⟦∙⟧Eq idᵣ (subwk⟦ M ⟧Eq σ υ u) (⟦ sub (wkₛ σ) M ⟧Un (υ , u)) (⟦ sub σ M ⟧Un υ)
+                (subwk⟦ N ⟧Eq σ υ u) (⟦ sub (wkₛ σ) N ⟧Un (υ , u)) (⟦ sub σ N ⟧Un υ)
 
 
 --------------------------------------------------------------------------------
@@ -253,8 +253,8 @@ sub⟦_⟧Eq (ƛ M) σ υ =
                         (cong⬗Un⋆ η (⟦ σ ⟧Un⋆ υ) , u))
 
 sub⟦_⟧Eq (M ∙ N) σ υ =
-  cong◎Eq idᵣ (sub⟦ M ⟧Eq σ υ) (⟦ sub σ M ⟧Un υ) (⟦ M ⟧Un (⟦ σ ⟧Un⋆ υ))
-              (sub⟦ N ⟧Eq σ υ) (⟦ sub σ N ⟧Un υ) (⟦ N ⟧Un (⟦ σ ⟧Un⋆ υ))
+  cong⟦∙⟧Eq idᵣ (sub⟦ M ⟧Eq σ υ) (⟦ sub σ M ⟧Un υ) (⟦ M ⟧Un (⟦ σ ⟧Un⋆ υ))
+                (sub⟦ N ⟧Eq σ υ) (⟦ sub σ N ⟧Un υ) (⟦ N ⟧Un (⟦ σ ⟧Un⋆ υ))
 
 
 --------------------------------------------------------------------------------
@@ -286,8 +286,8 @@ module _ where
     lem∙ : ∀ {Γ A B w} → {ρ : w ⊩⋆ Γ} {M M′ : Γ ⊢ A ⊃ B} {N N′ : Γ ⊢ A}
                        → M ∼ M′ → N ∼ N′ → Un⋆ ρ
                        → Eq (⟦ M ∙ N ⟧ ρ) (⟦ M′ ∙ N′ ⟧ ρ)
-    lem∙ {M = M} {M′} {N} {N′} p q υ = cong◎Eq idᵣ (cong⟦ p ⟧Eq υ) (⟦ M ⟧Un υ) (⟦ M′ ⟧Un υ)
-                                                   (cong⟦ q ⟧Eq υ) (⟦ N ⟧Un υ) (⟦ N′ ⟧Un υ)
+    lem∙ {M = M} {M′} {N} {N′} p q υ = cong⟦∙⟧Eq idᵣ (cong⟦ p ⟧Eq υ) (⟦ M ⟧Un υ) (⟦ M′ ⟧Un υ)
+                                                     (cong⟦ q ⟧Eq υ) (⟦ N ⟧Un υ) (⟦ N′ ⟧Un υ)
 
     lemβred : ∀ {Γ Ξ A B w} → {ρ : w ⊩⋆ Γ}
                             → (σ : Γ ⊢⋆ Ξ) (M : Ξ , A ⊢ B) (N : Γ ⊢ A) → Un⋆ ρ
@@ -302,11 +302,11 @@ module _ where
                           → (M : Γ ⊢ A ⊃ B) → Un⋆ ρ
                           → Eq (⟦ M ⟧ ρ) (⟦ ƛ (wk M ∙ ` zero) ⟧ ρ)
     lemηexp {ρ = ρ} M υ =
-      eq⊃ (λ η {a} u → acc◎idEq η (⟦ M ⟧Un υ) u ⁻¹
-                      ⦙ cong◎Eq idᵣ (⟦ M ⟧⬗Eq η υ ⁻¹) (congaccUn η (⟦ M ⟧Un υ)) (⟦ M ⟧Un (cong⬗Un⋆ η υ))
-                                    (reflEq u) u u
-                      ⦙ cong◎Eq idᵣ (wk⟦ M ⟧Eq (cong⬗Un⋆ η υ) u ⁻¹) (⟦ M ⟧Un (cong⬗Un⋆ η υ)) (⟦ wk M ⟧Un (cong⬗Un⋆ η υ , u))
-                                    (reflEq u) u u)
+      eq⊃ (λ η {a} u → acc⟦∙⟧idEq η (⟦ M ⟧Un υ) u ⁻¹
+                      ⦙ cong⟦∙⟧Eq idᵣ (⟦ M ⟧⬗Eq η υ ⁻¹) (congaccUn η (⟦ M ⟧Un υ)) (⟦ M ⟧Un (cong⬗Un⋆ η υ))
+                                      (reflEq u) u u
+                      ⦙ cong⟦∙⟧Eq idᵣ (wk⟦ M ⟧Eq (cong⬗Un⋆ η υ) u ⁻¹) (⟦ M ⟧Un (cong⬗Un⋆ η υ)) (⟦ wk M ⟧Un (cong⬗Un⋆ η υ , u))
+                                      (reflEq u) u u)
 
     -- Theorem 4.
     cong⟦_⟧Eq : ∀ {Γ A w} → {M M′ : Γ ⊢ A} {ρ : w ⊩⋆ Γ}

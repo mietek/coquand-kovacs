@@ -49,8 +49,8 @@ module _ {{𝔪 : 𝔐}} where
   ⟦g⟧⟨_⟩ : ∀ {w w′} → w′ ⊒ w → w ⊩ ⎵ → 𝒢 w′
   ⟦g⟧⟨ ξ ⟩ (⟦G⟧ f) = f ξ
 
-  _◎⟨_⟩_ : ∀ {A B w w′} → w ⊩ A ⊃ B → w′ ⊒ w → w′ ⊩ A → w′ ⊩ B
-  (⟦ƛ⟧ f) ◎⟨ ξ ⟩ a = f ξ a
+  _⟦∙⟧⟨_⟩_ : ∀ {A B w w′} → w ⊩ A ⊃ B → w′ ⊒ w → w′ ⊩ A → w′ ⊩ B
+  (⟦ƛ⟧ f) ⟦∙⟧⟨ ξ ⟩ a = f ξ a
 
   -- ⟦putᵣ⟧ can’t be stated here
   -- ⟦getᵣ⟧ can’t be stated here
@@ -61,7 +61,7 @@ module _ {{𝔪 : 𝔐}} where
   -- acc = ⟦ren⟧
   acc : ∀ {A w w′} → w′ ⊒ w → w ⊩ A → w′ ⊩ A
   acc {⎵}     ξ f = ⟦G⟧ (λ ξ′   → ⟦g⟧⟨ ξ′ ◇ ξ ⟩ f)
-  acc {A ⊃ B} ξ f = ⟦ƛ⟧ (λ ξ′ a → f ◎⟨ ξ′ ◇ ξ ⟩ a)
+  acc {A ⊃ B} ξ f = ⟦ƛ⟧ (λ ξ′ a → f ⟦∙⟧⟨ ξ′ ◇ ξ ⟩ a)
 
   -- ⟦wk⟧ can’t be stated here
   -- _◇_ = _⟦○⟧_
@@ -84,7 +84,7 @@ module _ {{𝔪 : 𝔐}} where
 
         eq⊃ : ∀ {A B w} → {f₁ f₂ : w ⊩ A ⊃ B}
                         → (h : ∀ {w′} → (ξ : w′ ⊒ w) {a : w′ ⊩ A} (u : Un a)
-                                       → Eq (f₁ ◎⟨ ξ ⟩ a) (f₂ ◎⟨ ξ ⟩ a))
+                                       → Eq (f₁ ⟦∙⟧⟨ ξ ⟩ a) (f₂ ⟦∙⟧⟨ ξ ⟩ a))
                         → Eq f₁ f₂
 
     data Un : ∀ {A w} → w ⊩ A → Set
@@ -96,19 +96,19 @@ module _ {{𝔪 : 𝔐}} where
                         → (h₁ : ∀ {w′} → (ξ : w′ ⊒ w)
                                            {a : w′ ⊩ A}
                                            (u : Un a)
-                                        → Un (f ◎⟨ ξ ⟩ a))
+                                        → Un (f ⟦∙⟧⟨ ξ ⟩ a))
                         → (h₂ : ∀ {w′} → (ξ : w′ ⊒ w)
                                            {a₁ a₂ : w′ ⊩ A}
                                            (p : Eq a₁ a₂)
                                            (u₁ : Un a₁)
                                            (u₂ : Un a₂)
-                                        → Eq (f ◎⟨ ξ ⟩ a₁) (f ◎⟨ ξ ⟩ a₂))
+                                        → Eq (f ⟦∙⟧⟨ ξ ⟩ a₁) (f ⟦∙⟧⟨ ξ ⟩ a₂))
                         → (h₃ : ∀ {w′ w″} → (ξ₁ : w″ ⊒ w′)
                                               (ξ₂ : w′ ⊒ w)
                                               {a : w′ ⊩ A}
                                               (u : Un a)
-                                           → Eq (acc ξ₁ (f ◎⟨ ξ₂ ⟩ a))
-                                                 (f ◎⟨ ξ₁ ◇ ξ₂ ⟩ (acc ξ₁ a)))
+                                           → Eq (acc ξ₁ (f ⟦∙⟧⟨ ξ₂ ⟩ a))
+                                                 (f ⟦∙⟧⟨ ξ₁ ◇ ξ₂ ⟩ (acc ξ₁ a)))
                         → Un f
 
 
@@ -150,19 +150,19 @@ module _ {{𝔪 : 𝔐}} where
 module _ {{𝔪 : 𝔐}} where
   open 𝔐 𝔪
 
-  -- (cong◎⟨_⟩Eq)
+  -- (cong⟦∙⟧⟨_⟩Eq)
   postulate
-    cong◎Eq : ∀ {A B w w′} → {f₁ f₂ : w ⊩ A ⊃ B} {a₁ a₂ : w′ ⊩ A}
-                           → (ξ : w′ ⊒ w)
-                           → Eq f₁ f₂ → Un f₁ → Un f₂
-                           → Eq a₁ a₂ → Un a₁ → Un a₂
-                           → Eq (f₁ ◎⟨ ξ ⟩ a₁)
-                                 (f₂ ◎⟨ ξ ⟩ a₂)
+    cong⟦∙⟧Eq : ∀ {A B w w′} → {f₁ f₂ : w ⊩ A ⊃ B} {a₁ a₂ : w′ ⊩ A}
+                             → (ξ : w′ ⊒ w)
+                             → Eq f₁ f₂ → Un f₁ → Un f₂
+                             → Eq a₁ a₂ → Un a₁ → Un a₂
+                             → Eq (f₁ ⟦∙⟧⟨ ξ ⟩ a₁)
+                                   (f₂ ⟦∙⟧⟨ ξ ⟩ a₂)
 
-  cong◎Un : ∀ {A B w w′} → {f : w ⊩ A ⊃ B} {a : w′ ⊩ A}
+  cong⟦∙⟧Un : ∀ {A B w w′} → {f : w ⊩ A ⊃ B} {a : w′ ⊩ A}
                          → (ξ : w′ ⊒ w) → Un f → Un a
-                         → Un (f ◎⟨ ξ ⟩ a)
-  cong◎Un ξ (un⊃ h₁ h₂ h₃) u = h₁ ξ u
+                         → Un (f ⟦∙⟧⟨ ξ ⟩ a)
+  cong⟦∙⟧Un ξ (un⊃ h₁ h₂ h₃) u = h₁ ξ u
 
   -- (cong↑⟨_⟩Eq)
   postulate
@@ -191,16 +191,16 @@ module _ {{𝔪 : 𝔐}} where
 
   -- (aux₄₁₃)
   postulate
-    acc◎idEq : ∀ {A B w w′} → {f : w ⊩ A ⊃ B} {a : w′ ⊩ A}
-                            → (ξ : w′ ⊒ w) → Un f → Un a
-                            → Eq (acc ξ f ◎⟨ idₐ ⟩ a)
-                                  (f ◎⟨ ξ ⟩ a)
+    acc⟦∙⟧idEq : ∀ {A B w w′} → {f : w ⊩ A ⊃ B} {a : w′ ⊩ A}
+                              → (ξ : w′ ⊒ w) → Un f → Un a
+                              → Eq (acc ξ f ⟦∙⟧⟨ idₐ ⟩ a)
+                                    (f ⟦∙⟧⟨ ξ ⟩ a)
 
-  acc◎Eq : ∀ {A B w w′ w″} → {f : w ⊩ A ⊃ B} {a : w′ ⊩ A}
-                           → (ξ₁ : w′ ⊒ w) (ξ₂ : w″ ⊒ w′) → Un f → Un a
-                           → Eq (acc ξ₁ f ◎⟨ ξ₂ ⟩ acc ξ₂ a)
-                                 (acc ξ₂ (f ◎⟨ ξ₁ ⟩ a))
-  acc◎Eq ξ₁ ξ₂ (un⊃ h₁ h₂ h₃) u = h₃ ξ₂ ξ₁ u ⁻¹
+  acc⟦∙⟧Eq : ∀ {A B w w′ w″} → {f : w ⊩ A ⊃ B} {a : w′ ⊩ A}
+                             → (ξ₁ : w′ ⊒ w) (ξ₂ : w″ ⊒ w′) → Un f → Un a
+                             → Eq (acc ξ₁ f ⟦∙⟧⟨ ξ₂ ⟩ acc ξ₂ a)
+                                   (acc ξ₂ (f ⟦∙⟧⟨ ξ₁ ⟩ a))
+  acc⟦∙⟧Eq ξ₁ ξ₂ (un⊃ h₁ h₂ h₃) u = h₃ ξ₂ ξ₁ u ⁻¹
 
 
 --------------------------------------------------------------------------------
@@ -470,7 +470,7 @@ module _ {{𝔪 : 𝔐}} where
   ⟦_⟧ : ∀ {Ξ A w} → Ξ ⊢ A → w ⊩⋆ Ξ → w ⊩ A
   ⟦ ` i ⟧   ρ = getᵥ ρ i
   ⟦ ƛ M ⟧   ρ = ⟦ƛ⟧ (λ ξ a → ⟦ M ⟧ (ξ ⬗ ρ , a))
-  ⟦ M ∙ N ⟧ ρ = ⟦ M ⟧ ρ ◎⟨ idₐ ⟩ ⟦ N ⟧ ρ
+  ⟦ M ∙ N ⟧ ρ = ⟦ M ⟧ ρ ⟦∙⟧⟨ idₐ ⟩ ⟦ N ⟧ ρ
 
   ⟦_⟧⋆ : ∀ {Ξ Φ w} → Ξ ⊢⋆ Φ → w ⊩⋆ Ξ → w ⊩⋆ Φ
   ⟦ ∅ ⟧⋆     ρ = ∅
@@ -497,7 +497,7 @@ instance
 mutual
   reify : ∀ {A Γ} → Γ ⊩ A → Γ ⊢ A
   reify {⎵}     f = ⟦g⟧⟨ idᵣ ⟩ f
-  reify {A ⊃ B} f = ƛ (reify (f ◎⟨ wkᵣ idᵣ ⟩ ⟪` zero ⟫))
+  reify {A ⊃ B} f = ƛ (reify (f ⟦∙⟧⟨ wkᵣ idᵣ ⟩ ⟪` zero ⟫))
 
   ⟪_⟫ : ∀ {A Γ} → (∀ {Γ′} → Γ′ ∋⋆ Γ → Γ′ ⊢ A) → Γ ⊩ A
   ⟪_⟫ {⎵}     f = ⟦G⟧ (λ η   → f η)
