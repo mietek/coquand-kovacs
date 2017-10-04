@@ -88,9 +88,9 @@ case_of_ : ∀ {ℓ ℓ′} → {X : Set ℓ} {Y : Set ℓ′}
                     → X → (X → Y) → Y
 case x of f = f x
 
-cast_via_ : ∀ {ℓ} → {X Y : Set ℓ}
-                  → X → X ≡ Y → Y
-cast x via refl = x
+coe : ∀ {ℓ} → {X Y : Set ℓ}
+            → X ≡ Y → X → Y
+coe refl x = x
 
 
 postulate
