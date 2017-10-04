@@ -32,18 +32,18 @@ wkₑ η₂   ○ liftₑ η₁ = wkₑ (η₂ ○ η₁)
 liftₑ η₂ ○ liftₑ η₁ = liftₑ (η₂ ○ η₁)
 
 -- (idlₑ)
-id₁○ : ∀ {Γ Γ′} → (η : Γ′ ⊇ Γ)
+lid○ : ∀ {Γ Γ′} → (η : Γ′ ⊇ Γ)
                 → idₑ ○ η ≡ η
-id₁○ done      = refl
-id₁○ (wkₑ η)   = wkₑ & id₁○ η
-id₁○ (liftₑ η) = liftₑ & id₁○ η
+lid○ done      = refl
+lid○ (wkₑ η)   = wkₑ & lid○ η
+lid○ (liftₑ η) = liftₑ & lid○ η
 
 -- (idrₑ)
-id₂○ : ∀ {Γ Γ′} → (η : Γ′ ⊇ Γ)
+rid○ : ∀ {Γ Γ′} → (η : Γ′ ⊇ Γ)
                 → η ○ idₑ ≡ η
-id₂○ done      = refl
-id₂○ (wkₑ η)   = wkₑ & id₂○ η
-id₂○ (liftₑ η) = liftₑ & id₂○ η
+rid○ done      = refl
+rid○ (wkₑ η)   = wkₑ & rid○ η
+rid○ (liftₑ η) = liftₑ & rid○ η
 
 -- (assₑ)
 assoc○ : ∀ {Γ Γ′ Γ″ Γ‴} → (η₁ : Γ‴ ⊇ Γ″) (η₂ : Γ″ ⊇ Γ′) (η₃ : Γ′ ⊇ Γ)
@@ -118,8 +118,8 @@ ren○ η₁ η₂ (M ∙ N) = _∙_ & ren○ η₁ η₂ M
   record
     { idₓ    = idₑ
     ; _⋄_    = _○_
-    ; id₁⋄   = id₁○
-    ; id₂⋄   = id₂○
+    ; lid⋄   = lid○
+    ; rid⋄   = rid○
     ; assoc⋄ = assoc○
     }
 

@@ -81,17 +81,17 @@ zap○ : ∀ {Γ Γ′ Γ″ A} → (η₁ : Γ″ ∋⋆ Γ′) (η₂ : Γ′ 
 zap○ η₁ []         i = refl
 zap○ η₁ [ η₂ , j ] i = [_, getᵣ η₁ j ] & zap○ η₁ η₂ i
 
-id₁○ : ∀ {Γ Γ′} → (η : Γ′ ∋⋆ Γ)
+lid○ : ∀ {Γ Γ′} → (η : Γ′ ∋⋆ Γ)
                 → idᵣ ○ η ≡ η
-id₁○ []        = refl
-id₁○ [ η , i ] = [_,_] & id₁○ η
+lid○ []        = refl
+lid○ [ η , i ] = [_,_] & lid○ η
                        ⊗ idgetᵣ i
 
-id₂○ : ∀ {Γ Γ′} → (η : Γ′ ∋⋆ Γ)
+rid○ : ∀ {Γ Γ′} → (η : Γ′ ∋⋆ Γ)
                 → η ○ idᵣ ≡ η
-id₂○ {[]}        []        = refl
-id₂○ {[ Γ , A ]} [ η , i ] = [_, i ] & ( zap○ η idᵣ i
-                                       ⦙ id₂○ η
+rid○ {[]}        []        = refl
+rid○ {[ Γ , A ]} [ η , i ] = [_, i ] & ( zap○ η idᵣ i
+                                       ⦙ rid○ η
                                        )
 
 
@@ -115,19 +115,19 @@ lift○ η₁ η₂ = [_, zero ] & ( wk○ η₁ η₂
                            ⦙ (zap○ (wkᵣ η₁) η₂ zero ⁻¹)
                            )
 
-wkid₁○ : ∀ {Γ Γ′ A} → (η : Γ′ ∋⋆ Γ)
+wklid○ : ∀ {Γ Γ′ A} → (η : Γ′ ∋⋆ Γ)
                     → wkᵣ {A} idᵣ ○ η ≡ wkᵣ η
-wkid₁○ η = wk○ idᵣ η ⁻¹
-         ⦙ wkᵣ & id₁○ η
+wklid○ η = wk○ idᵣ η ⁻¹
+         ⦙ wkᵣ & lid○ η
 
-wkid₂○ : ∀ {Γ Γ′ A} → (η : Γ′ ∋⋆ Γ)
+wkrid○ : ∀ {Γ Γ′ A} → (η : Γ′ ∋⋆ Γ)
                     → wkᵣ {A} η ○ idᵣ ≡ wkᵣ η
-wkid₂○ η = wk○ η idᵣ ⁻¹
-         ⦙ wkᵣ & id₂○ η
+wkrid○ η = wk○ η idᵣ ⁻¹
+         ⦙ wkᵣ & rid○ η
 
-liftwkid₂○ : ∀ {Γ Γ′ A} → (η : Γ′ ∋⋆ Γ)
+liftwkrid○ : ∀ {Γ Γ′ A} → (η : Γ′ ∋⋆ Γ)
                         → liftᵣ {A} η ○ wkᵣ idᵣ ≡ wkᵣ η
-liftwkid₂○ η = zap○ (wkᵣ η) idᵣ zero ⦙ wkid₂○ η
+liftwkrid○ η = zap○ (wkᵣ η) idᵣ zero ⦙ wkrid○ η
 
 ren○ : ∀ {Γ Γ′ Γ″ A} → (η₁ : Γ″ ∋⋆ Γ′) (η₂ : Γ′ ∋⋆ Γ) (M : Γ ⊢ A)
                      → ren (η₁ ○ η₂) M ≡ (ren η₁ ∘ ren η₂) M
@@ -177,8 +177,8 @@ assoc○ η₁ η₂ [ η₃ , i ] = [_,_] & assoc○ η₁ η₂ η₃
   record
     { idₓ    = idᵣ
     ; _⋄_    = flip _○_
-    ; id₁⋄   = id₂○
-    ; id₂⋄   = id₁○
+    ; lid⋄   = rid○
+    ; rid⋄   = lid○
     ; assoc⋄ = assoc○
     }
 

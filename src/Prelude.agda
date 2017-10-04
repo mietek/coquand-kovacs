@@ -114,7 +114,6 @@ record Σ {ℓ ℓ′}
   field
     π₁ : X
     π₂ : P π₁
-
 open Σ public
 
 infixl 2 _×_

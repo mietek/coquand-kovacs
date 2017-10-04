@@ -89,9 +89,9 @@ eval≫ {σ = σ} χ (ƛ M) η {N} q =
           ⦙ sub● (liftₑ η ◑ [ idₛ , N ]) (liftₛ σ) M ⁻¹
           ⦙ (λ σ′ → sub [ σ′ , N ] M)
             & ( comp●◑ [ η ◑ idₛ , N ] (wkₑ idₑ) σ
-              ⦙ (σ ●_) & id₁◑ (η ◑ idₛ)
+              ⦙ (σ ●_) & lid◑ (η ◑ idₛ)
               ⦙ comp●◑ idₛ η σ ⁻¹
-              ⦙ id₂● (σ ◐ η)
+              ⦙ rid● (σ ◐ η)
               )
           )) ⁻¹)
 

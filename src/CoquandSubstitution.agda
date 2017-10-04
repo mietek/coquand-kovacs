@@ -137,11 +137,11 @@ zap◐ : ∀ {Γ Ξ Ξ′ A} → (σ : Γ ⊢⋆ Ξ′) (η : Ξ′ ∋⋆ Ξ) (
 zap◐ σ []        M = refl
 zap◐ σ [ η , i ] M = [_, getₛ σ i ] & zap◐ σ η M
 
-id₂◐ : ∀ {Γ Ξ} → (σ : Γ ⊢⋆ Ξ)
+rid◐ : ∀ {Γ Ξ} → (σ : Γ ⊢⋆ Ξ)
                → σ ◐ idᵣ ≡ σ
-id₂◐ []        = refl
-id₂◐ [ σ , M ] = [_, M ] & ( zap◐ σ idᵣ M
-                           ⦙ id₂◐ σ
+rid◐ []        = refl
+rid◐ [ σ , M ] = [_, M ] & ( zap◐ σ idᵣ M
+                           ⦙ rid◐ σ
                            )
 
 
@@ -165,15 +165,15 @@ lift◐ σ η = [_, ` zero ] & ( wk◐ σ η
                          ⦙ zap◐ (wkₛ σ) η (` zero) ⁻¹
                          )
 
-wkid₂◐ : ∀ {Γ Ξ A} → (σ : Γ ⊢⋆ Ξ)
+wkrid◐ : ∀ {Γ Ξ A} → (σ : Γ ⊢⋆ Ξ)
                    → wkₛ {A} σ ◐ idᵣ ≡ wkₛ σ
-wkid₂◐ σ = wk◐ σ idᵣ ⁻¹
-         ⦙ wkₛ & id₂◐ σ
+wkrid◐ σ = wk◐ σ idᵣ ⁻¹
+         ⦙ wkₛ & rid◐ σ
 
-liftwkid₂◐ : ∀ {Γ Ξ A} → (σ : Γ ⊢⋆ Ξ)
+liftwkrid◐ : ∀ {Γ Ξ A} → (σ : Γ ⊢⋆ Ξ)
                        → liftₛ {A} σ ◐ wkᵣ idᵣ ≡ wkₛ σ
-liftwkid₂◐ σ = zap◐ (wkₛ σ) idᵣ (` zero)
-             ⦙ wkid₂◐ σ
+liftwkrid◐ σ = zap◐ (wkₛ σ) idᵣ (` zero)
+             ⦙ wkrid◐ σ
 
 sub◐ : ∀ {Γ Ξ Ξ′ A} → (σ : Γ ⊢⋆ Ξ′) (η : Ξ′ ∋⋆ Ξ) (M : Ξ ⊢ A)
                     → sub (σ ◐ η) M ≡ (sub σ ∘ ren η) M
@@ -215,14 +215,14 @@ zap◑ η [ σ , j ] i = [_,_] & zap◑ η σ i
                            ⊗ ( sub◐ [ ⌊ η ⌋ , ` i ] (wkᵣ idᵣ) j ⁻¹
                              ⦙ (λ σ′ → sub σ′ j)
                                & ( zap◐ ⌊ η ⌋ idᵣ (` i)
-                                 ⦙ id₂◐ ⌊ η ⌋
+                                 ⦙ rid◐ ⌊ η ⌋
                                  )
                              )
 
-id₁◑ : ∀ {Γ Ξ} → (σ : Γ ⊢⋆ Ξ)
+lid◑ : ∀ {Γ Ξ} → (σ : Γ ⊢⋆ Ξ)
                → idᵣ ◑ σ ≡ σ
-id₁◑ []        = refl
-id₁◑ [ σ , M ] = [_,_] & id₁◑ σ
+lid◑ []        = refl
+lid◑ [ σ , M ] = [_,_] & lid◑ σ
                        ⊗ ( (λ σ′ → sub σ′ M) & ⌊id⌋ ⁻¹
                          ⦙ idsub M
                          )
@@ -238,19 +238,19 @@ zap● σ₁ [ σ₂ , N ] M = [_,_] & zap● σ₁ σ₂ M
                              ⊗ ( sub◐ [ σ₁ , M ] (wkᵣ idᵣ) N ⁻¹
                                ⦙ (λ σ′ → sub σ′ N)
                                  & ( zap◐ σ₁ idᵣ M
-                                   ⦙ id₂◐ σ₁
+                                   ⦙ rid◐ σ₁
                                    )
                                )
 
-id₁● : ∀ {Γ Ξ} → (σ : Γ ⊢⋆ Ξ)
+lid● : ∀ {Γ Ξ} → (σ : Γ ⊢⋆ Ξ)
                → idₛ ● σ ≡ σ
-id₁● []        = refl
-id₁● [ σ , M ] = [_,_] & id₁● σ
+lid● []        = refl
+lid● [ σ , M ] = [_,_] & lid● σ
                        ⊗ idsub M
 
-id₂● : ∀ {Γ Ξ} → (σ : Γ ⊢⋆ Ξ)
+rid● : ∀ {Γ Ξ} → (σ : Γ ⊢⋆ Ξ)
                → σ ● idₛ ≡ σ
-id₂● σ = (σ ●_) & ⌊id⌋ ⦙ id₂◐ σ
+rid● σ = (σ ●_) & ⌊id⌋ ⦙ rid◐ σ
 
 
 --------------------------------------------------------------------------------
@@ -268,7 +268,7 @@ wk◑ η [ σ , M ] = [_,_] & wk◑ η σ
                         ⊗ ( (ren (wkᵣ idᵣ)) & ⌊sub⌋ η M
                           ⦙ ren○ (wkᵣ idᵣ) η M ⁻¹
                           ⦙ (λ η′ → ren η′ M) & ( wk○ idᵣ η ⁻¹
-                                                 ⦙ wkᵣ & id₁○ η
+                                                 ⦙ wkᵣ & lid○ η
                                                  )
                           ⦙ ⌊sub⌋ (wkᵣ η) M ⁻¹
                           )
@@ -279,15 +279,15 @@ lift◑ η σ = [_, ` zero ] & ( wk◑ η σ
                            ⦙ zap● ⌊ wkᵣ η ⌋ σ (` zero) ⁻¹
                            )
 
-wkid₁◑ : ∀ {Γ Ξ A} → (σ : Γ ⊢⋆ Ξ)
+wklid◑ : ∀ {Γ Ξ A} → (σ : Γ ⊢⋆ Ξ)
                    → wkᵣ {A} idᵣ ◑ σ ≡ wkₛ σ
-wkid₁◑ σ = wk◑ idᵣ σ ⁻¹
-         ⦙ wkₛ & id₁◑ σ
+wklid◑ σ = wk◑ idᵣ σ ⁻¹
+         ⦙ wkₛ & lid◑ σ
 
-liftwkid₁◑ : ∀ {Γ Ξ A} → (σ : Γ ⊢⋆ Ξ)
+liftwklid◑ : ∀ {Γ Ξ A} → (σ : Γ ⊢⋆ Ξ)
                        → (liftᵣ {A} idᵣ ◑ wkₛ σ) ≡ wkₛ σ
-liftwkid₁◑ σ = zap◑ (wkᵣ idᵣ) σ zero
-             ⦙ wkid₁◑ σ
+liftwklid◑ σ = zap◑ (wkᵣ idᵣ) σ zero
+             ⦙ wklid◑ σ
 
 sub◑ : ∀ {Γ Γ′ Ξ A} → (η : Γ′ ∋⋆ Γ) (σ : Γ ⊢⋆ Ξ) (M : Ξ ⊢ A)
                     → sub (η ◑ σ) M ≡ (ren η ∘ sub σ) M
@@ -332,7 +332,7 @@ wk● : ∀ {Γ Ξ Φ A} → (σ₁ : Γ ⊢⋆ Ξ) (σ₂ : Ξ ⊢⋆ Φ)
 wk● σ₁ []         = refl
 wk● σ₁ [ σ₂ , M ] = [_,_] & wk● σ₁ σ₂
                           ⊗ ( sub◑ (wkᵣ idᵣ) σ₁ M ⁻¹
-                            ⦙ (λ σ′ → sub σ′ M) & wkid₁◑ σ₁
+                            ⦙ (λ σ′ → sub σ′ M) & wklid◑ σ₁
                             )
 
 lift● : ∀ {Γ Ξ Φ A} → (σ₁ : Γ ⊢⋆ Ξ) (σ₂ : Ξ ⊢⋆ Φ)
@@ -341,20 +341,20 @@ lift● σ₁ σ₂ = [_, ` zero ] & ( wk● σ₁ σ₂
                              ⦙ zap● (wkₛ σ₁) σ₂ (` zero) ⁻¹
                              )
 
-wkid₁● : ∀ {Γ Ξ A} → (σ : Γ ⊢⋆ Ξ)
+wklid● : ∀ {Γ Ξ A} → (σ : Γ ⊢⋆ Ξ)
                    → wkₛ {A} idₛ ● σ ≡ wkₛ σ
-wkid₁● σ = wk● idₛ σ ⁻¹
-         ⦙ wkₛ & id₁● σ
+wklid● σ = wk● idₛ σ ⁻¹
+         ⦙ wkₛ & lid● σ
 
-wkid₂● : ∀ {Γ Ξ A} → (σ : Γ ⊢⋆ Ξ)
+wkrid● : ∀ {Γ Ξ A} → (σ : Γ ⊢⋆ Ξ)
                    → wkₛ {A} σ ● idₛ ≡ wkₛ σ
-wkid₂● σ = wk● σ idₛ ⁻¹
-         ⦙ wkₛ & id₂● σ
+wkrid● σ = wk● σ idₛ ⁻¹
+         ⦙ wkₛ & rid● σ
 
-liftwkid₂● : ∀ {Γ Ξ A} → (σ : Γ ⊢⋆ Ξ)
+liftwkrid● : ∀ {Γ Ξ A} → (σ : Γ ⊢⋆ Ξ)
                        → liftₛ {A} σ ● wkₛ idₛ ≡ wkₛ σ
-liftwkid₂● σ = zap● (wkₛ σ) idₛ (` zero)
-             ⦙ wkid₂● σ
+liftwkrid● σ = zap● (wkₛ σ) idₛ (` zero)
+             ⦙ wkrid● σ
 
 sub● : ∀ {Γ Ξ Φ A} → (σ₁ : Γ ⊢⋆ Ξ) (σ₂ : Ξ ⊢⋆ Φ) (M : Φ ⊢ A)
                    → sub (σ₁ ● σ₂) M ≡ (sub σ₁ ∘ sub σ₂) M
@@ -451,8 +451,8 @@ assoc● σ₁ σ₂ [ σ₃ , M ] = [_,_] & assoc● σ₁ σ₂ σ₃
   record
     { idₓ    = idₛ
     ; _⋄_    = flip _●_
-    ; id₁⋄   = id₂●
-    ; id₂⋄   = id₁●
+    ; lid⋄   = rid●
+    ; rid⋄   = lid●
     ; assoc⋄ = assoc●
     }
 

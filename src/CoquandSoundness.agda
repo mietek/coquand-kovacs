@@ -50,7 +50,7 @@ postulate
     cong◎Eq idᵣ (⟦ M ⟧⬗Eq η υ) (⟦ M ⟧Un (cong⬗Un⋆ η υ)) (congaccUn η (⟦ M ⟧Un υ))
                 (⟦ N ⟧⬗Eq η υ) (⟦ N ⟧Un (cong⬗Un⋆ η υ)) (congaccUn η (⟦ N ⟧Un υ))
   ⦙ acc◎idEq η (⟦ M ⟧Un υ) (congaccUn η (⟦ N ⟧Un υ))
-  ⦙ (cong◎Eq η ((id₁accEq (⟦ M ⟧Un υ)) ⁻¹) (⟦ M ⟧Un υ) (congaccUn idᵣ (⟦ M ⟧Un υ))
+  ⦙ (cong◎Eq η ((lidaccEq (⟦ M ⟧Un υ)) ⁻¹) (⟦ M ⟧Un υ) (congaccUn idᵣ (⟦ M ⟧Un υ))
                (reflEq (congaccUn η (⟦ N ⟧Un υ))) (congaccUn η (⟦ N ⟧Un υ)) (congaccUn η (⟦ N ⟧Un υ))
   ⦙ acc◎Eq idᵣ η (⟦ M ⟧Un υ) (⟦ N ⟧Un υ))
 
@@ -148,7 +148,7 @@ wk⟦_⟧Eq : ∀ {Γ A C w} → {ρ : w ⊩⋆ Γ} {a : w ⊩ A}
                       → Eq (⟦ wk {A} M ⟧ [ ρ , a ])
                             (⟦ M ⟧ ρ)
 wk⟦_⟧Eq M υ u = renwk⟦ M ⟧Eq idᵣ υ u
-              ⦙ ⟦ M ⟧Eq (id₂⬖Eq⋆ υ) (cong⬖Un⋆ idᵣ υ) υ
+              ⦙ ⟦ M ⟧Eq (rid⬖Eq⋆ υ) (cong⬖Un⋆ idᵣ υ) υ
 
 wk⟦_⟧Eq⋆ : ∀ {Γ Ξ A w} → {ρ : w ⊩⋆ Γ} {a : w ⊩ A}
                        → (σ : Γ ⊢⋆ Ξ) → Un⋆ ρ → Un a
@@ -291,7 +291,7 @@ module _ where
                             → (σ : Γ ⊢⋆ Ξ) (M : [ Ξ , A ] ⊢ B) (N : Γ ⊢ A) → Un⋆ ρ
                             → Eq (⟦ sub σ (ƛ M) ∙ N ⟧ ρ) (⟦ sub [ σ , N ] M ⟧ ρ)
     lemβred {ρ = ρ} σ M N υ =
-        ⟦ sub (liftₛ σ) M ⟧Eq [ id₁⬗Eq⋆ υ , reflEq (⟦ N ⟧Un υ) ]
+        ⟦ sub (liftₛ σ) M ⟧Eq [ lid⬗Eq⋆ υ , reflEq (⟦ N ⟧Un υ) ]
                               [ cong⬗Un⋆ idᵣ υ , ⟦ N ⟧Un υ ]
                               [ υ , ⟦ N ⟧Un υ ]
       ⦙ sublift⟦⟧Eq⁈ σ M N υ

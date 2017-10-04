@@ -169,7 +169,7 @@ eval◆ {ρ = ρ} χ υ σ (ƛ M) η {a₁} {a₂} p u₁ u₂
         via
           ((λ ρ′ → eval [ ρ′ , a₁ ] M ≈ _)
            & ( comp◆⬗ [ ρ ⬖ η , a₁ ] (wkₑ idₑ) σ
-             ⦙ (σ ◆_) & id₁⬗ (ρ ⬖ η)
+             ⦙ (σ ◆_) & lid⬗ (ρ ⬖ η)
              ) ⁻¹)
 
 eval◆ {ρ = ρ} χ υ σ (M ∙ N)
@@ -220,15 +220,15 @@ eval∼ {ρ₁ = ρ₁} {ρ₂} χ υ₁ υ₂ (βred∼ M N)
             M
     via
       ((λ ρ₁′ ρ₂′ → eval [ ρ₁′ , eval ρ₁ N ] M ≈ eval [ ρ₂′ , eval ρ₂ N ] M)
-      & (id₁⬖ ρ₁ ⁻¹)
-      ⊗ (id₁◆ ρ₂ ⁻¹))
+      & (lid⬖ ρ₁ ⁻¹)
+      ⊗ (lid◆ ρ₂ ⁻¹))
   ⦙ eval◆ (χ ⁻¹ ⦙ χ) υ₂ [ idₛ , N ] M ⁻¹
 
 eval∼ {ρ₂ = ρ₂}χ υ₁ υ₂ (ηexp∼ M) η {a₂ = a₂} p u₁ u₂
   rewrite eval⬗ [ ρ₂ ⬖ η , a₂ ] (wkₑ idₑ) M ⁻¹
-        | id₁⬗ (ρ₂ ⬖ η)
+        | lid⬗ (ρ₂ ⬖ η)
         | eval⬖ η υ₂ M
-        | id₂○ η
+        | rid○ η
   = eval≈ χ υ₁ υ₂ M η p u₁ u₂
 
 

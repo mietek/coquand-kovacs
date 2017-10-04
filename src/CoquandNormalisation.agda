@@ -20,10 +20,10 @@ record 𝔐 : Set₁ where
 
     _◇_    : ∀ {w w′ w″} → w″ ⊒ w′ → w′ ⊒ w → w″ ⊒ w
 
-    id₁◇   : ∀ {w w′} → (ξ : w′ ⊒ w)
+    lid◇   : ∀ {w w′} → (ξ : w′ ⊒ w)
                       → idₐ ◇ ξ ≡ ξ
 
-    id₂◇   : ∀ {w w′} → (ξ : w′ ⊒ w)
+    rid◇   : ∀ {w w′} → (ξ : w′ ⊒ w)
                       → ξ ◇ idₐ ≡ ξ
 
     assoc◇ : ∀ {w w′ w″ w‴} → (ξ₁ : w‴ ⊒ w″) (ξ₂ : w″ ⊒ w′) (ξ₃ : w′ ⊒ w)
@@ -178,7 +178,7 @@ module _ {{𝔪 : 𝔐}} where
 
   -- (aux₄₁₁)
   postulate
-    id₁accEq : ∀ {A w} → {a : w ⊩ A}
+    lidaccEq : ∀ {A w} → {a : w ⊩ A}
                        → Un a
                        → Eq (acc idₐ a) a
 
@@ -268,11 +268,11 @@ module _ {{𝔪 : 𝔐}} where
   zap⬖ ρ []        a = refl
   zap⬖ ρ [ η , i ] a = [_, getᵥ ρ i ] & zap⬖ ρ η a
 
-  id₂⬖ : ∀ {Ξ w} → (ρ : w ⊩⋆ Ξ)
+  rid⬖ : ∀ {Ξ w} → (ρ : w ⊩⋆ Ξ)
                  → ρ ⬖ idᵣ ≡ ρ
-  id₂⬖ []        = refl
-  id₂⬖ [ ρ , a ] = [_, a ] & ( zap⬖ ρ idᵣ a
-                             ⦙ id₂⬖ ρ
+  rid⬖ []        = refl
+  rid⬖ [ ρ , a ] = [_, a ] & ( zap⬖ ρ idᵣ a
+                             ⦙ rid⬖ ρ
                              )
 
 
@@ -295,8 +295,8 @@ module _ {{𝔪 : 𝔐}} where
 
   -- wk⬖ can’t be stated here
   -- lift⬖ can’t be stated here
-  -- wkid₂⬖ can’t be stated here
-  -- liftwkid₂⬖ can’t be stated here
+  -- wkrid⬖ can’t be stated here
+  -- liftwkrid⬖ can’t be stated here
   -- sub⬖ can’t be stated here
   -- subwk⬖ can’t be stated here
   -- sublift⬖ can’t be stated here
@@ -431,13 +431,13 @@ module _ {{𝔪 : 𝔐}} where
 
   -- (aux₄₂₄)
   postulate
-    id₂⬖Eq⋆ : ∀ {Ξ w} → {ρ : w ⊩⋆ Ξ}
+    rid⬖Eq⋆ : ∀ {Ξ w} → {ρ : w ⊩⋆ Ξ}
                       → Un⋆ ρ
                       → Eq⋆ (ρ ⬖ idᵣ) ρ
 
   -- (aux₄₂₅)
   postulate
-    id₁⬗Eq⋆ : ∀ {Ξ w} → {ρ : w ⊩⋆ Ξ}
+    lid⬗Eq⋆ : ∀ {Ξ w} → {ρ : w ⊩⋆ Ξ}
                       → Un⋆ ρ
                       → Eq⋆ (idₐ ⬗ ρ) ρ
 
@@ -490,8 +490,8 @@ instance
     ; _⊒_    = _∋⋆_
     ; idₐ    = idᵣ
     ; _◇_    = _○_
-    ; id₁◇   = id₁○
-    ; id₂◇   = id₂○
+    ; lid◇   = lid○
+    ; rid◇   = rid○
     ; assoc◇ = assoc○
     }
 

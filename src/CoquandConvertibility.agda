@@ -68,8 +68,8 @@ renηexp`∼ : ∀ {Γ Γ′ A B} → {η : Γ′ ∋⋆ Γ}
 renηexp`∼ {η = η} i = ηexp∼ (` (getᵣ η i))
                     ⦙ ƛ∼ (≡→∼ (` & ( get○ (wkᵣ idᵣ) η i ⁻¹
                                     ⦙ (λ η′ → getᵣ η′ i)
-                                      & ( wkid₁○ η
-                                        ⦙ liftwkid₂○ η ⁻¹
+                                      & ( wklid○ η
+                                        ⦙ liftwkrid○ η ⁻¹
                                         )
                                     ⦙ get○ (liftᵣ η) (wkᵣ idᵣ) i
                                     )) ∙∼ refl∼)
@@ -80,8 +80,8 @@ renηexpƛ∼ : ∀ {Γ Γ′ A B} → {η : Γ′ ∋⋆ Γ}
 renηexpƛ∼ {η = η} M = ηexp∼ (ƛ (ren (liftᵣ η) M))
                     ⦙ ƛ∼ (ƛ∼ (≡→∼ ( renlift○ (wkᵣ idᵣ) η M ⁻¹
                                    ⦙ (λ η′ → ren η′ M)
-                                     & (liftᵣ & ( wkid₁○ η
-                                                ⦙ wkid₂○ η ⁻¹
+                                     & (liftᵣ & ( wklid○ η
+                                                ⦙ wkrid○ η ⁻¹
                                                 ⦙ zap○ (wkᵣ η) idᵣ zero ⁻¹
                                                 ))
                                    ⦙ renlift○ (liftᵣ η) (wkᵣ idᵣ) M
@@ -93,8 +93,8 @@ renηexp∙∼ : ∀ {Γ Γ′ A B C} → {η : Γ′ ∋⋆ Γ}
 renηexp∙∼ {η = η} M N = ηexp∼ (ren η M ∙ ren η N)
                       ⦙ ƛ∼ ((≡→∼ ( ren○ (wkᵣ idᵣ) η M ⁻¹
                                   ⦙ (λ η′ → ren η′ M)
-                                    & ( wkid₁○ η
-                                      ⦙ wkid₂○ η ⁻¹
+                                    & ( wklid○ η
+                                      ⦙ wkrid○ η ⁻¹
                                       ⦙ wk○ η idᵣ ⁻¹
                                       )
                                   ⦙ renliftwk○ η idᵣ M
@@ -102,8 +102,8 @@ renηexp∙∼ {η = η} M N = ηexp∼ (ren η M ∙ ren η N)
                              ∙∼
                              ≡→∼ ( ren○ (wkᵣ idᵣ) η N ⁻¹
                                   ⦙ (λ η′ → ren η′ N)
-                                    & ( wkid₁○ η
-                                      ⦙ wkid₂○ η ⁻¹
+                                    & ( wklid○ η
+                                      ⦙ wkrid○ η ⁻¹
                                       ⦙ wk○ η idᵣ ⁻¹
                                       )
                                   ⦙ renliftwk○ η idᵣ N
@@ -139,7 +139,7 @@ subηexp`∼ : ∀ {Γ Ξ A B} → {σ : Γ ⊢⋆ Ξ}
                         → sub σ (` i) ∼ sub σ (ƛ (wk (` i) ∙ ` zero))
 subηexp`∼ {σ = σ} i = ηexp∼ (getₛ σ i)
                     ⦙ ƛ∼ (≡→∼ ( natgetₛ σ i ⁻¹
-                               ⦙ (λ σ′ → getₛ σ′ i) & liftwkid₂◐ σ ⁻¹
+                               ⦙ (λ σ′ → getₛ σ′ i) & liftwkrid◐ σ ⁻¹
                                ⦙ get◐ (liftₛ σ) (wkᵣ idᵣ) i
                                ) ∙∼ refl∼)
 
@@ -148,7 +148,7 @@ subηexpƛ∼ : ∀ {Γ Ξ A B} → {σ : Γ ⊢⋆ Ξ}
                         → sub σ (ƛ M) ∼ sub σ (ƛ (wk (ƛ M) ∙ ` zero))
 subηexpƛ∼ {σ = σ} M = ƛ∼ ( ≡→∼ ( (λ σ′ → sub σ′ M)
                                   & ([_, ` zero ]
-                                     & ( id₂◐ (wkₛ σ) ⁻¹
+                                     & ( rid◐ (wkₛ σ) ⁻¹
                                        ⦙ zap◐ (wkₛ σ) idᵣ (` zero) ⁻¹
                                        ⦙ zap◐ (liftₛ σ) (wkᵣ idᵣ) (` zero) ⁻¹
                                        ))
@@ -163,8 +163,8 @@ subηexp∙∼ : ∀ {Γ Ξ A B C} → {σ : Γ ⊢⋆ Ξ}
 subηexp∙∼ {σ = σ} M N = ηexp∼ (sub σ M ∙ sub σ N)
                       ⦙ ƛ∼ ((≡→∼ ( sub◑ (wkᵣ idᵣ) σ M ⁻¹
                                   ⦙ (λ σ′ → sub σ′ M)
-                                    & ( wkid₁◑ σ
-                                      ⦙ wkid₂◐ σ ⁻¹
+                                    & ( wklid◑ σ
+                                      ⦙ wkrid◐ σ ⁻¹
                                       ⦙ wk◐ σ idᵣ ⁻¹
                                       )
                                   ⦙ subliftwk◐ σ idᵣ M
@@ -172,8 +172,8 @@ subηexp∙∼ {σ = σ} M N = ηexp∼ (sub σ M ∙ sub σ N)
                              ∙∼
                              ≡→∼ ( sub◑ (wkᵣ idᵣ) σ N ⁻¹
                                   ⦙ (λ σ′ → sub σ′ N)
-                                    & ( wkid₁◑ σ
-                                      ⦙ wkid₂◐ σ ⁻¹
+                                    & ( wklid◑ σ
+                                      ⦙ wkrid◐ σ ⁻¹
                                       ⦙ wk◐ σ idᵣ ⁻¹
                                       )
                                   ⦙ subliftwk◐ σ idᵣ N
