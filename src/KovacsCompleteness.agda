@@ -21,11 +21,11 @@ _≫_ {A ⊃ B} {Γ} M f = ∀ {Γ′} → (η : Γ′ ⊇ Γ) {N : Γ′ ⊢ A}
 infix 3 _≫⋆_
 data _≫⋆_ : ∀ {Γ Ξ} → Γ ⊢⋆ Ξ → Γ ⊩⋆ Ξ → Set
   where
-    []    : ∀ {Γ} → ([] {Γ = Γ}) ≫⋆ []
+    ∅   : ∀ {Γ} → (∅ {Γ = Γ}) ≫⋆ ∅
 
-    [_,_] : ∀ {Γ Ξ A} → {σ : Γ ⊢⋆ Ξ} {ρ : Γ ⊩⋆ Ξ} {M : Γ ⊢ A} {a : Γ ⊩ A}
-                      → (χ : σ ≫⋆ ρ) (p : M ≫ a)
-                      → [ σ , M ] ≫⋆ [ ρ , a ]
+    _,_ : ∀ {Γ Ξ A} → {σ : Γ ⊢⋆ Ξ} {ρ : Γ ⊩⋆ Ξ} {M : Γ ⊢ A} {a : Γ ⊩ A}
+                    → (χ : σ ≫⋆ ρ) (p : M ≫ a)
+                    → σ , M ≫⋆ ρ , a
 
 
 -- (≈ₑ)
@@ -43,8 +43,8 @@ acc≫ {A ⊃ B} {M = M} {f} η g η′ rewrite ren○ η′ η M ⁻¹
 _⬖≫_ : ∀ {Γ Γ′ Ξ} → {σ : Γ ⊢⋆ Ξ} {ρ : Γ ⊩⋆ Ξ}
                   → (χ : σ ≫⋆ ρ) (η : Γ′ ⊇ Γ)
                   → σ ◐ η ≫⋆ ρ ⬖ η
-[]        ⬖≫ η = []
-[ χ , p ] ⬖≫ η = [ χ ⬖≫ η , acc≫ η p ]
+∅       ⬖≫ η = ∅
+(χ , p) ⬖≫ η = χ ⬖≫ η , acc≫ η p
 
 
 -- (_∼◾≈_)
@@ -66,8 +66,8 @@ cast≫_via_ {A ⊃ B} f p = λ η q →
 get≫ : ∀ {Γ Ξ A} → {σ : Γ ⊢⋆ Ξ} {ρ : Γ ⊩⋆ Ξ}
                  → σ ≫⋆ ρ → (i : Ξ ∋ A)
                  → getₛ σ i ≫ getᵥ ρ i
-get≫ [ χ , p ] zero    = p
-get≫ [ χ , p ] (suc i) = get≫ χ i
+get≫ (χ , p) zero    = p
+get≫ (χ , p) (suc i) = get≫ χ i
 
 
 -- (Tm≈)
@@ -79,16 +79,16 @@ eval≫ χ (` i) = get≫ χ i
 
 eval≫ {σ = σ} χ (ƛ M) η {N} q =
   cast≫
-    eval≫ [ χ ⬖≫ η , q ] M
+    eval≫ (χ ⬖≫ η , q) M
   via
     (cast
        βred∼ (ren (liftₑ η) (sub (liftₛ σ) M)) N
      via
        (((ƛ (ren (liftₑ η) (sub (liftₛ σ) M)) ∙ N) ∼_)
-        & ( sub◑ [ idₛ , N ] (liftₑ η) (sub (liftₛ σ) M) ⁻¹
-          ⦙ sub● (liftₑ η ◑ [ idₛ , N ]) (liftₛ σ) M ⁻¹
-          ⦙ (λ σ′ → sub [ σ′ , N ] M)
-            & ( comp●◑ [ η ◑ idₛ , N ] (wkₑ idₑ) σ
+        & ( sub◑ (idₛ , N) (liftₑ η) (sub (liftₛ σ) M) ⁻¹
+          ⦙ sub● (liftₑ η ◑ (idₛ , N)) (liftₛ σ) M ⁻¹
+          ⦙ (λ σ′ → sub (σ′ , N) M)
+            & ( comp●◑ (η ◑ idₛ , N) (wkₑ idₑ) σ
               ⦙ (σ ●_) & lid◑ (η ◑ idₛ)
               ⦙ comp●◑ idₛ η σ ⁻¹
               ⦙ rid● (σ ◐ η)
@@ -122,8 +122,8 @@ mutual
 
 -- (uᶜ≈)
 id≫⋆ : ∀ {Γ} → idₛ {Γ} ≫⋆ idᵥ
-id≫⋆ {[]}        = []
-id≫⋆ {[ Γ , A ]} = [ id≫⋆ ⬖≫ wkₑ idₑ , reflect≫ (` zero) ]
+id≫⋆ {∅}     = ∅
+id≫⋆ {Γ , A} = id≫⋆ ⬖≫ wkₑ idₑ , reflect≫ (` zero)
 
 
 complete : ∀ {Γ A} → (M : Γ ⊢ A)

@@ -7,7 +7,7 @@ open import KovacsSubstitution public
 
 
 -- Convertibility (_~_ ; ~refl ; _~⁻¹ ; lam ; app ; β ; η)
-infix  3 _∼_
+infix 3 _∼_
 data _∼_ : ∀ {Γ A} → Γ ⊢ A → Γ ⊢ A → Set
   where
     refl∼ : ∀ {Γ A} → {M : Γ ⊢ A}
@@ -21,7 +21,7 @@ data _∼_ : ∀ {Γ A} → Γ ⊢ A → Γ ⊢ A → Set
                     → (p : M₁ ∼ M₂) (q : M₂ ∼ M₃)
                     → M₁ ∼ M₃
 
-    ƛ∼    : ∀ {Γ A B} → {M₁ M₂ : [ Γ , A ] ⊢ B}
+    ƛ∼    : ∀ {Γ A B} → {M₁ M₂ : Γ , A ⊢ B}
                       → (p : M₁ ∼ M₂)
                       → ƛ M₁ ∼ ƛ M₂
 
@@ -29,8 +29,8 @@ data _∼_ : ∀ {Γ A} → Γ ⊢ A → Γ ⊢ A → Set
                       → (p : M₁ ∼ M₂) (q : N₁ ∼ N₂)
                       → M₁ ∙ N₁ ∼ M₂ ∙ N₂
 
-    βred∼ : ∀ {Γ A B} → (M : [ Γ , A ] ⊢ B) (N : Γ ⊢ A)
-                      → (ƛ M) ∙ N ∼ sub [ idₛ , N ] M
+    βred∼ : ∀ {Γ A B} → (M : Γ , A ⊢ B) (N : Γ ⊢ A)
+                      → (ƛ M) ∙ N ∼ sub (idₛ , N) M
 
     ηexp∼ : ∀ {Γ A B} → (M : Γ ⊢ A ⊃ B)
                       → M ∼ ƛ (wk M ∙ ` zero)
@@ -60,11 +60,11 @@ ren∼ η (βred∼ M N) = cast
                        βred∼ (ren (liftₑ η) M) (ren η N)
                      via
                        (((ƛ (ren (liftₑ η) M) ∙ ren η N) ∼_)
-                        & ( sub◑ [ idₛ , ren η N ] (liftₑ η) M ⁻¹
-                          ⦙ (λ σ → sub [ σ , ren η N ] M) & ( rid◑ η
-                                                             ⦙ lid◐ η ⁻¹
-                                                             )
-                          ⦙ sub◐ η [ idₛ , N ] M
+                        & ( sub◑ (idₛ , ren η N) (liftₑ η) M ⁻¹
+                          ⦙ (λ σ → sub (σ , ren η N) M) & ( rid◑ η
+                                                           ⦙ lid◐ η ⁻¹
+                                                           )
+                          ⦙ sub◐ η (idₛ , N) M
                           ))
 ren∼ η (ηexp∼ M)   = cast
                        ηexp∼ (ren η M)
