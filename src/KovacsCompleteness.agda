@@ -89,7 +89,7 @@ eval≫ {σ = σ} χ (ƛ M) η {N} q =
                    ⦙ rid● (σ ◐ η)
                    )
                ))
-            (βred∼ (ren (liftₑ η) (sub (liftₛ σ) M)) N) ⁻¹)
+            (red⇒ (ren (liftₑ η) (sub (liftₛ σ) M)) N) ⁻¹)
        (eval≫ (χ ⬖≫ η , q) M)
 
 eval≫ {σ = σ} χ (M ∙ N)
@@ -103,7 +103,7 @@ mutual
                    → (p : M ≫ a)
                    → M ∼ embⁿᶠ (reify a)
   reify≫ {⎵}      {M = M} p = p
-  reify≫ {A ⇒ B} {M = M} f = ηexp∼ M
+  reify≫ {A ⇒ B} {M = M} f = exp⇒ M
                             ⦙ ƛ∼ (reify≫ (f (wkₑ idₑ) (reflect≫ (` zero))))
 
   -- (u≈)

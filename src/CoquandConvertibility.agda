@@ -29,10 +29,10 @@ data _∼_ : ∀ {Γ A} → Γ ⊢ A → Γ ⊢ A → Set
                       → (p : M₁ ∼ M₂) (q : N₁ ∼ N₂)
                       → M₁ ∙ N₁ ∼ M₂ ∙ N₂
 
-    βred∼ : ∀ {Γ Ξ A B} → (σ : Γ ⊢⋆ Ξ) (M : Ξ , A ⊢ B) (N : Γ ⊢ A)
+    red⇒ : ∀ {Γ Ξ A B} → (σ : Γ ⊢⋆ Ξ) (M : Ξ , A ⊢ B) (N : Γ ⊢ A)
                         → sub σ (ƛ M) ∙ N ∼ sub (σ , N) M
 
-    ηexp∼ : ∀ {Γ A B} → (M : Γ ⊢ A ⇒ B)
+    exp⇒ : ∀ {Γ A B} → (M : Γ ⊢ A ⇒ B)
                       → M ∼ ƛ (wk M ∙ ` zero)
 
 
@@ -52,20 +52,20 @@ instance
 --------------------------------------------------------------------------------
 
 
-renβred∼ : ∀ {Γ Γ′ Ξ A B} → {η : Γ′ ∋⋆ Γ}
+renred⇒ : ∀ {Γ Γ′ Ξ A B} → {η : Γ′ ∋⋆ Γ}
                           → (σ : Γ ⊢⋆ Ξ) (M : Ξ , A ⊢ B) (N : Γ ⊢ A)
                           → ren η (sub σ (ƛ M) ∙ N) ∼ ren η (sub (σ , N) M)
-renβred∼ {η = η} σ M N = ƛ∼ (≡→∼ (sublift◑ η σ M ⁻¹)) ∙∼ refl∼
-                       ⦙ βred∼ (η ◑ σ) M (ren η N)
+renred⇒ {η = η} σ M N = ƛ∼ (≡→∼ (sublift◑ η σ M ⁻¹)) ∙∼ refl∼
+                       ⦙ red⇒ (η ◑ σ) M (ren η N)
                        ⦙ ≡→∼ ( (λ σ′ → sub σ′ M)
                                 & ((⌊ η ⌋ ● σ ,_) & ⌊sub⌋ η N ⁻¹)
                               ⦙ sub◑ η (σ , N) M
                               )
 
-renηexp`∼ : ∀ {Γ Γ′ A B} → {η : Γ′ ∋⋆ Γ}
+renexp⇒` : ∀ {Γ Γ′ A B} → {η : Γ′ ∋⋆ Γ}
                          → (i : Γ ∋ A ⇒ B)
                          → ren η (` i) ∼ ren η (ƛ (wk (` i) ∙ ` zero))
-renηexp`∼ {η = η} i = ηexp∼ (` (getᵣ η i))
+renexp⇒` {η = η} i = exp⇒ (` (getᵣ η i))
                     ⦙ ƛ∼ (≡→∼ (` & ( get○ (wkᵣ idᵣ) η i ⁻¹
                                     ⦙ (λ η′ → getᵣ η′ i)
                                       & ( wklid○ η
@@ -74,10 +74,10 @@ renηexp`∼ {η = η} i = ηexp∼ (` (getᵣ η i))
                                     ⦙ get○ (liftᵣ η) (wkᵣ idᵣ) i
                                     )) ∙∼ refl∼)
 
-renηexpƛ∼ : ∀ {Γ Γ′ A B} → {η : Γ′ ∋⋆ Γ}
+renexp⇒ƛ : ∀ {Γ Γ′ A B} → {η : Γ′ ∋⋆ Γ}
                          → (M : Γ , A ⊢ B)
                          → ren η (ƛ M) ∼ ren η (ƛ (wk (ƛ M) ∙ ` zero))
-renηexpƛ∼ {η = η} M = ηexp∼ (ƛ (ren (liftᵣ η) M))
+renexp⇒ƛ {η = η} M = exp⇒ (ƛ (ren (liftᵣ η) M))
                     ⦙ ƛ∼ (ƛ∼ (≡→∼ ( renlift○ (wkᵣ idᵣ) η M ⁻¹
                                    ⦙ (λ η′ → ren η′ M)
                                      & (liftᵣ & ( wklid○ η
@@ -87,10 +87,10 @@ renηexpƛ∼ {η = η} M = ηexp∼ (ƛ (ren (liftᵣ η) M))
                                    ⦙ renlift○ (liftᵣ η) (wkᵣ idᵣ) M
                                    )) ∙∼ refl∼)
 
-renηexp∙∼ : ∀ {Γ Γ′ A B C} → {η : Γ′ ∋⋆ Γ}
+renexp⇒∙ : ∀ {Γ Γ′ A B C} → {η : Γ′ ∋⋆ Γ}
                            → (M : Γ ⊢ A ⇒ B ⇒ C) (N : Γ ⊢ A)
                            → ren η (M ∙ N) ∼ ren η (ƛ (wk (M ∙ N) ∙ ` zero))
-renηexp∙∼ {η = η} M N = ηexp∼ (ren η M ∙ ren η N)
+renexp⇒∙ {η = η} M N = exp⇒ (ren η M ∙ ren η N)
                       ⦙ ƛ∼ ((≡→∼ ( ren○ (wkᵣ idᵣ) η M ⁻¹
                                   ⦙ (λ η′ → ren η′ M)
                                     & ( wklid○ η
@@ -118,35 +118,35 @@ ren∼ (p ⁻¹∼)         = ren∼ p ⁻¹
 ren∼ (p ⦙∼ q)        = ren∼ p ⦙ ren∼ q
 ren∼ (ƛ∼ p)          = ƛ∼ (ren∼ p)
 ren∼ (p ∙∼ q)        = ren∼ p ∙∼ ren∼ q
-ren∼ (βred∼ σ M N)   = renβred∼ σ M N
-ren∼ (ηexp∼ (` i))   = renηexp`∼ i
-ren∼ (ηexp∼ (ƛ M))   = renηexpƛ∼ M
-ren∼ (ηexp∼ (M ∙ N)) = renηexp∙∼ M N
+ren∼ (red⇒ σ M N)   = renred⇒ σ M N
+ren∼ (exp⇒ (` i))   = renexp⇒` i
+ren∼ (exp⇒ (ƛ M))   = renexp⇒ƛ M
+ren∼ (exp⇒ (M ∙ N)) = renexp⇒∙ M N
 
 
 --------------------------------------------------------------------------------
 
 
-subβred∼ : ∀ {Γ Ξ Φ A B} → {σ₁ : Γ ⊢⋆ Ξ}
+subred⇒ : ∀ {Γ Ξ Φ A B} → {σ₁ : Γ ⊢⋆ Ξ}
                          → (σ₂ : Ξ ⊢⋆ Φ) (M : Φ , A ⊢ B) (N : Ξ ⊢ A)
                          → sub σ₁ (sub σ₂ (ƛ M) ∙ N) ∼ sub σ₁ (sub (σ₂ , N) M)
-subβred∼ {σ₁ = σ₁} σ₂ M N = ƛ∼ (≡→∼ (sublift● σ₁ σ₂ M ⁻¹)) ∙∼ refl∼
-                          ⦙ βred∼ (σ₁ ● σ₂) M (sub σ₁ N)
+subred⇒ {σ₁ = σ₁} σ₂ M N = ƛ∼ (≡→∼ (sublift● σ₁ σ₂ M ⁻¹)) ∙∼ refl∼
+                          ⦙ red⇒ (σ₁ ● σ₂) M (sub σ₁ N)
                           ⦙ ≡→∼ (sub● σ₁ (σ₂ , N) M)
 
-subηexp`∼ : ∀ {Γ Ξ A B} → {σ : Γ ⊢⋆ Ξ}
+subexp⇒` : ∀ {Γ Ξ A B} → {σ : Γ ⊢⋆ Ξ}
                         → (i : Ξ ∋ A ⇒ B)
                         → sub σ (` i) ∼ sub σ (ƛ (wk (` i) ∙ ` zero))
-subηexp`∼ {σ = σ} i = ηexp∼ (getₛ σ i)
+subexp⇒` {σ = σ} i = exp⇒ (getₛ σ i)
                     ⦙ ƛ∼ (≡→∼ ( natgetₛ σ i ⁻¹
                                ⦙ (λ σ′ → getₛ σ′ i) & liftwkrid◐ σ ⁻¹
                                ⦙ get◐ (liftₛ σ) (wkᵣ idᵣ) i
                                ) ∙∼ refl∼)
 
-subηexpƛ∼ : ∀ {Γ Ξ A B} → {σ : Γ ⊢⋆ Ξ}
+subexp⇒ƛ : ∀ {Γ Ξ A B} → {σ : Γ ⊢⋆ Ξ}
                         → (M : Ξ , A ⊢ B)
                         → sub σ (ƛ M) ∼ sub σ (ƛ (wk (ƛ M) ∙ ` zero))
-subηexpƛ∼ {σ = σ} M = ƛ∼ ( ≡→∼ ( (λ σ′ → sub σ′ M)
+subexp⇒ƛ {σ = σ} M = ƛ∼ ( ≡→∼ ( (λ σ′ → sub σ′ M)
                                   & ((_, ` zero)
                                      & ( rid◐ (wkₛ σ) ⁻¹
                                        ⦙ zap◐ (wkₛ σ) idᵣ (` zero) ⁻¹
@@ -154,13 +154,13 @@ subηexpƛ∼ {σ = σ} M = ƛ∼ ( ≡→∼ ( (λ σ′ → sub σ′ M)
                                        ))
                                 ⦙ sub◐ (liftₛ σ , ` zero) (liftᵣ (wkᵣ idᵣ)) M
                                 )
-                         ⦙ βred∼ (liftₛ σ) (ren (liftᵣ (wkᵣ idᵣ)) M) (` zero) ⁻¹
+                         ⦙ red⇒ (liftₛ σ) (ren (liftᵣ (wkᵣ idᵣ)) M) (` zero) ⁻¹
                          )
 
-subηexp∙∼ : ∀ {Γ Ξ A B C} → {σ : Γ ⊢⋆ Ξ}
+subexp⇒∙ : ∀ {Γ Ξ A B C} → {σ : Γ ⊢⋆ Ξ}
                           → (M : Ξ ⊢ A ⇒ B ⇒ C) (N : Ξ ⊢ A)
                           → sub σ (M ∙ N) ∼ sub σ (ƛ (wk (M ∙ N) ∙ ` zero))
-subηexp∙∼ {σ = σ} M N = ηexp∼ (sub σ M ∙ sub σ N)
+subexp⇒∙ {σ = σ} M N = exp⇒ (sub σ M ∙ sub σ N)
                       ⦙ ƛ∼ ((≡→∼ ( sub◑ (wkᵣ idᵣ) σ M ⁻¹
                                   ⦙ (λ σ′ → sub σ′ M)
                                     & ( wklid◑ σ
@@ -188,10 +188,10 @@ sub∼ (p ⁻¹∼)         = sub∼ p ⁻¹
 sub∼ (p ⦙∼ q)        = sub∼ p ⦙ sub∼ q
 sub∼ (ƛ∼ p)          = ƛ∼ (sub∼ p)
 sub∼ (p ∙∼ q)        = sub∼ p ∙∼ sub∼ q
-sub∼ (βred∼ σ M N)   = subβred∼ σ M N
-sub∼ (ηexp∼ (` i))   = subηexp`∼ i
-sub∼ (ηexp∼ (ƛ M))   = subηexpƛ∼ M
-sub∼ (ηexp∼ (M ∙ N)) = subηexp∙∼ M N
+sub∼ (red⇒ σ M N)   = subred⇒ σ M N
+sub∼ (exp⇒ (` i))   = subexp⇒` i
+sub∼ (exp⇒ (ƛ M))   = subexp⇒ƛ M
+sub∼ (exp⇒ (M ∙ N)) = subexp⇒∙ M N
 
 
 

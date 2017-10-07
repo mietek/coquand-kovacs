@@ -29,11 +29,12 @@ data _∼_ : ∀ {Γ A} → Γ ⊢ A → Γ ⊢ A → Set
                       → (p : M₁ ∼ M₂) (q : N₁ ∼ N₂)
                       → M₁ ∙ N₁ ∼ M₂ ∙ N₂
 
-    βred∼ : ∀ {Γ A B} → (M : Γ , A ⊢ B) (N : Γ ⊢ A)
+    red⇒ : ∀ {Γ A B} → (M : Γ , A ⊢ B) (N : Γ ⊢ A)
                       → (ƛ M) ∙ N ∼ sub (idₛ , N) M
 
-    ηexp∼ : ∀ {Γ A B} → (M : Γ ⊢ A ⇒ B)
+    exp⇒ : ∀ {Γ A B} → (M : Γ ⊢ A ⇒ B)
                       → M ∼ ƛ (wk M ∙ ` zero)
+
 
 instance
   per∼ : ∀ {Γ A} → PER (Γ ⊢ A) _∼_
@@ -56,22 +57,22 @@ ren∼ η (p ⁻¹∼)     = ren∼ η p ⁻¹
 ren∼ η (p ⦙∼ q)    = ren∼ η p ⦙ ren∼ η q
 ren∼ η (ƛ∼ p)      = ƛ∼ (ren∼ (liftₑ η) p)
 ren∼ η (p ∙∼ q)    = ren∼ η p ∙∼ ren∼ η q
-ren∼ η (βred∼ M N) = coe (((ƛ (ren (liftₑ η) M) ∙ ren η N) ∼_)
+ren∼ η (red⇒ M N) = coe (((ƛ (ren (liftₑ η) M) ∙ ren η N) ∼_)
                           & ( sub◑ (idₛ , ren η N) (liftₑ η) M ⁻¹
                             ⦙ (λ σ → sub (σ , ren η N) M) & ( rid◑ η
                                                              ⦙ lid◐ η ⁻¹
                                                              )
                             ⦙ sub◐ η (idₛ , N) M
                             ))
-                         (βred∼ (ren (liftₑ η) M) (ren η N))
-ren∼ η (ηexp∼ M)   = coe ((λ M′ → ren η M ∼ ƛ (M′ ∙ ` zero))
+                         (red⇒ (ren (liftₑ η) M) (ren η N))
+ren∼ η (exp⇒ M)   = coe ((λ M′ → ren η M ∼ ƛ (M′ ∙ ` zero))
                           & ( ren○ (wkₑ idₑ) η M ⁻¹
                             ⦙ (λ η′ → ren (wkₑ η′) M) & ( rid○ η
                                                          ⦙ lid○ η ⁻¹
                                                          )
                             ⦙ ren○ (liftₑ η) (wkₑ idₑ) M
                             ))
-                         (ηexp∼ (ren η M))
+                         (exp⇒ (ren η M))
 
 
 --------------------------------------------------------------------------------

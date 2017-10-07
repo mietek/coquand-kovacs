@@ -210,7 +210,7 @@ eval∼ χ υ₁ υ₂ (_∙∼_ {N₁ = N₁} {N₂} p q)
           (eval𝒰 υ₁ N₁)
           (eval𝒰 υ₂ N₂)
 
-eval∼ {ρ₁ = ρ₁} {ρ₂} χ υ₁ υ₂ (βred∼ M N)
+eval∼ {ρ₁ = ρ₁} {ρ₂} χ υ₁ υ₂ (red⇒ M N)
   = coe ((λ ρ₁′ ρ₂′ → eval (ρ₁′ , eval ρ₁ N) M ≈ eval (ρ₂′ , eval ρ₂ N) M)
          & (lid⬖ ρ₁ ⁻¹)
          ⊗ (lid◆ ρ₂ ⁻¹))
@@ -220,7 +220,7 @@ eval∼ {ρ₁ = ρ₁} {ρ₂} χ υ₁ υ₂ (βred∼ M N)
                M)
   ⦙ eval◆ (χ ⁻¹ ⦙ χ) υ₂ (idₛ , N) M ⁻¹
 
-eval∼ {ρ₂ = ρ₂} χ υ₁ υ₂ (ηexp∼ M) η {a₂ = a₂} p u₁ u₂
+eval∼ {ρ₂ = ρ₂} χ υ₁ υ₂ (exp⇒ M) η {a₂ = a₂} p u₁ u₂
   rewrite eval⬗ (ρ₂ ⬖ η , a₂) (wkₑ idₑ) M ⁻¹
         | lid⬗ (ρ₂ ⬖ η)
         | eval⬖ η υ₂ M

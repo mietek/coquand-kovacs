@@ -289,19 +289,19 @@ module _ where
     lem∙ {M = M} {M′} {N} {N′} p q υ = cong⟦∙⟧Eq idᵣ (cong⟦ p ⟧Eq υ) (⟦ M ⟧Un υ) (⟦ M′ ⟧Un υ)
                                                      (cong⟦ q ⟧Eq υ) (⟦ N ⟧Un υ) (⟦ N′ ⟧Un υ)
 
-    lemβred : ∀ {Γ Ξ A B w} → {ρ : w ⊩⋆ Γ}
-                            → (σ : Γ ⊢⋆ Ξ) (M : Ξ , A ⊢ B) (N : Γ ⊢ A) → Un⋆ ρ
-                            → Eq (⟦ sub σ (ƛ M) ∙ N ⟧ ρ) (⟦ sub (σ , N) M ⟧ ρ)
-    lemβred {ρ = ρ} σ M N υ =
+    lemred⇒ : ∀ {Γ Ξ A B w} → {ρ : w ⊩⋆ Γ}
+                             → (σ : Γ ⊢⋆ Ξ) (M : Ξ , A ⊢ B) (N : Γ ⊢ A) → Un⋆ ρ
+                             → Eq (⟦ sub σ (ƛ M) ∙ N ⟧ ρ) (⟦ sub (σ , N) M ⟧ ρ)
+    lemred⇒ {ρ = ρ} σ M N υ =
         ⟦ sub (liftₛ σ) M ⟧Eq (lid⬗Eq⋆ υ , reflEq (⟦ N ⟧Un υ))
                               (cong⬗Un⋆ idᵣ υ , ⟦ N ⟧Un υ)
                               (υ , ⟦ N ⟧Un υ)
       ⦙ sublift⟦⟧Eq⁈ σ M N υ
 
-    lemηexp : ∀ {Γ A B w} → {ρ : w ⊩⋆ Γ}
-                          → (M : Γ ⊢ A ⇒ B) → Un⋆ ρ
-                          → Eq (⟦ M ⟧ ρ) (⟦ ƛ (wk M ∙ ` zero) ⟧ ρ)
-    lemηexp {ρ = ρ} M υ =
+    lemexp⇒ : ∀ {Γ A B w} → {ρ : w ⊩⋆ Γ}
+                           → (M : Γ ⊢ A ⇒ B) → Un⋆ ρ
+                           → Eq (⟦ M ⟧ ρ) (⟦ ƛ (wk M ∙ ` zero) ⟧ ρ)
+    lemexp⇒ {ρ = ρ} M υ =
       eq⊃ (λ η {a} u → acc⟦∙⟧idEq η (⟦ M ⟧Un υ) u ⁻¹
                       ⦙ cong⟦∙⟧Eq idᵣ (⟦ M ⟧⬗Eq η υ ⁻¹) (congaccUn η (⟦ M ⟧Un υ)) (⟦ M ⟧Un (cong⬗Un⋆ η υ))
                                       (reflEq u) u u
@@ -317,8 +317,8 @@ module _ where
     cong⟦ p ⦙∼ q ⟧Eq        υ = cong⟦ p ⟧Eq υ ⦙ cong⟦ q ⟧Eq υ
     cong⟦ ƛ∼ p ⟧Eq          υ = lemƛ p υ
     cong⟦ p ∙∼ q ⟧Eq        υ = lem∙ p q υ
-    cong⟦ βred∼ σ M N ⟧Eq   υ = lemβred σ M N υ
-    cong⟦ ηexp∼ M ⟧Eq       υ = lemηexp M υ
+    cong⟦ red⇒ σ M N ⟧Eq   υ = lemred⇒ σ M N υ
+    cong⟦ exp⇒ M ⟧Eq       υ = lemexp⇒ M υ
 
 
 --------------------------------------------------------------------------------
