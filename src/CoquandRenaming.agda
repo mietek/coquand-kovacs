@@ -129,26 +129,25 @@ liftwkrid○ : ∀ {Γ Γ′ A} → (η : Γ′ ∋⋆ Γ)
                         → liftᵣ {A} η ○ wkᵣ idᵣ ≡ wkᵣ η
 liftwkrid○ η = zap○ (wkᵣ η) idᵣ zero ⦙ wkrid○ η
 
-ren○ : ∀ {Γ Γ′ Γ″ A} → (η₁ : Γ″ ∋⋆ Γ′) (η₂ : Γ′ ∋⋆ Γ) (M : Γ ⊢ A)
-                     → ren (η₁ ○ η₂) M ≡ (ren η₁ ∘ ren η₂) M
-ren○ η₁ η₂ (` i)   = ` & get○ η₁ η₂ i
-ren○ η₁ η₂ (ƛ M)   = ƛ & ( (λ η′ → ren η′ M) & lift○ η₁ η₂
-                         ⦙ ren○ (liftᵣ η₁) (liftᵣ η₂) M
-                         )
-ren○ η₁ η₂ (M ∙ N) = _∙_ & ren○ η₁ η₂ M
-                         ⊗ ren○ η₁ η₂ N
+mutual
+  ren○ : ∀ {Γ Γ′ Γ″ A} → (η₁ : Γ″ ∋⋆ Γ′) (η₂ : Γ′ ∋⋆ Γ) (M : Γ ⊢ A)
+                       → ren (η₁ ○ η₂) M ≡ (ren η₁ ∘ ren η₂) M
+  ren○ η₁ η₂ (` i)   = ` & get○ η₁ η₂ i
+  ren○ η₁ η₂ (ƛ M)   = ƛ & renlift○ η₁ η₂ M
+  ren○ η₁ η₂ (M ∙ N) = _∙_ & ren○ η₁ η₂ M
+                           ⊗ ren○ η₁ η₂ N
+
+  renlift○ : ∀ {Γ Γ′ Γ″ A B} → (η₁ : Γ″ ∋⋆ Γ′) (η₂ : Γ′ ∋⋆ Γ) (M : Γ , B ⊢ A)
+                             → ren (liftᵣ {B} (η₁ ○ η₂)) M ≡
+                                (ren (liftᵣ η₁) ∘ ren (liftᵣ η₂)) M
+  renlift○ η₁ η₂ M = (λ η′ → ren η′ M) & lift○ η₁ η₂
+                   ⦙ ren○ (liftᵣ η₁) (liftᵣ η₂) M
 
 renwk○ : ∀ {Γ Γ′ Γ″ A B} → (η₁ : Γ″ ∋⋆ Γ′) (η₂ : Γ′ ∋⋆ Γ) (M : Γ ⊢ A)
                          → ren (wkᵣ {B} (η₁ ○ η₂)) M ≡
                             (ren (wkᵣ η₁) ∘ ren η₂) M
 renwk○ η₁ η₂ M = (λ η′ → ren η′ M) & wk○ η₁ η₂
                ⦙ ren○ (wkᵣ η₁) η₂ M
-
-renlift○ : ∀ {Γ Γ′ Γ″ A B} → (η₁ : Γ″ ∋⋆ Γ′) (η₂ : Γ′ ∋⋆ Γ) (M : Γ , B ⊢ A)
-                           → ren (liftᵣ {B} (η₁ ○ η₂)) M ≡
-                              (ren (liftᵣ η₁) ∘ ren (liftᵣ η₂)) M
-renlift○ η₁ η₂ M = (λ η′ → ren η′ M) & lift○ η₁ η₂
-                 ⦙ ren○ (liftᵣ η₁) (liftᵣ η₂) M
 
 renliftwk○ : ∀ {Γ Γ′ Γ″ A B} → (η₁ : Γ″ ∋⋆ Γ′) (η₂ : Γ′ ∋⋆ Γ) (M : Γ ⊢ A)
                              → ren (wkᵣ {B} (η₁ ○ η₂)) M ≡
