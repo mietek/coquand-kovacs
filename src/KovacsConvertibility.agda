@@ -30,7 +30,7 @@ data _∼_ : ∀ {Γ A} → Γ ⊢ A → Γ ⊢ A → Set
                       → M₁ ∙ N₁ ∼ M₂ ∙ N₂
 
     red⇒ : ∀ {Γ A B} → (M : Γ , A ⊢ B) (N : Γ ⊢ A)
-                      → (ƛ M) ∙ N ∼ sub (idₛ , N) M
+                      → (ƛ M) ∙ N ∼ cut N M
 
     exp⇒ : ∀ {Γ A B} → (M : Γ ⊢ A ⇒ B)
                       → M ∼ ƛ (wk M ∙ ` zero)
@@ -48,6 +48,23 @@ instance
 --------------------------------------------------------------------------------
 
 
+renwk : ∀ {Γ Γ′ A B} → (η : Γ′ ⊇ Γ) (M : Γ ⊢ A)
+                     → (wk {B} ∘ ren η) M ≡ (ren (liftₑ η) ∘ wk) M
+renwk η M = ren○ (wkₑ idₑ) η M ⁻¹
+          ⦙ (λ η′ → ren (wkₑ η′) M) & ( rid○ η
+                                       ⦙ lid○ η ⁻¹
+                                       )
+          ⦙ ren○ (liftₑ η) (wkₑ idₑ) M
+
+rencut : ∀ {Γ Γ′ A B} → (η : Γ′ ⊇ Γ) (M : Γ ⊢ A) (N : Γ , A ⊢ B)
+                      → (cut (ren η M) ∘ ren (liftₑ η)) N ≡ (ren η ∘ cut M) N
+rencut η M N = sub◑ (idₛ , ren η M) (liftₑ η) N ⁻¹
+             ⦙ (λ σ → sub (σ , ren η M) N) & ( rid◑ η
+                                              ⦙ lid◐ η ⁻¹
+                                              )
+             ⦙ sub◐ η (idₛ , M) N
+
+
 -- (~ₑ)
 ren∼ : ∀ {Γ Γ′ A} → {M₁ M₂ : Γ ⊢ A}
                   → (η : Γ′ ⊇ Γ) → M₁ ∼ M₂
@@ -58,20 +75,10 @@ ren∼ η (p ⦙∼ q)    = ren∼ η p ⦙ ren∼ η q
 ren∼ η (ƛ∼ p)      = ƛ∼ (ren∼ (liftₑ η) p)
 ren∼ η (p ∙∼ q)    = ren∼ η p ∙∼ ren∼ η q
 ren∼ η (red⇒ M N) = coe (((ƛ (ren (liftₑ η) M) ∙ ren η N) ∼_)
-                          & ( sub◑ (idₛ , ren η N) (liftₑ η) M ⁻¹
-                            ⦙ (λ σ → sub (σ , ren η N) M) & ( rid◑ η
-                                                             ⦙ lid◐ η ⁻¹
-                                                             )
-                            ⦙ sub◐ η (idₛ , N) M
-                            ))
+                          & rencut η N M)
                          (red⇒ (ren (liftₑ η) M) (ren η N))
 ren∼ η (exp⇒ M)   = coe ((λ M′ → ren η M ∼ ƛ (M′ ∙ ` zero))
-                          & ( ren○ (wkₑ idₑ) η M ⁻¹
-                            ⦙ (λ η′ → ren (wkₑ η′) M) & ( rid○ η
-                                                         ⦙ lid○ η ⁻¹
-                                                         )
-                            ⦙ ren○ (liftₑ η) (wkₑ idₑ) M
-                            ))
+                          & renwk η M)
                          (exp⇒ (ren η M))
 
 

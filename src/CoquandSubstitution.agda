@@ -41,8 +41,8 @@ sub σ (` i)   = getₛ σ i
 sub σ (ƛ M)   = ƛ (sub (liftₛ σ) M)
 sub σ (M ∙ N) = sub σ M ∙ sub σ N
 
-cut : ∀ {Γ A B} → Γ , A ⊢ B → Γ ⊢ A → Γ ⊢ B
-cut M N = sub (idₛ , N) M
+cut : ∀ {Γ A B} → Γ ⊢ A → Γ , A ⊢ B → Γ ⊢ B
+cut M N = sub (idₛ , M) N
 
 -- NOTE: _●_ = sub⋆
 _●_ : ∀ {Γ Ξ Φ} → Γ ⊢⋆ Ξ → Ξ ⊢⋆ Φ → Γ ⊢⋆ Φ
