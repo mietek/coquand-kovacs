@@ -176,26 +176,25 @@ liftwkrid◐ : ∀ {Γ Ξ A} → (σ : Γ ⊢⋆ Ξ)
 liftwkrid◐ σ = zap◐ (wkₛ σ) idᵣ (` zero)
              ⦙ wkrid◐ σ
 
-sub◐ : ∀ {Γ Ξ Ξ′ A} → (σ : Γ ⊢⋆ Ξ′) (η : Ξ′ ∋⋆ Ξ) (M : Ξ ⊢ A)
-                    → sub (σ ◐ η) M ≡ (sub σ ∘ ren η) M
-sub◐ σ η (` i)   = get◐ σ η i
-sub◐ σ η (ƛ M)   = ƛ & ( (λ σ′ → sub σ′ M) & lift◐ σ η
-                       ⦙ sub◐ (liftₛ σ) (liftᵣ η) M
-                       )
-sub◐ σ η (M ∙ N) = _∙_ & sub◐ σ η M
-                       ⊗ sub◐ σ η N
+mutual
+  sub◐ : ∀ {Γ Ξ Ξ′ A} → (σ : Γ ⊢⋆ Ξ′) (η : Ξ′ ∋⋆ Ξ) (M : Ξ ⊢ A)
+                      → sub (σ ◐ η) M ≡ (sub σ ∘ ren η) M
+  sub◐ σ η (` i)   = get◐ σ η i
+  sub◐ σ η (ƛ M)   = ƛ & sublift◐ σ η M
+  sub◐ σ η (M ∙ N) = _∙_ & sub◐ σ η M
+                         ⊗ sub◐ σ η N
+
+  sublift◐ : ∀ {Γ Ξ Ξ′ A B} → (σ : Γ ⊢⋆ Ξ′) (η : Ξ′ ∋⋆ Ξ) (M : Ξ , B ⊢ A)
+                            → sub (liftₛ {B} (σ ◐ η)) M ≡
+                               (sub (liftₛ σ) ∘ ren (liftᵣ η)) M
+  sublift◐ σ η M = (λ σ′ → sub σ′ M) & lift◐ σ η
+                 ⦙ sub◐ (liftₛ σ) (liftᵣ η) M
 
 subwk◐ : ∀ {Γ Ξ Ξ′ A B} → (σ : Γ ⊢⋆ Ξ′) (η : Ξ′ ∋⋆ Ξ) (M : Ξ ⊢ A)
                         → sub (wkₛ {B} (σ ◐ η)) M ≡
                            (sub (wkₛ σ) ∘ ren η) M
 subwk◐ σ η M = (λ σ′ → sub σ′ M) & wk◐ σ η
              ⦙ sub◐ (wkₛ σ) η M
-
-sublift◐ : ∀ {Γ Ξ Ξ′ A B} → (σ : Γ ⊢⋆ Ξ′) (η : Ξ′ ∋⋆ Ξ) (M : Ξ , B ⊢ A)
-                          → sub (liftₛ {B} (σ ◐ η)) M ≡
-                             (sub (liftₛ σ) ∘ ren (liftᵣ η)) M
-sublift◐ σ η M = (λ σ′ → sub σ′ M) & lift◐ σ η
-               ⦙ sub◐ (liftₛ σ) (liftᵣ η) M
 
 subliftwk◐ : ∀ {Γ Ξ Ξ′ A B} → (σ : Γ ⊢⋆ Ξ′) (η : Ξ′ ∋⋆ Ξ) (M : Ξ ⊢ A)
                             → sub (wkₛ {B} (σ ◐ η)) M ≡
@@ -290,27 +289,25 @@ liftwklid◑ : ∀ {Γ Ξ A} → (σ : Γ ⊢⋆ Ξ)
 liftwklid◑ σ = zap◑ (wkᵣ idᵣ) σ zero
              ⦙ wklid◑ σ
 
-sub◑ : ∀ {Γ Γ′ Ξ A} → (η : Γ′ ∋⋆ Γ) (σ : Γ ⊢⋆ Ξ) (M : Ξ ⊢ A)
-                    → sub (η ◑ σ) M ≡ (ren η ∘ sub σ) M
-sub◑ η σ (` i)   = get◑ η σ i
-sub◑ η σ (ƛ M)   = ƛ & ( (λ σ′ → sub σ′ M) & lift◑ η σ
-                       ⦙ sub◑ (liftᵣ η) (liftₛ σ) M
-                       )
-sub◑ η σ (M ∙ N) = _∙_ & sub◑ η σ M
-                       ⊗ sub◑ η σ N
+mutual
+  sub◑ : ∀ {Γ Γ′ Ξ A} → (η : Γ′ ∋⋆ Γ) (σ : Γ ⊢⋆ Ξ) (M : Ξ ⊢ A)
+                      → sub (η ◑ σ) M ≡ (ren η ∘ sub σ) M
+  sub◑ η σ (` i)   = get◑ η σ i
+  sub◑ η σ (ƛ M)   = ƛ & sublift◑ η σ M
+  sub◑ η σ (M ∙ N) = _∙_ & sub◑ η σ M
+                         ⊗ sub◑ η σ N
+
+  sublift◑ : ∀ {Γ Γ′ Ξ A B} → (η : Γ′ ∋⋆ Γ) (σ : Γ ⊢⋆ Ξ) (M : Ξ , B ⊢ A)
+                            → sub (liftₛ {B} (η ◑ σ)) M ≡
+                               (ren (liftᵣ η) ∘ sub (liftₛ σ)) M
+  sublift◑ η σ M = (λ σ′ → sub σ′ M) & lift◑ η σ
+                 ⦙ sub◑ (liftᵣ η) (liftₛ σ) M
 
 subwk◑ : ∀ {Γ Γ′ Ξ A B} → (η : Γ′ ∋⋆ Γ) (σ : Γ ⊢⋆ Ξ) (M : Ξ ⊢ A)
                         → sub (wkₛ {B} (η ◑ σ)) M ≡
                            (ren (wkᵣ η) ∘ sub σ) M
 subwk◑ η σ M = (λ σ′ → sub σ′ M) & wk◑ η σ
              ⦙ sub◑ (wkᵣ η) σ M
-
-sublift◑ : ∀ {Γ Γ′ Ξ A B} → (η : Γ′ ∋⋆ Γ) (σ : Γ ⊢⋆ Ξ) (M : Ξ , B ⊢ A)
-                          → sub (liftₛ {B} (η ◑ σ)) M ≡
-                             (ren (liftᵣ η) ∘ sub (liftₛ σ)) M
-sublift◑ η σ M = (λ σ′ → sub σ′ M) & lift◑ η σ
-               ⦙ sub◑ (liftᵣ η) (liftₛ σ) M
-
 subliftwk◑ : ∀ {Γ Γ′ Ξ A B} → (η : Γ′ ∋⋆ Γ) (σ : Γ ⊢⋆ Ξ) (M : Ξ ⊢ A)
                             → sub (wkₛ {B} (η ◑ σ)) M ≡
                                (ren (liftᵣ η) ∘ sub (wkₛ σ)) M
@@ -357,26 +354,25 @@ liftwkrid● : ∀ {Γ Ξ A} → (σ : Γ ⊢⋆ Ξ)
 liftwkrid● σ = zap● (wkₛ σ) idₛ (` zero)
              ⦙ wkrid● σ
 
-sub● : ∀ {Γ Ξ Φ A} → (σ₁ : Γ ⊢⋆ Ξ) (σ₂ : Ξ ⊢⋆ Φ) (M : Φ ⊢ A)
-                   → sub (σ₁ ● σ₂) M ≡ (sub σ₁ ∘ sub σ₂) M
-sub● σ₁ σ₂ (` i)   = get● σ₁ σ₂ i
-sub● σ₁ σ₂ (ƛ M)   = ƛ & ( (λ σ′ → sub σ′ M) & lift● σ₁ σ₂
-                         ⦙ sub● (liftₛ σ₁) (liftₛ σ₂) M
-                         )
-sub● σ₁ σ₂ (M ∙ N) = _∙_ & sub● σ₁ σ₂ M
-                         ⊗ sub● σ₁ σ₂ N
+mutual
+  sub● : ∀ {Γ Ξ Φ A} → (σ₁ : Γ ⊢⋆ Ξ) (σ₂ : Ξ ⊢⋆ Φ) (M : Φ ⊢ A)
+                     → sub (σ₁ ● σ₂) M ≡ (sub σ₁ ∘ sub σ₂) M
+  sub● σ₁ σ₂ (` i)   = get● σ₁ σ₂ i
+  sub● σ₁ σ₂ (ƛ M)   = ƛ & sublift● σ₁ σ₂ M
+  sub● σ₁ σ₂ (M ∙ N) = _∙_ & sub● σ₁ σ₂ M
+                           ⊗ sub● σ₁ σ₂ N
+
+  sublift● : ∀ {Γ Ξ Φ A B} → (σ₁ : Γ ⊢⋆ Ξ) (σ₂ : Ξ ⊢⋆ Φ) (M : Φ , B ⊢ A)
+                           → sub (liftₛ {B} (σ₁ ● σ₂)) M ≡
+                              (sub (liftₛ σ₁) ∘ sub (liftₛ σ₂)) M
+  sublift● σ₁ σ₂ M = (λ σ′ → sub σ′ M) & lift● σ₁ σ₂
+                   ⦙ sub● (liftₛ σ₁) (liftₛ σ₂) M
 
 subwk● : ∀ {Γ Ξ Φ A B} → (σ₁ : Γ ⊢⋆ Ξ) (σ₂ : Ξ ⊢⋆ Φ) (M : Φ ⊢ A)
                        → sub (wkₛ {B} (σ₁ ● σ₂)) M ≡
                           (sub (wkₛ σ₁) ∘ sub σ₂) M
 subwk● σ₁ σ₂ M = (λ σ′ → sub σ′ M) & wk● σ₁ σ₂
                ⦙ sub● (wkₛ σ₁) σ₂ M
-
-sublift● : ∀ {Γ Ξ Φ A B} → (σ₁ : Γ ⊢⋆ Ξ) (σ₂ : Ξ ⊢⋆ Φ) (M : Φ , B ⊢ A)
-                         → sub (liftₛ {B} (σ₁ ● σ₂)) M ≡
-                            (sub (liftₛ σ₁) ∘ sub (liftₛ σ₂)) M
-sublift● σ₁ σ₂ M = (λ σ′ → sub σ′ M) & lift● σ₁ σ₂
-                 ⦙ sub● (liftₛ σ₁) (liftₛ σ₂) M
 
 subliftwk● : ∀ {Γ Ξ Φ A B} → (σ₁ : Γ ⊢⋆ Ξ) (σ₂ : Ξ ⊢⋆ Φ) (M : Φ ⊢ A)
                            → sub (wkₛ {B} (σ₁ ● σ₂)) M ≡

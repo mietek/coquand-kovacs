@@ -34,11 +34,11 @@ liftₑ η ◑ (σ , M) = η ◑ σ , M
 
 
 -- (dropₛ)
-wkₛ : ∀ {Γ Ξ A} → Γ ⊢⋆ Ξ → Γ , A ⊢⋆ Ξ
+wkₛ : ∀ {A Γ Ξ} → Γ ⊢⋆ Ξ → Γ , A ⊢⋆ Ξ
 wkₛ σ = σ ◐ wkₑ idₑ
 
 -- (keepₛ)
-liftₛ : ∀ {Γ Ξ A} → Γ ⊢⋆ Ξ → Γ , A ⊢⋆ Ξ , A
+liftₛ : ∀ {A Γ Ξ} → Γ ⊢⋆ Ξ → Γ , A ⊢⋆ Ξ , A
 liftₛ σ = wkₛ σ , ` zero
 
 -- (⌜_⌝ᵒᵖᵉ)
@@ -135,14 +135,20 @@ get◑ (σ , M) (liftₑ η) zero    = refl
 get◑ (σ , M) (liftₑ η) (suc i) = get◑ σ η i
 
 -- (Tm-ₑ∘ₛ)
-sub◑ : ∀ {Γ Ξ Ξ′ A} → (σ : Γ ⊢⋆ Ξ′) (η : Ξ′ ⊇ Ξ) (M : Ξ ⊢ A)
-                    → sub (η ◑ σ) M ≡ (sub σ ∘ ren η) M
-sub◑ σ η (` i)   = get◑ σ η i
-sub◑ σ η (ƛ M)   = ƛ & ( (λ σ′ → sub (σ′ , ` zero) M) & comp◑◐ (wkₑ idₑ) σ η
-                       ⦙ sub◑ (liftₛ σ) (liftₑ η) M
-                       )
-sub◑ σ η (M ∙ N) = _∙_ & sub◑ σ η M
-                       ⊗ sub◑ σ η N
+mutual
+  sub◑ : ∀ {Γ Ξ Ξ′ A} → (σ : Γ ⊢⋆ Ξ′) (η : Ξ′ ⊇ Ξ) (M : Ξ ⊢ A)
+                      → sub (η ◑ σ) M ≡ (sub σ ∘ ren η) M
+  sub◑ σ η (` i)   = get◑ σ η i
+  sub◑ σ η (ƛ M)   = ƛ & sublift◑ σ η M
+  sub◑ σ η (M ∙ N) = _∙_ & sub◑ σ η M
+                         ⊗ sub◑ σ η N
+
+  sublift◑ : ∀ {Γ Ξ Ξ′ A B} → (σ : Γ ⊢⋆ Ξ′) (η : Ξ′ ⊇ Ξ) (M : Ξ , B ⊢ A)
+                            → sub (liftₛ {B} (η ◑ σ)) M ≡
+                               (sub (liftₛ σ) ∘ ren (liftₑ η)) M
+  sublift◑ σ η M = (λ σ′ → sub (σ′ , ` zero) M)
+                   & comp◑◐ (wkₑ idₑ) σ η
+                 ⦙ sub◑ (liftₛ σ) (liftₑ η) M
 
 
 --------------------------------------------------------------------------------
@@ -155,20 +161,25 @@ get◐ η (σ , M) zero    = refl
 get◐ η (σ , M) (suc i) = get◐ η σ i
 
 -- (Tm-ₛ∘ₑ)
-sub◐ : ∀ {Γ Γ′ Ξ A} → (η : Γ′ ⊇ Γ) (σ : Γ ⊢⋆ Ξ) (M : Ξ ⊢ A)
-                    → sub (σ ◐ η) M ≡ (ren η ∘ sub σ) M
-sub◐ η σ (` i)   = get◐ η σ i
-sub◐ η σ (ƛ M)   = ƛ & ( (λ σ′ → sub (σ′ , ` zero) M)
-                         & ( comp◐○ (wkₑ idₑ) η σ
-                           ⦙ (σ ◐_) & (wkₑ & ( rid○ η
-                                             ⦙ lid○ η ⁻¹
-                                             ))
-                           ⦙ comp◐○ (liftₑ η) (wkₑ idₑ) σ ⁻¹
-                           )
-                       ⦙ sub◐ (liftₑ η) (liftₛ σ) M
-                       )
-sub◐ η σ (M ∙ N) = _∙_ & sub◐ η σ M
-                       ⊗ sub◐ η σ N
+mutual
+  sub◐ : ∀ {Γ Γ′ Ξ A} → (η : Γ′ ⊇ Γ) (σ : Γ ⊢⋆ Ξ) (M : Ξ ⊢ A)
+                      → sub (σ ◐ η) M ≡ (ren η ∘ sub σ) M
+  sub◐ η σ (` i)   = get◐ η σ i
+  sub◐ η σ (ƛ M)   = ƛ & sublift◐ η σ M
+  sub◐ η σ (M ∙ N) = _∙_ & sub◐ η σ M
+                         ⊗ sub◐ η σ N
+
+  sublift◐ : ∀ {Γ Γ′ Ξ A B} → (η : Γ′ ⊇ Γ) (σ : Γ ⊢⋆ Ξ) (M : Ξ , B ⊢ A)
+                            → sub (liftₛ {B} (σ ◐ η)) M ≡
+                               (ren (liftₑ η) ∘ sub (liftₛ σ)) M
+  sublift◐ η σ M = (λ σ′ → sub (σ′ , ` zero) M)
+                   & ( comp◐○ (wkₑ idₑ) η σ
+                     ⦙ (σ ◐_) & (wkₑ & ( rid○ η
+                                       ⦙ lid○ η ⁻¹
+                                       ))
+                     ⦙ comp◐○ (liftₑ η) (wkₑ idₑ) σ ⁻¹
+                     )
+                 ⦙ sub◐ (liftₑ η) (liftₛ σ) M
 
 
 --------------------------------------------------------------------------------
@@ -199,18 +210,23 @@ get● σ₁ (σ₂ , M) zero    = refl
 get● σ₁ (σ₂ , M) (suc i) = get● σ₁ σ₂ i
 
 -- (Tm-∘ₛ)
-sub● : ∀ {Γ Ξ Φ A} → (σ₁ : Γ ⊢⋆ Ξ) (σ₂ : Ξ ⊢⋆ Φ) (M : Φ ⊢ A)
-                   → sub (σ₂ ● σ₁) M ≡ (sub σ₁ ∘ sub σ₂) M
-sub● σ₁ σ₂ (` i)   = get● σ₁ σ₂ i
-sub● σ₁ σ₂ (ƛ M)   = ƛ & ( (λ σ′ → sub (σ′ , ` zero) M)
-                           & ( comp●◐ (wkₑ idₑ) σ₁ σ₂
-                             ⦙ (σ₂ ●_) & (lid◑ (wkₛ σ₁) ⁻¹)
-                             ⦙ comp●◑ (liftₛ σ₁) (wkₑ idₑ) σ₂ ⁻¹
-                             )
-                         ⦙ sub● (liftₛ σ₁) (liftₛ σ₂) M
-                         )
-sub● σ₁ σ₂ (M ∙ N) = _∙_ & sub● σ₁ σ₂ M
-                         ⊗ sub● σ₁ σ₂ N
+mutual
+  sub● : ∀ {Γ Ξ Φ A} → (σ₁ : Γ ⊢⋆ Ξ) (σ₂ : Ξ ⊢⋆ Φ) (M : Φ ⊢ A)
+                     → sub (σ₂ ● σ₁) M ≡ (sub σ₁ ∘ sub σ₂) M
+  sub● σ₁ σ₂ (` i)   = get● σ₁ σ₂ i
+  sub● σ₁ σ₂ (ƛ M)   = ƛ & sublift● σ₁ σ₂ M
+  sub● σ₁ σ₂ (M ∙ N) = _∙_ & sub● σ₁ σ₂ M
+                           ⊗ sub● σ₁ σ₂ N
+
+  sublift● : ∀ {Γ Ξ Φ A B} → (σ₁ : Γ ⊢⋆ Ξ) (σ₂ : Ξ ⊢⋆ Φ) (M : Φ , B ⊢ A)
+                           → sub (liftₛ {B} (σ₂ ● σ₁)) M ≡
+                              (sub (liftₛ σ₁) ∘ sub (liftₛ σ₂)) M
+  sublift● σ₁ σ₂ M = (λ σ′ → sub (σ′ , ` zero) M)
+                     & ( comp●◐ (wkₑ idₑ) σ₁ σ₂
+                       ⦙ (σ₂ ●_) & (lid◑ (wkₛ σ₁) ⁻¹)
+                       ⦙ comp●◑ (liftₛ σ₁) (wkₑ idₑ) σ₂ ⁻¹
+                       )
+                   ⦙ sub● (liftₛ σ₁) (liftₛ σ₂) M
 
 
 --------------------------------------------------------------------------------
