@@ -267,9 +267,7 @@ wk◑ η ∅       = refl
 wk◑ η (σ , M) = _,_ & wk◑ η σ
                     ⊗ ( ren (wkᵣ idᵣ) & ⌊sub⌋ η M
                       ⦙ ren○ (wkᵣ idᵣ) η M ⁻¹
-                      ⦙ (λ η′ → ren η′ M) & ( wk○ idᵣ η ⁻¹
-                                             ⦙ wkᵣ & lid○ η
-                                             )
+                      ⦙ (λ η′ → ren η′ M) & wklid○ η
                       ⦙ ⌊sub⌋ (wkᵣ η) M ⁻¹
                       )
 
