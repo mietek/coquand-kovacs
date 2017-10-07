@@ -143,6 +143,11 @@ mapΣ : ∀ {ℓ ℓ′ ℓ″ ℓ‴} → {X : Set ℓ} {Y : Set ℓ′} {P : X
                       → Σ Y Q
 mapΣ f g (x , y) = f x , g y
 
+caseΣ : ∀ {ℓ ℓ′ ℓ″ ℓ‴} → {X : Set ℓ} {Y : Set ℓ′} {P : X → Set ℓ″} {Q : Y → Set ℓ‴}
+                       → Σ X P → (f : X → Y) (g : ∀ {x} → P x → Q (f x))
+                       → Σ Y Q
+caseΣ p f g = mapΣ f g p
+
 
 infixl 1 _⊎_
 data _⊎_ {ℓ ℓ′}
@@ -150,6 +155,22 @@ data _⊎_ {ℓ ℓ′}
        : Set (ℓ ⊔ ℓ′) where
   ι₁ : (x : X) → X ⊎ Y
   ι₂ : (y : Y) → X ⊎ Y
+
+either : ∀ {ℓ ℓ′ ℓ″} → {X : Set ℓ} {Y : Set ℓ′} {Z : Set ℓ″}
+                     → (X → Z) → (Y → Z) → X ⊎ Y
+                     → Z
+either f g (ι₁ x) = f x
+either f g (ι₂ y) = g y
+
+map⊎ : ∀ {ℓ ℓ′ ℓ″ ℓ‴} → {X : Set ℓ} {Y : Set ℓ′} {Z₁ : Set ℓ″} {Z₂ : Set ℓ‴}
+                      → (X → Z₁) → (Y → Z₂) → X ⊎ Y
+                      → Z₁ ⊎ Z₂
+map⊎ f g = either (ι₁ ∘ f) (ι₂ ∘ g)
+
+case⊎ : ∀ {ℓ ℓ′ ℓ″ ℓ‴} → {X : Set ℓ} {Y : Set ℓ′} {Z₁ : Set ℓ″} {Z₂ : Set ℓ‴}
+                       → X ⊎ Y → (X → Z₁) → (Y → Z₂)
+                       → Z₁ ⊎ Z₂
+case⊎ p f g = map⊎ f g p
 
 
 --------------------------------------------------------------------------------
