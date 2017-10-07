@@ -156,21 +156,21 @@ data _⊎_ {ℓ ℓ′}
   inj₁ : (x : X) → X ⊎ Y
   inj₂ : (y : Y) → X ⊎ Y
 
-either : ∀ {ℓ ℓ′ ℓ″} → {X : Set ℓ} {Y : Set ℓ′} {Z : Set ℓ″}
-                     → (X → Z) → (Y → Z) → X ⊎ Y
-                     → Z
-either f g (inj₁ x) = f x
-either f g (inj₂ y) = g y
+elim⊎ : ∀ {ℓ ℓ′ ℓ″} → {X : Set ℓ} {Y : Set ℓ′} {Z : Set ℓ″}
+                    → X ⊎ Y → (X → Z) → (Y → Z)
+                    → Z
+elim⊎ (inj₁ x) f g = f x
+elim⊎ (inj₂ y) f g = g y
 
 map⊎ : ∀ {ℓ ℓ′ ℓ″ ℓ‴} → {X : Set ℓ} {Y : Set ℓ′} {Z₁ : Set ℓ″} {Z₂ : Set ℓ‴}
                       → (X → Z₁) → (Y → Z₂) → X ⊎ Y
                       → Z₁ ⊎ Z₂
-map⊎ f g = either (inj₁ ∘ f) (inj₂ ∘ g)
+map⊎ f g s = elim⊎ s (inj₁ ∘ f) (inj₂ ∘ g)
 
 case⊎ : ∀ {ℓ ℓ′ ℓ″ ℓ‴} → {X : Set ℓ} {Y : Set ℓ′} {Z₁ : Set ℓ″} {Z₂ : Set ℓ‴}
                        → X ⊎ Y → (X → Z₁) → (Y → Z₂)
                        → Z₁ ⊎ Z₂
-case⊎ p f g = map⊎ f g p
+case⊎ s f g = map⊎ f g s
 
 
 --------------------------------------------------------------------------------
