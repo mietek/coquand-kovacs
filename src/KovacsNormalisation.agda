@@ -57,7 +57,7 @@ eval ρ (M ∙ N) = eval ρ M idₑ (eval ρ N)
 mutual
   -- (qᴺ)
   reify : ∀ {A Γ} → Γ ⊩ A → Γ ⊢ⁿᶠ A
-  reify {⎵}      a = a
+  reify {⎵}      M = M
   reify {A ⇒ B} f = ƛ (reify (f (wkₑ idₑ) (reflect (` zero))))
 
   -- (uᴺ)
