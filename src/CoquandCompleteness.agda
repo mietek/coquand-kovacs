@@ -16,7 +16,7 @@ data CV : ∀ {Γ A} → Γ ⊢ A → Γ ⊩ A → Set
                                → sub ⌊ η ⌋ M ∼ ⟦g⟧⟨ η ⟩ f)
                 → CV M f
 
-    cv⊃ : ∀ {Γ A B} → {M : Γ ⊢ A ⊃ B} {f : Γ ⊩ A ⊃ B}
+    cv⊃ : ∀ {Γ A B} → {M : Γ ⊢ A ⇒ B} {f : Γ ⊩ A ⇒ B}
                     → (h : ∀ {Γ′ N a} → (η : Γ′ ∋⋆ Γ) → CV N a
                                        → CV (sub ⌊ η ⌋ M ∙ N) (f ⟦∙⟧⟨ η ⟩ a))
                     → CV M f

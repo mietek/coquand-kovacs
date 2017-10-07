@@ -11,11 +11,11 @@ open import KovacsConvertibility public
 infix 3 _≫_
 _≫_ : ∀ {A Γ} → Γ ⊢ A → Γ ⊩ A → Set
 
-_≫_ {⎵}     {Γ} M N = M ∼ embⁿᶠ N
+_≫_ {⎵}      {Γ} M N = M ∼ embⁿᶠ N
 
-_≫_ {A ⊃ B} {Γ} M f = ∀ {Γ′} → (η : Γ′ ⊇ Γ) {N : Γ′ ⊢ A} {a : Γ′ ⊩ A}
-                                (p : N ≫ a)
-                             → ren η M ∙ N ≫ f η a
+_≫_ {A ⇒ B} {Γ} M f = ∀ {Γ′} → (η : Γ′ ⊇ Γ) {N : Γ′ ⊢ A} {a : Γ′ ⊩ A}
+                                 (p : N ≫ a)
+                              → ren η M ∙ N ≫ f η a
 
 
 -- (_≈ᶜ_)
@@ -36,11 +36,11 @@ data _≫⋆_ : ∀ {Γ Ξ} → Γ ⊢⋆ Ξ → Γ ⊩⋆ Ξ → Set
 acc≫ : ∀ {A Γ Γ′} → {M : Γ ⊢ A} {a : Γ ⊩ A}
                   → (η : Γ′ ⊇ Γ) → M ≫ a
                   → ren η M ≫ acc η a
-acc≫ {⎵}     {M = M} {N} η p = coe ((λ N′ → ren η M ∼ N′) & (natembⁿᶠ η N ⁻¹))
-                                   (ren∼ η p)
+acc≫ {⎵}      {M = M} {N} η p = coe ((λ N′ → ren η M ∼ N′) & (natembⁿᶠ η N ⁻¹))
+                                    (ren∼ η p)
 
-acc≫ {A ⊃ B} {M = M} {f} η g η′ rewrite ren○ η′ η M ⁻¹
-                             = g (η ○ η′)
+acc≫ {A ⇒ B} {M = M} {f} η g η′ rewrite ren○ η′ η M ⁻¹
+                              = g (η ○ η′)
 
 -- (≈ᶜₑ)
 _⬖≫_ : ∀ {Γ Γ′ Ξ} → {σ : Γ ⊢⋆ Ξ} {ρ : Γ ⊩⋆ Ξ}
@@ -54,10 +54,10 @@ _⬖≫_ : ∀ {Γ Γ′ Ξ} → {σ : Γ ⊢⋆ Ξ} {ρ : Γ ⊩⋆ Ξ}
 coe≫ : ∀ {A Γ} → {M₁ M₂ : Γ ⊢ A} {a : Γ ⊩ A}
                → M₁ ∼ M₂ → M₁ ≫ a
                → M₂ ≫ a
-coe≫ {⎵}     p q = p ⁻¹ ⦙ q
-coe≫ {A ⊃ B} p f = λ η q →
-                     coe≫ (ren∼ η p ∙∼ refl∼)
-                          (f η q)
+coe≫ {⎵}      p q = p ⁻¹ ⦙ q
+coe≫ {A ⇒ B} p f = λ η q →
+                      coe≫ (ren∼ η p ∙∼ refl∼)
+                           (f η q)
 
 
 --------------------------------------------------------------------------------
@@ -102,17 +102,17 @@ mutual
   reify≫ : ∀ {A Γ} → {M : Γ ⊢ A} {a : Γ ⊩ A}
                    → (p : M ≫ a)
                    → M ∼ embⁿᶠ (reify a)
-  reify≫ {⎵}     {M = M} p = p
-  reify≫ {A ⊃ B} {M = M} f = ηexp∼ M
-                           ⦙ ƛ∼ (reify≫ (f (wkₑ idₑ) (reflect≫ (` zero))))
+  reify≫ {⎵}      {M = M} p = p
+  reify≫ {A ⇒ B} {M = M} f = ηexp∼ M
+                            ⦙ ƛ∼ (reify≫ (f (wkₑ idₑ) (reflect≫ (` zero))))
 
   -- (u≈)
   reflect≫ : ∀ {A Γ} → (M : Γ ⊢ⁿᵉ A)
                      → embⁿᵉ M ≫ reflect M
-  reflect≫ {⎵}     M = refl∼
-  reflect≫ {A ⊃ B} M η {N} {a} p rewrite natembⁿᵉ η M ⁻¹
-                     = coe≫ (refl∼ ∙∼ reify≫ p ⁻¹)
-                            (reflect≫ (renⁿᵉ η M ∙ reify a))
+  reflect≫ {⎵}      M = refl∼
+  reflect≫ {A ⇒ B} M η {N} {a} p rewrite natembⁿᵉ η M ⁻¹
+                      = coe≫ (refl∼ ∙∼ reify≫ p ⁻¹)
+                             (reflect≫ (renⁿᵉ η M ∙ reify a))
 
 
 -- (uᶜ≈)

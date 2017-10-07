@@ -10,11 +10,11 @@ open import KovacsPresheafRefinement public
 infix 3 _≈_
 _≈_ : ∀ {A Γ} → Γ ⊩ A → Γ ⊩ A → Set
 
-_≈_ {⎵}     {Γ} M₁ M₂ = M₁ ≡ M₂
+_≈_ {⎵}      {Γ} M₁ M₂ = M₁ ≡ M₂
 
-_≈_ {A ⊃ B} {Γ} f₁ f₂ = ∀ {Γ′} → (η : Γ′ ⊇ Γ) {a₁ a₂ : Γ′ ⊩ A}
-                               → (p : a₁ ≈ a₂) (u₁ : 𝒰 a₁) (u₂ : 𝒰 a₂)
-                               → f₁ η a₁ ≈ f₂ η a₂
+_≈_ {A ⇒ B} {Γ} f₁ f₂ = ∀ {Γ′} → (η : Γ′ ⊇ Γ) {a₁ a₂ : Γ′ ⊩ A}
+                                → (p : a₁ ≈ a₂) (u₁ : 𝒰 a₁) (u₂ : 𝒰 a₂)
+                                → f₁ η a₁ ≈ f₂ η a₂
 
 
 -- (≈ᶜ ; ∙ ; _,_)
@@ -32,9 +32,9 @@ data _≈⋆_ : ∀ {Γ Ξ} → Γ ⊩⋆ Ξ → Γ ⊩⋆ Ξ → Set
 _⁻¹≈ : ∀ {A Γ} → {a₁ a₂ : Γ ⊩ A}
                → a₁ ≈ a₂
                → a₂ ≈ a₁
-_⁻¹≈ {⎵}     p = p ⁻¹
-_⁻¹≈ {A ⊃ B} F = λ η p u₁ u₂ →
-                   F η (p ⁻¹≈) u₂ u₁ ⁻¹≈
+_⁻¹≈ {⎵}      p = p ⁻¹
+_⁻¹≈ {A ⇒ B} F = λ η p u₁ u₂ →
+                    F η (p ⁻¹≈) u₂ u₁ ⁻¹≈
 
 -- (_≈ᶜ⁻¹)
 _⁻¹≈⋆ : ∀ {Γ Ξ} → {ρ₁ ρ₂ : Γ ⊩⋆ Ξ}
@@ -48,10 +48,10 @@ _⁻¹≈⋆ : ∀ {Γ Ξ} → {ρ₁ ρ₂ : Γ ⊩⋆ Ξ}
 _⦙≈_ : ∀ {A Γ} → {a₁ a₂ a₃ : Γ ⊩ A}
                → a₁ ≈ a₂ → a₂ ≈ a₃
                → a₁ ≈ a₃
-_⦙≈_ {⎵}     p q = p ⦙ q
-_⦙≈_ {A ⊃ B} F G = λ η p u₁ u₂ →
-                      F η (p ⦙≈ (p ⁻¹≈)) u₁ u₁
-                   ⦙≈ G η p u₁ u₂
+_⦙≈_ {⎵}      p q = p ⦙ q
+_⦙≈_ {A ⇒ B} F G = λ η p u₁ u₂ →
+                       F η (p ⦙≈ (p ⁻¹≈)) u₁ u₁
+                    ⦙≈ G η p u₁ u₂
 
 -- (_≈ᶜ◾_)
 _⦙≈⋆_ : ∀ {Γ Ξ} → {ρ₁ ρ₂ ρ₃ : Γ ⊩⋆ Ξ}
@@ -85,8 +85,8 @@ instance
 acc≈ : ∀ {A Γ Γ′} → {a₁ a₂ : Γ ⊩ A}
                   → (η : Γ′ ⊇ Γ) → a₁ ≈ a₂
                   → acc η a₁ ≈ acc η a₂
-acc≈ {⎵}     η p = renⁿᶠ η & p
-acc≈ {A ⊃ B} η F = λ η′ → F (η ○ η′)
+acc≈ {⎵}      η p = renⁿᶠ η & p
+acc≈ {A ⇒ B} η F = λ η′ → F (η ○ η′)
 
 -- (≈ᶜₑ)
 _⬖≈_ : ∀ {Γ Γ′ Ξ} → {ρ₁ ρ₂ : Γ ⊩⋆ Ξ}
@@ -236,20 +236,20 @@ mutual
   reify≈ : ∀ {A Γ} → {a₁ a₂ : Γ ⊩ A}
                    → a₁ ≈ a₂
                    → reify a₁ ≡ reify a₂
-  reify≈ {⎵}     p = p
-  reify≈ {A ⊃ B} F = ƛ & reify≈ (F (wkₑ {A = A} idₑ)
-                                   (reflect≈ refl)
-                                   (reflect𝒰 (` zero))
-                                   (reflect𝒰 (` zero)))
+  reify≈ {⎵}      p = p
+  reify≈ {A ⇒ B} F = ƛ & reify≈ (F (wkₑ {A = A} idₑ)
+                                    (reflect≈ refl)
+                                    (reflect𝒰 (` zero))
+                                    (reflect𝒰 (` zero)))
 
   -- (u≈)
   reflect≈ : ∀ {A Γ} → {M₁ M₂ : Γ ⊢ⁿᵉ A}
                      → M₁ ≡ M₂
                      → reflect M₁ ≈ reflect M₂
-  reflect≈ {⎵}     p = ne & p
-  reflect≈ {A ⊃ B} p = λ η q u₁ u₂ →
-                         reflect≈ (_∙_ & (renⁿᵉ η & p)
-                                       ⊗ reify≈ q)
+  reflect≈ {⎵}      p = ne & p
+  reflect≈ {A ⇒ B} p = λ η q u₁ u₂ →
+                          reflect≈ (_∙_ & (renⁿᵉ η & p)
+                                        ⊗ reify≈ q)
 
 
 -- (uᶜ≈)

@@ -283,7 +283,7 @@ module _ where
                        → Eq (⟦ ƛ M ⟧ ρ) (⟦ ƛ M′ ⟧ ρ)
     lemƛ p υ = eq⊃ (λ xs u → cong⟦ p ⟧Eq (cong⬗Un⋆ xs υ , u))
 
-    lem∙ : ∀ {Γ A B w} → {ρ : w ⊩⋆ Γ} {M M′ : Γ ⊢ A ⊃ B} {N N′ : Γ ⊢ A}
+    lem∙ : ∀ {Γ A B w} → {ρ : w ⊩⋆ Γ} {M M′ : Γ ⊢ A ⇒ B} {N N′ : Γ ⊢ A}
                        → M ∼ M′ → N ∼ N′ → Un⋆ ρ
                        → Eq (⟦ M ∙ N ⟧ ρ) (⟦ M′ ∙ N′ ⟧ ρ)
     lem∙ {M = M} {M′} {N} {N′} p q υ = cong⟦∙⟧Eq idᵣ (cong⟦ p ⟧Eq υ) (⟦ M ⟧Un υ) (⟦ M′ ⟧Un υ)
@@ -299,7 +299,7 @@ module _ where
       ⦙ sublift⟦⟧Eq⁈ σ M N υ
 
     lemηexp : ∀ {Γ A B w} → {ρ : w ⊩⋆ Γ}
-                          → (M : Γ ⊢ A ⊃ B) → Un⋆ ρ
+                          → (M : Γ ⊢ A ⇒ B) → Un⋆ ρ
                           → Eq (⟦ M ⟧ ρ) (⟦ ƛ (wk M ∙ ` zero) ⟧ ρ)
     lemηexp {ρ = ρ} M υ =
       eq⊃ (λ η {a} u → acc⟦∙⟧idEq η (⟦ M ⟧Un υ) u ⁻¹

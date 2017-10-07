@@ -25,14 +25,14 @@ data _∼_ : ∀ {Γ A} → Γ ⊢ A → Γ ⊢ A → Set
                       → (p : M₁ ∼ M₂)
                       → ƛ M₁ ∼ ƛ M₂
 
-    _∙∼_  : ∀ {Γ A B} → {M₁ M₂ : Γ ⊢ A ⊃ B} {N₁ N₂ : Γ ⊢ A}
+    _∙∼_  : ∀ {Γ A B} → {M₁ M₂ : Γ ⊢ A ⇒ B} {N₁ N₂ : Γ ⊢ A}
                       → (p : M₁ ∼ M₂) (q : N₁ ∼ N₂)
                       → M₁ ∙ N₁ ∼ M₂ ∙ N₂
 
     βred∼ : ∀ {Γ A B} → (M : Γ , A ⊢ B) (N : Γ ⊢ A)
                       → (ƛ M) ∙ N ∼ sub (idₛ , N) M
 
-    ηexp∼ : ∀ {Γ A B} → (M : Γ ⊢ A ⊃ B)
+    ηexp∼ : ∀ {Γ A B} → (M : Γ ⊢ A ⇒ B)
                       → M ∼ ƛ (wk M ∙ ` zero)
 
 instance
