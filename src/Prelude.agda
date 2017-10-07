@@ -127,8 +127,8 @@ record Σ {ℓ ℓ′}
        : Set (ℓ ⊔ ℓ′) where
   constructor _,_
   field
-    π₁ : X
-    π₂ : P π₁
+    proj₁ : X
+    proj₂ : P proj₁
 open Σ public
 
 infixl 5 _⁏_
@@ -153,19 +153,19 @@ infixl 1 _⊎_
 data _⊎_ {ℓ ℓ′}
          (X : Set ℓ) (Y : Set ℓ′)
        : Set (ℓ ⊔ ℓ′) where
-  ι₁ : (x : X) → X ⊎ Y
-  ι₂ : (y : Y) → X ⊎ Y
+  inj₁ : (x : X) → X ⊎ Y
+  inj₂ : (y : Y) → X ⊎ Y
 
 either : ∀ {ℓ ℓ′ ℓ″} → {X : Set ℓ} {Y : Set ℓ′} {Z : Set ℓ″}
                      → (X → Z) → (Y → Z) → X ⊎ Y
                      → Z
-either f g (ι₁ x) = f x
-either f g (ι₂ y) = g y
+either f g (inj₁ x) = f x
+either f g (inj₂ y) = g y
 
 map⊎ : ∀ {ℓ ℓ′ ℓ″ ℓ‴} → {X : Set ℓ} {Y : Set ℓ′} {Z₁ : Set ℓ″} {Z₂ : Set ℓ‴}
                       → (X → Z₁) → (Y → Z₂) → X ⊎ Y
                       → Z₁ ⊎ Z₂
-map⊎ f g = either (ι₁ ∘ f) (ι₂ ∘ g)
+map⊎ f g = either (inj₁ ∘ f) (inj₂ ∘ g)
 
 case⊎ : ∀ {ℓ ℓ′ ℓ″ ℓ‴} → {X : Set ℓ} {Y : Set ℓ′} {Z₁ : Set ℓ″} {Z₂ : Set ℓ‴}
                        → X ⊎ Y → (X → Z₁) → (Y → Z₂)

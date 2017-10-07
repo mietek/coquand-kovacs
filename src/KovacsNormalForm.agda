@@ -82,34 +82,34 @@ mutual
 renⁿᶠPsh : 𝒯 → Presheaf₀ 𝗢𝗣𝗘
 renⁿᶠPsh A =
   record
-    { φₓ   = _⊢ⁿᶠ A
-    ; φₘ   = renⁿᶠ
-    ; idφₘ = fext! idrenⁿᶠ
-    ; φₘ⋄  = λ η₁ η₂ → fext! (renⁿᶠ○ η₂ η₁)
+    { Fₓ   = _⊢ⁿᶠ A
+    ; Fₘ   = renⁿᶠ
+    ; idFₘ = fext! idrenⁿᶠ
+    ; Fₘ⋄  = λ η₁ η₂ → fext! (renⁿᶠ○ η₂ η₁)
     }
 
 renⁿᵉPsh : 𝒯 → Presheaf₀ 𝗢𝗣𝗘
 renⁿᵉPsh A =
   record
-    { φₓ   = _⊢ⁿᵉ A
-    ; φₘ   = renⁿᵉ
-    ; idφₘ = fext! idrenⁿᵉ
-    ; φₘ⋄  = λ η₁ η₂ → fext! (renⁿᵉ○ η₂ η₁)
+    { Fₓ   = _⊢ⁿᵉ A
+    ; Fₘ   = renⁿᵉ
+    ; idFₘ = fext! idrenⁿᵉ
+    ; Fₘ⋄  = λ η₁ η₂ → fext! (renⁿᵉ○ η₂ η₁)
     }
 
 
 embⁿᶠNT : ∀ {A} → NaturalTransformation (renⁿᶠPsh A) (renPsh A)
 embⁿᶠNT =
   record
-    { ϕ    = embⁿᶠ
-    ; natϕ = λ η → fext! (λ M → natembⁿᶠ η M)
+    { N    = embⁿᶠ
+    ; natN = λ η → fext! (λ M → natembⁿᶠ η M)
     }
 
 embⁿᵉNT : ∀ {A} → NaturalTransformation (renⁿᵉPsh A) (renPsh A)
 embⁿᵉNT =
   record
-    { ϕ    = embⁿᵉ
-    ; natϕ = λ η → fext! (λ M → natembⁿᵉ η M)
+    { N    = embⁿᵉ
+    ; natN = λ η → fext! (λ M → natembⁿᵉ η M)
     }
 
 

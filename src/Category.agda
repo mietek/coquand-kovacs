@@ -44,14 +44,14 @@ record Functor {ℓ₁ ℓ₁′ ℓ₂ ℓ₂′}
     module C = Category 𝗖
     module D = Category 𝗗
   field
-    φₓ   : 𝒪₁ → 𝒪₂
+    Fₓ   : 𝒪₁ → 𝒪₂
 
-    φₘ   : ∀ {x x′} → x′ ▹₁ x → φₓ x′ ▹₂ φₓ x
+    Fₘ   : ∀ {x x′} → x′ ▹₁ x → Fₓ x′ ▹₂ Fₓ x
 
-    idφₘ : ∀ {x} → φₘ (C.idₓ {x = x}) ≡ D.idₓ
+    idFₘ : ∀ {x} → Fₘ (C.idₓ {x = x}) ≡ D.idₓ
 
-    φₘ⋄  : ∀ {x x′ x″} → (ξ₁ : x″ ▹₁ x′) (ξ₂ : x′ ▹₁ x)
-                       → φₘ (ξ₂ C.⋄ ξ₁) ≡ φₘ ξ₂ D.⋄ φₘ ξ₁
+    Fₘ⋄  : ∀ {x x′ x″} → (ξ₁ : x″ ▹₁ x′) (ξ₂ : x′ ▹₁ x)
+                       → Fₘ (ξ₂ C.⋄ ξ₁) ≡ Fₘ ξ₂ D.⋄ Fₘ ξ₁
 
 
 record NaturalTransformation {ℓ₁ ℓ₁′ ℓ₂ ℓ₂′}
@@ -66,10 +66,10 @@ record NaturalTransformation {ℓ₁ ℓ₁′ ℓ₂ ℓ₂′}
     module F = Functor 𝗙
     module G = Functor 𝗚
   field
-    ϕ    : ∀ {x} → F.φₓ x ▹₂ G.φₓ x
+    N    : ∀ {x} → F.Fₓ x ▹₂ G.Fₓ x
 
-    natϕ : ∀ {x x′} → (m : x′ ▹₁ x)
-                    → (ϕ D.⋄ F.φₘ m) ≡ (G.φₘ m D.⋄ ϕ)
+    natN : ∀ {x x′} → (m : x′ ▹₁ x)
+                    → (N D.⋄ F.Fₘ m) ≡ (G.Fₘ m D.⋄ N)
 
 
 Opposite : ∀ {ℓ ℓ′} → {𝒪 : Set ℓ} {_▹_ : 𝒪 → 𝒪 → Set ℓ′}

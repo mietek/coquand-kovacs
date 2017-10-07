@@ -108,7 +108,7 @@ mutual
                                        & (comp⬖○ η′ η ρ ⁻¹)
                                      ⦙ eval⬖ η′ (υ ⬖𝒰 η , u) M)
                             , eval𝒰 (υ ⬖𝒰 η , u) M
-  eval𝒰 {ρ = ρ} υ (M ∙ N) = π₂ (eval𝒰 υ M idₑ (eval𝒰 υ N))
+  eval𝒰 {ρ = ρ} υ (M ∙ N) = proj₂ (eval𝒰 υ M idₑ (eval𝒰 υ N))
 
   -- (Tmᴺ-nat)
   eval⬖ : ∀ {Γ Γ′ Ξ A} → {ρ : Γ ⊩⋆ Ξ}
@@ -121,7 +121,7 @@ mutual
   eval⬖ {ρ = ρ} η υ (M ∙ N) rewrite eval⬖ η υ M | eval⬖ η υ N
                             = (λ η′ → eval ρ M η′ (acc η (eval ρ N)))
                               & (rid○ η ⦙ lid○ η ⁻¹)
-                            ⦙ π₁ (eval𝒰 υ M idₑ (eval𝒰 υ N)) η
+                            ⦙ proj₁ (eval𝒰 υ M idₑ (eval𝒰 υ N)) η
 
 
 mutual
@@ -258,19 +258,19 @@ lid◆ (ρ , a) = (_, a) & ( comp◆⬗ (ρ , a) (wkₑ idₑ) idₛ
 accPsh : 𝒯 → Presheaf₀ 𝗢𝗣𝗘
 accPsh A =
   record
-    { φₓ   = _⊩ A
-    ; φₘ   = acc
-    ; idφₘ = fext! idacc
-    ; φₘ⋄  = λ η₁ η₂ → fext! (acc○ η₂ η₁)
+    { Fₓ   = _⊩ A
+    ; Fₘ   = acc
+    ; idFₘ = fext! idacc
+    ; Fₘ⋄  = λ η₁ η₂ → fext! (acc○ η₂ η₁)
     }
 
 flip⬖Psh : 𝒞 → Presheaf₀ 𝗢𝗣𝗘
 flip⬖Psh Ξ =
   record
-    { φₓ   = _⊩⋆ Ξ
-    ; φₘ   = flip _⬖_
-    ; idφₘ = fext! lid⬖
-    ; φₘ⋄  = λ η₁ η₂ → fext! (λ ρ → comp⬖○ η₂ η₁ ρ ⁻¹)
+    { Fₓ   = _⊩⋆ Ξ
+    ; Fₘ   = flip _⬖_
+    ; idFₘ = fext! lid⬖
+    ; Fₘ⋄  = λ η₁ η₂ → fext! (λ ρ → comp⬖○ η₂ η₁ ρ ⁻¹)
     }
 
 
@@ -278,8 +278,8 @@ getᵥNT : ∀ {Ξ A} → (i : Ξ ∋ A)
                  → NaturalTransformation (flip⬖Psh Ξ) (accPsh A)
 getᵥNT i =
   record
-    { ϕ    = flip getᵥ i
-    ; natϕ = λ η → fext! (λ ρ → get⬖ η ρ i)
+    { N    = flip getᵥ i
+    ; natN = λ η → fext! (λ ρ → get⬖ η ρ i)
     }
 
 -- TODO
@@ -287,23 +287,23 @@ getᵥNT i =
 --                  → NaturalTransformation (flip⬖Psh Ξ) (accPsh A)
 -- evalNT M =
 --   record
---     { ϕ    = flip eval M
---     ; natϕ = λ η → fext! (λ ρ → eval⬖ {ρ = ρ} η {!!} M)
+--     { N    = flip eval M
+--     ; natN = λ η → fext! (λ ρ → eval⬖ {ρ = ρ} η {!!} M)
 --     }
 
 -- TODO
 -- reifyNT : ∀ {A} → NaturalTransformation (accPsh A) (renⁿᶠPsh A)
 -- reifyNT =
 --   record
---     { ϕ    = reify
---     ; natϕ = λ η → fext! (λ a → natreify η a {!!})
+--     { N    = reify
+--     ; natN = λ η → fext! (λ a → natreify η a {!!})
 --     }
 
 reflectNT : ∀ {A} → NaturalTransformation (renⁿᵉPsh A) (accPsh A)
 reflectNT =
   record
-    { ϕ    = reflect
-    ; natϕ = λ η → fext! (λ M → natreflect η M)
+    { N    = reflect
+    ; natN = λ η → fext! (λ M → natreflect η M)
     }
 
 
