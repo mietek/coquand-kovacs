@@ -31,3 +31,21 @@ import STLC.Kovacs.Soundness
 
 
 --------------------------------------------------------------------------------
+
+
+-- The syntax of STLC, extended with products and coproducts.
+import STLCE.Syntax
+
+-- An extension of Kovacs 2017.
+import STLCE.Kovacs.Embedding
+import STLCE.Kovacs.Substitution
+import STLCE.Kovacs.NormalForm
+import STLCE.Kovacs.Normalisation.SoundNotComplete
+import STLCE.Kovacs.Normalisation
+import STLCE.Kovacs.Convertibility
+import STLCE.Kovacs.Completeness           -- TODO: Define `_≫_`
+-- import STLCE.Kovacs.PresheafRefinement  -- TODO: Start
+-- import STLCE.Kovacs.Soundness           -- TODO: Start
+
+
+--------------------------------------------------------------------------------
