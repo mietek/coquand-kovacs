@@ -4,21 +4,50 @@
 <a id="26" class="Keyword">import</a> <a id="33" href="Prelude.html" class="Module">Prelude</a>
 <a id="41" class="Keyword">import</a> <a id="48" href="Category.html" class="Module">Category</a>
 
-<a id="58" class="Keyword">import</a> <a id="65" href="Syntax.html" class="Module">Syntax</a>
 
-<a id="73" class="Keyword">import</a> <a id="80" href="CoquandRenaming.html" class="Module">CoquandRenaming</a>
-<a id="96" class="Keyword">import</a> <a id="103" href="CoquandSubstitution.html" class="Module">CoquandSubstitution</a>
-<a id="123" class="Keyword">import</a> <a id="130" href="CoquandNormalisation.html" class="Module">CoquandNormalisation</a>
-<a id="151" class="Keyword">import</a> <a id="158" href="CoquandConvertibility.html" class="Module">CoquandConvertibility</a>
-<a id="180" class="Keyword">import</a> <a id="187" href="CoquandCompleteness.html" class="Module">CoquandCompleteness</a>
-<a id="207" class="Keyword">import</a> <a id="214" href="CoquandSoundness.html" class="Module">CoquandSoundness</a>
+<a id="59" class="Comment">--------------------------------------------------------------------------------</a>
 
-<a id="232" class="Keyword">import</a> <a id="239" href="KovacsEmbedding.html" class="Module">KovacsEmbedding</a>
-<a id="255" class="Keyword">import</a> <a id="262" href="KovacsSubstitution.html" class="Module">KovacsSubstitution</a>
-<a id="281" class="Keyword">import</a> <a id="288" href="KovacsNormalForm.html" class="Module">KovacsNormalForm</a>
-<a id="305" class="Keyword">import</a> <a id="312" href="KovacsNormalisation.html" class="Module">KovacsNormalisation</a>
-<a id="332" class="Keyword">import</a> <a id="339" href="KovacsConvertibility.html" class="Module">KovacsConvertibility</a>
-<a id="360" class="Keyword">import</a> <a id="367" href="KovacsCompleteness.html" class="Module">KovacsCompleteness</a>
-<a id="386" class="Keyword">import</a> <a id="393" href="KovacsPresheafRefinement.html" class="Module">KovacsPresheafRefinement</a>
-<a id="418" class="Keyword">import</a> <a id="425" href="KovacsSoundness.html" class="Module">KovacsSoundness</a>
+
+<a id="142" class="Comment">-- The syntax of STLC.</a>
+<a id="165" class="Keyword">import</a> <a id="172" href="STLC.Syntax.html" class="Module">STLC.Syntax</a>
+
+<a id="185" class="Comment">-- A simplification of Coquand 2002,</a>
+<a id="222" class="Comment">-- with de Bruijn indices and implicit substitutions.</a>
+<a id="276" class="Keyword">import</a> <a id="283" href="STLC.Coquand.Renaming.html" class="Module">STLC.Coquand.Renaming</a>
+<a id="305" class="Keyword">import</a> <a id="312" href="STLC.Coquand.Substitution.html" class="Module">STLC.Coquand.Substitution</a>
+<a id="338" class="Keyword">import</a> <a id="345" href="STLC.Coquand.Normalisation.html" class="Module">STLC.Coquand.Normalisation</a>   <a id="374" class="Comment">-- TODO: Fill postulates</a>
+<a id="399" class="Keyword">import</a> <a id="406" href="STLC.Coquand.Convertibility.html" class="Module">STLC.Coquand.Convertibility</a>  <a id="435" class="Comment">-- TODO: Simplify β-reduction rule</a>
+<a id="470" class="Keyword">import</a> <a id="477" href="STLC.Coquand.Completeness.html" class="Module">STLC.Coquand.Completeness</a>    <a id="506" class="Comment">-- TODO: Fill postulates</a>
+<a id="531" class="Keyword">import</a> <a id="538" href="STLC.Coquand.Soundness.html" class="Module">STLC.Coquand.Soundness</a>       <a id="567" class="Comment">-- TODO: Fill postulates</a>
+
+<a id="593" class="Comment">-- A restyling of Kovacs 2017.</a>
+<a id="624" class="Keyword">import</a> <a id="631" href="STLC.Kovacs.Embedding.html" class="Module">STLC.Kovacs.Embedding</a>
+<a id="653" class="Keyword">import</a> <a id="660" href="STLC.Kovacs.Substitution.html" class="Module">STLC.Kovacs.Substitution</a>
+<a id="685" class="Keyword">import</a> <a id="692" href="STLC.Kovacs.NormalForm.html" class="Module">STLC.Kovacs.NormalForm</a>
+<a id="715" class="Keyword">import</a> <a id="722" href="STLC.Kovacs.Normalisation.html" class="Module">STLC.Kovacs.Normalisation</a>
+<a id="748" class="Keyword">import</a> <a id="755" href="STLC.Kovacs.Convertibility.html" class="Module">STLC.Kovacs.Convertibility</a>
+<a id="782" class="Keyword">import</a> <a id="789" href="STLC.Kovacs.Completeness.html" class="Module">STLC.Kovacs.Completeness</a>
+<a id="814" class="Keyword">import</a> <a id="821" href="STLC.Kovacs.PresheafRefinement.html" class="Module">STLC.Kovacs.PresheafRefinement</a>
+<a id="852" class="Keyword">import</a> <a id="859" href="STLC.Kovacs.Soundness.html" class="Module">STLC.Kovacs.Soundness</a>
+
+
+<a id="883" class="Comment">--------------------------------------------------------------------------------</a>
+
+
+<a id="966" class="Comment">-- The syntax of STLC, extended with products and coproducts.</a>
+<a id="1028" class="Keyword">import</a> <a id="1035" href="STLCE.Syntax.html" class="Module">STLCE.Syntax</a>
+
+<a id="1049" class="Comment">-- An extension of Kovacs 2017.</a>
+<a id="1081" class="Keyword">import</a> <a id="1088" href="STLCE.Kovacs.Embedding.html" class="Module">STLCE.Kovacs.Embedding</a>
+<a id="1111" class="Keyword">import</a> <a id="1118" href="STLCE.Kovacs.Substitution.html" class="Module">STLCE.Kovacs.Substitution</a>
+<a id="1144" class="Keyword">import</a> <a id="1151" href="STLCE.Kovacs.NormalForm.html" class="Module">STLCE.Kovacs.NormalForm</a>
+<a id="1175" class="Keyword">import</a> <a id="1182" href="STLCE.Kovacs.Normalisation.SoundNotComplete.html" class="Module">STLCE.Kovacs.Normalisation.SoundNotComplete</a>
+<a id="1226" class="Keyword">import</a> <a id="1233" href="STLCE.Kovacs.Normalisation.html" class="Module">STLCE.Kovacs.Normalisation</a>
+<a id="1260" class="Keyword">import</a> <a id="1267" href="STLCE.Kovacs.Convertibility.html" class="Module">STLCE.Kovacs.Convertibility</a>
+<a id="1295" class="Keyword">import</a> <a id="1302" href="STLCE.Kovacs.Completeness.html" class="Module">STLCE.Kovacs.Completeness</a>           <a id="1338" class="Comment">-- TODO: Define `_≫_`</a>
+<a id="1360" class="Comment">-- import STLCE.Kovacs.PresheafRefinement  -- TODO: Start</a>
+<a id="1418" class="Comment">-- import STLCE.Kovacs.Soundness           -- TODO: Start</a>
+
+
+<a id="1478" class="Comment">--------------------------------------------------------------------------------</a>
 </pre></body></html>
