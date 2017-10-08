@@ -1,6 +1,6 @@
-module CoquandSoundness where
+module STLC.Coquand.Soundness where
 
-open import CoquandCompleteness public
+open import STLC.Coquand.Completeness public
 
 
 --------------------------------------------------------------------------------

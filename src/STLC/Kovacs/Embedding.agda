@@ -1,6 +1,6 @@
-module KovacsEmbedding where
+module STLC.Kovacs.Embedding where
 
-open import Syntax public
+open import STLC.Syntax public
 open import Category
 
 

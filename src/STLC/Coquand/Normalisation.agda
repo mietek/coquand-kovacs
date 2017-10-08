@@ -1,8 +1,8 @@
 {-# OPTIONS --no-positivity-check #-}
 
-module CoquandNormalisation where
+module STLC.Coquand.Normalisation where
 
-open import CoquandSubstitution public
+open import STLC.Coquand.Substitution public
 
 
 --------------------------------------------------------------------------------

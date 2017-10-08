@@ -1,6 +1,6 @@
-module CoquandConvertibility where
+module STLC.Coquand.Convertibility where
 
-open import CoquandSubstitution public
+open import STLC.Coquand.Substitution public
 
 
 --------------------------------------------------------------------------------

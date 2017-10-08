@@ -1,4 +1,4 @@
-module Syntax where
+module STLC.Syntax where
 
 open import Prelude public
 

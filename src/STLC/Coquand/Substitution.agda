@@ -1,6 +1,6 @@
-module CoquandSubstitution where
+module STLC.Coquand.Substitution where
 
-open import CoquandRenaming public
+open import STLC.Coquand.Renaming public
 open import Category
 
 

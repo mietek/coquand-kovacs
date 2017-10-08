@@ -1,6 +1,6 @@
-module KovacsNormalForm where
+module STLC.Kovacs.NormalForm where
 
-open import KovacsEmbedding public
+open import STLC.Kovacs.Embedding public
 open import Category
 
 

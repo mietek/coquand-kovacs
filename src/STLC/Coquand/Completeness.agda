@@ -1,9 +1,9 @@
 {-# OPTIONS --no-positivity-check #-}
 
-module CoquandCompleteness where
+module STLC.Coquand.Completeness where
 
-open import CoquandNormalisation public
-open import CoquandConvertibility public
+open import STLC.Coquand.Normalisation public
+open import STLC.Coquand.Convertibility public
 
 
 --------------------------------------------------------------------------------

@@ -1,7 +1,7 @@
-module KovacsCompleteness where
+module STLC.Kovacs.Completeness where
 
-open import KovacsNormalisation public
-open import KovacsConvertibility public
+open import STLC.Kovacs.Normalisation public
+open import STLC.Kovacs.Convertibility public
 
 
 --------------------------------------------------------------------------------

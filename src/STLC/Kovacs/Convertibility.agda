@@ -1,6 +1,6 @@
-module KovacsConvertibility where
+module STLC.Kovacs.Convertibility where
 
-open import KovacsSubstitution public
+open import STLC.Kovacs.Substitution public
 
 
 --------------------------------------------------------------------------------

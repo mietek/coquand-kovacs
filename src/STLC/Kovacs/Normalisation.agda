@@ -1,6 +1,6 @@
-module KovacsNormalisation where
+module STLC.Kovacs.Normalisation where
 
-open import KovacsNormalForm public
+open import STLC.Kovacs.NormalForm public
 
 
 --------------------------------------------------------------------------------

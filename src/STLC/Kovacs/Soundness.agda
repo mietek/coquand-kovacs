@@ -1,7 +1,7 @@
-module KovacsSoundness where
+module STLC.Kovacs.Soundness where
 
-open import KovacsConvertibility public
-open import KovacsPresheafRefinement public
+open import STLC.Kovacs.Convertibility public
+open import STLC.Kovacs.PresheafRefinement public
 
 
 --------------------------------------------------------------------------------
