@@ -127,19 +127,19 @@ ren○ η₁ η₂ (M ∙ N) = _∙_ & ren○ η₁ η₂ M
 getₑPsh : 𝒯 → Presheaf₀ 𝗢𝗣𝗘
 getₑPsh A =
   record
-    { Fₓ   = _∋ A
-    ; Fₘ   = getₑ
-    ; idFₘ = fext! idgetₑ
-    ; Fₘ⋄  = λ η₁ η₂ → fext! (get○ η₂ η₁)
+    { Fₓ  = _∋ A
+    ; F   = getₑ
+    ; idF = fext! idgetₑ
+    ; F⋄  = λ η₁ η₂ → fext! (get○ η₂ η₁)
     }
 
 renPsh : 𝒯 → Presheaf₀ 𝗢𝗣𝗘
 renPsh A =
   record
-    { Fₓ   = _⊢ A
-    ; Fₘ   = ren
-    ; idFₘ = fext! idren
-    ; Fₘ⋄  = λ η₁ η₂ → fext! (ren○ η₂ η₁)
+    { Fₓ  = _⊢ A
+    ; F   = ren
+    ; idF = fext! idren
+    ; F⋄  = λ η₁ η₂ → fext! (ren○ η₂ η₁)
     }
 
 

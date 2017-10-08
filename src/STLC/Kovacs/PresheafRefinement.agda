@@ -258,19 +258,19 @@ lid◆ (ρ , a) = (_, a) & ( comp◆⬗ (ρ , a) (wkₑ idₑ) idₛ
 accPsh : 𝒯 → Presheaf₀ 𝗢𝗣𝗘
 accPsh A =
   record
-    { Fₓ   = _⊩ A
-    ; Fₘ   = acc
-    ; idFₘ = fext! idacc
-    ; Fₘ⋄  = λ η₁ η₂ → fext! (acc○ η₂ η₁)
+    { Fₓ  = _⊩ A
+    ; F   = acc
+    ; idF = fext! idacc
+    ; F⋄  = λ η₁ η₂ → fext! (acc○ η₂ η₁)
     }
 
 flip⬖Psh : 𝒞 → Presheaf₀ 𝗢𝗣𝗘
 flip⬖Psh Ξ =
   record
-    { Fₓ   = _⊩⋆ Ξ
-    ; Fₘ   = flip _⬖_
-    ; idFₘ = fext! lid⬖
-    ; Fₘ⋄  = λ η₁ η₂ → fext! (λ ρ → comp⬖○ η₂ η₁ ρ ⁻¹)
+    { Fₓ  = _⊩⋆ Ξ
+    ; F   = flip _⬖_
+    ; idF = fext! lid⬖
+    ; F⋄  = λ η₁ η₂ → fext! (λ ρ → comp⬖○ η₂ η₁ ρ ⁻¹)
     }
 
 

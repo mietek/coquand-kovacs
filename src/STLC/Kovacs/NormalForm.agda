@@ -82,19 +82,19 @@ mutual
 renⁿᶠPsh : 𝒯 → Presheaf₀ 𝗢𝗣𝗘
 renⁿᶠPsh A =
   record
-    { Fₓ   = _⊢ⁿᶠ A
-    ; Fₘ   = renⁿᶠ
-    ; idFₘ = fext! idrenⁿᶠ
-    ; Fₘ⋄  = λ η₁ η₂ → fext! (renⁿᶠ○ η₂ η₁)
+    { Fₓ  = _⊢ⁿᶠ A
+    ; F   = renⁿᶠ
+    ; idF = fext! idrenⁿᶠ
+    ; F⋄  = λ η₁ η₂ → fext! (renⁿᶠ○ η₂ η₁)
     }
 
 renⁿᵉPsh : 𝒯 → Presheaf₀ 𝗢𝗣𝗘
 renⁿᵉPsh A =
   record
-    { Fₓ   = _⊢ⁿᵉ A
-    ; Fₘ   = renⁿᵉ
-    ; idFₘ = fext! idrenⁿᵉ
-    ; Fₘ⋄  = λ η₁ η₂ → fext! (renⁿᵉ○ η₂ η₁)
+    { Fₓ  = _⊢ⁿᵉ A
+    ; F   = renⁿᵉ
+    ; idF = fext! idrenⁿᵉ
+    ; F⋄  = λ η₁ η₂ → fext! (renⁿᵉ○ η₂ η₁)
     }
 
 

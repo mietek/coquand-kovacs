@@ -455,10 +455,10 @@ assoc● σ₁ σ₂ (σ₃ , M) = _,_ & assoc● σ₁ σ₂ σ₃
 subPsh : 𝒯 → Presheaf₀ 𝗦𝗧𝗟𝗖
 subPsh A =
   record
-    { Fₓ   = _⊢ A
-    ; Fₘ   = sub
-    ; idFₘ = fext! idsub
-    ; Fₘ⋄  = λ σ₁ σ₂ → fext! (sub● σ₂ σ₁)
+    { Fₓ  = _⊢ A
+    ; F   = sub
+    ; idF = fext! idsub
+    ; F⋄  = λ σ₁ σ₂ → fext! (sub● σ₂ σ₁)
     }
 
 

@@ -185,19 +185,19 @@ assoc○ η₁ η₂ (η₃ , i) = _,_ & assoc○ η₁ η₂ η₃
 getᵣPsh : 𝒯 → Presheaf₀ 𝗥𝗲𝗻
 getᵣPsh A =
   record
-    { Fₓ   = _∋ A
-    ; Fₘ   = getᵣ
-    ; idFₘ = fext! idgetᵣ
-    ; Fₘ⋄  = λ η₂ η₁ → fext! (get○ η₁ η₂)
+    { Fₓ  = _∋ A
+    ; F   = getᵣ
+    ; idF = fext! idgetᵣ
+    ; F⋄  = λ η₂ η₁ → fext! (get○ η₁ η₂)
     }
 
 renPsh : 𝒯 → Presheaf₀ 𝗥𝗲𝗻
 renPsh A =
   record
-    { Fₓ   = _⊢ A
-    ; Fₘ   = ren
-    ; idFₘ = fext! idren
-    ; Fₘ⋄  = λ η₂ η₁ → fext! (ren○ η₁ η₂)
+    { Fₓ  = _⊢ A
+    ; F   = ren
+    ; idF = fext! idren
+    ; F⋄  = λ η₂ η₁ → fext! (ren○ η₁ η₂)
     }
 
 

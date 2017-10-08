@@ -12,16 +12,16 @@ record Category {ℓ ℓ′}
   field
     idₓ    : ∀ {x} → x ▹ x
 
-    _⋄_    : ∀ {x x′ x″} → x′ ▹ x → x″ ▹ x′ → x″ ▹ x
+    _⋄_    : ∀ {x y z} → y ▹ x → z ▹ y → z ▹ x
 
-    lid⋄   : ∀ {x x′} → (m : x′ ▹ x)
-                      → idₓ ⋄ m ≡ m
+    lid⋄   : ∀ {x y} → (f : y ▹ x)
+                     → idₓ ⋄ f ≡ f
 
-    rid⋄   : ∀ {x x′} → (m : x′ ▹ x)
-                      → m ⋄ idₓ ≡ m
+    rid⋄   : ∀ {x y} → (f : y ▹ x)
+                     → f ⋄ idₓ ≡ f
 
-    assoc⋄ : ∀ {x x′ x″ x‴} → (m₁ : x‴ ▹ x″) (m₂ : x″ ▹ x′) (m₃ : x′ ▹ x)
-                            → (m₃ ⋄ m₂) ⋄ m₁ ≡ m₃ ⋄ (m₂ ⋄ m₁)
+    assoc⋄ : ∀ {x y z a} → (h : a ▹ z) (g : z ▹ y) (f : y ▹ x)
+                         → (f ⋄ g) ⋄ h ≡ f ⋄ (g ⋄ h)
 
 
 𝗦𝗲𝘁 : (ℓ : Level) → Category (Set ℓ) Π
@@ -46,15 +46,16 @@ record Functor {ℓ₁ ℓ₁′ ℓ₂ ℓ₂′}
   private
     module C = Category 𝗖
     module D = Category 𝗗
+
   field
-    Fₓ   : 𝒪₁ → 𝒪₂
+    Fₓ  : 𝒪₁ → 𝒪₂
 
-    Fₘ   : ∀ {x x′} → x′ ▹₁ x → Fₓ x′ ▹₂ Fₓ x
+    F   : ∀ {x y} → y ▹₁ x → Fₓ y ▹₂ Fₓ x
 
-    idFₘ : ∀ {x} → Fₘ (C.idₓ {x = x}) ≡ D.idₓ
+    idF : ∀ {x} → F (C.idₓ {x = x}) ≡ D.idₓ
 
-    Fₘ⋄  : ∀ {x x′ x″} → (m₁ : x″ ▹₁ x′) (m₂ : x′ ▹₁ x)
-                       → Fₘ (m₂ C.⋄ m₁) ≡ Fₘ m₂ D.⋄ Fₘ m₁
+    F⋄  : ∀ {x y z} → (g : z ▹₁ y) (f : y ▹₁ x)
+                    → F (f C.⋄ g) ≡ F f D.⋄ F g
 
 
 record NaturalTransformation {ℓ₁ ℓ₁′ ℓ₂ ℓ₂′}
@@ -64,15 +65,15 @@ record NaturalTransformation {ℓ₁ ℓ₁′ ℓ₂ ℓ₂′}
                              (𝗙 𝗚 : Functor 𝗖 𝗗)
                            : Set (ℓ₁ ⊔ ℓ₁′ ⊔ ℓ₂ ⊔ ℓ₂′) where
   private
-    module C = Category 𝗖
-    module D = Category 𝗗
-    module F = Functor 𝗙
-    module G = Functor 𝗚
-  field
-    N    : ∀ {x} → F.Fₓ x ▹₂ G.Fₓ x
+    open module D = Category 𝗗 using (_⋄_)
+    open module F = Functor 𝗙 using (Fₓ ; F)
+    open module G = Functor 𝗚 using () renaming (Fₓ to Gₓ ; F to G)
 
-    natN : ∀ {x x′} → (m : x′ ▹₁ x)
-                    → (N D.⋄ F.Fₘ m) ≡ (G.Fₘ m D.⋄ N)
+  field
+    N    : ∀ {x} → Fₓ x ▹₂ Gₓ x
+
+    natN : ∀ {x y} → (f : y ▹₁ x)
+                   → (N ⋄ F f) ≡ (G f ⋄ N)
 
 
 Opposite : ∀ {ℓ ℓ′} → {𝒪 : Set ℓ} {_▹_ : 𝒪 → 𝒪 → Set ℓ′}
@@ -84,7 +85,7 @@ Opposite 𝗖 =
     ; _⋄_    = flip C._⋄_
     ; lid⋄   = C.rid⋄
     ; rid⋄   = C.lid⋄
-    ; assoc⋄ = λ m₁ m₂ m₃ → C.assoc⋄ m₃ m₂ m₁ ⁻¹
+    ; assoc⋄ = λ f g h → C.assoc⋄ h g f ⁻¹
     }
   where
     module C = Category 𝗖
