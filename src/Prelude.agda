@@ -54,12 +54,19 @@ _⦙≡_ : ∀ {ℓ} → {X : Set ℓ} {x₁ x₂ x₃ : X}
 refl ⦙≡ refl = refl
 
 
-record PER {ℓ} (X : Set ℓ) (_≈_ : X → X → Set ℓ) : Set ℓ where
+record PER {ℓ}
+           (X : Set ℓ)
+           (_≈_ : X → X → Set ℓ)
+         : Set ℓ where
   infix  9 _⁻¹
   infixr 4 _⦙_
   field
-    _⁻¹ : ∀ {x₁ x₂ : X} → x₁ ≈ x₂ → x₂ ≈ x₁
-    _⦙_ : ∀ {x₁ x₂ x₃ : X} → x₁ ≈ x₂ → x₂ ≈ x₃ → x₁ ≈ x₃
+    _⁻¹ : ∀ {x₁ x₂} → x₁ ≈ x₂
+                    → x₂ ≈ x₁
+
+    _⦙_ : ∀ {x₁ x₂ x₃} → x₁ ≈ x₂ → x₂ ≈ x₃
+                       → x₁ ≈ x₃
+
 open PER {{…}} public
 
 instance
@@ -128,7 +135,9 @@ record Σ {ℓ ℓ′}
   constructor _,_
   field
     proj₁ : X
+
     proj₂ : P proj₁
+
 open Σ public
 
 infixl 5 _⁏_
