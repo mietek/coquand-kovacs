@@ -88,32 +88,32 @@
 <a id="2149" class="Comment">--   -- (qᴺ)</a>
 <a id="2162" class="Comment">--   reify : ∀ {A Γ} → Γ ⊩ A → Γ ⊢ⁿᶠ A</a>
 <a id="2201" class="Comment">--   reify {⎵}      M = M</a>
-<a id="2227" class="Comment">--   reify {A ⇒ B} f = ƛ (reify (f (wkₑ idₑ) (reflect (` zero))))</a>
-<a id="2293" class="Comment">--   reify {A ⩕ B}  s = reify (proj₁ s) , reify (proj₂ s)</a>
-<a id="2351" class="Comment">--   reify {⫪}     s = τ</a>
-<a id="2376" class="Comment">--   reify {⫫}     s = elim⊥ s</a>
-<a id="2407" class="Comment">--   reify {A ⩖ B}  s = elim⊎ s (λ a → ι₁ (reify a))</a>
-<a id="2460" class="Comment">--                              (λ b → ι₂ (reify b))</a>
+<a id="2227" class="Comment">--   reify {A ⇒ B} f = ƛ (reify (f (wkₑ idₑ) (reflect 0)))</a>
+<a id="2286" class="Comment">--   reify {A ⩕ B}  s = reify (proj₁ s) , reify (proj₂ s)</a>
+<a id="2344" class="Comment">--   reify {⫪}     s = τ</a>
+<a id="2369" class="Comment">--   reify {⫫}     s = elim⊥ s</a>
+<a id="2400" class="Comment">--   reify {A ⩖ B}  s = elim⊎ s (λ a → ι₁ (reify a))</a>
+<a id="2453" class="Comment">--                              (λ b → ι₂ (reify b))</a>
 
-<a id="2514" class="Comment">--   -- (uᴺ)</a>
-<a id="2527" class="Comment">--   reflect : ∀ {A Γ} → Γ ⊢ⁿᵉ A → Γ ⊩ A</a>
-<a id="2568" class="Comment">--   reflect {⎵}      M = ne M</a>
-<a id="2599" class="Comment">--   reflect {A ⇒ B} M = λ η a → reflect (renⁿᵉ η M ∙ reify a)</a>
-<a id="2662" class="Comment">--   reflect {A ⩕ B}  M = reflect (π₁ M) , reflect (π₂ M)</a>
-<a id="2720" class="Comment">--   reflect {⫪}     M = tt</a>
-<a id="2748" class="Comment">--   reflect {⫫}     M = {!!}</a>
-<a id="2778" class="Comment">--   reflect {A ⩖ B}  M = {!!}</a>
+<a id="2507" class="Comment">--   -- (uᴺ)</a>
+<a id="2520" class="Comment">--   reflect : ∀ {A Γ} → Γ ⊢ⁿᵉ A → Γ ⊩ A</a>
+<a id="2561" class="Comment">--   reflect {⎵}      M = ne M</a>
+<a id="2592" class="Comment">--   reflect {A ⇒ B} M = λ η a → reflect (renⁿᵉ η M ∙ reify a)</a>
+<a id="2655" class="Comment">--   reflect {A ⩕ B}  M = reflect (π₁ M) , reflect (π₂ M)</a>
+<a id="2713" class="Comment">--   reflect {⫪}     M = tt</a>
+<a id="2741" class="Comment">--   reflect {⫫}     M = {!!}</a>
+<a id="2771" class="Comment">--   reflect {A ⩖ B}  M = {!!}</a>
 
-<a id="2810" class="Comment">-- -- (uᶜᴺ)</a>
-<a id="2822" class="Comment">-- idᵥ : ∀ {Γ} → Γ ⊩⋆ Γ</a>
-<a id="2846" class="Comment">-- idᵥ {∅}     = ∅</a>
-<a id="2865" class="Comment">-- idᵥ {Γ , A} = idᵥ ⬖ wkₑ idₑ , reflect (` zero)</a>
-
-
-<a id="2917" class="Comment">-- -- (nf)</a>
-<a id="2928" class="Comment">-- nf : ∀ {Γ A} → Γ ⊢ A → Γ ⊢ⁿᶠ A</a>
-<a id="2962" class="Comment">-- nf M = reify (eval idᵥ M)</a>
+<a id="2803" class="Comment">-- -- (uᶜᴺ)</a>
+<a id="2815" class="Comment">-- idᵥ : ∀ {Γ} → Γ ⊩⋆ Γ</a>
+<a id="2839" class="Comment">-- idᵥ {∅}     = ∅</a>
+<a id="2858" class="Comment">-- idᵥ {Γ , A} = idᵥ ⬖ wkₑ idₑ , reflect 0</a>
 
 
-<a id="2993" class="Comment">--------------------------------------------------------------------------------</a>
+<a id="2903" class="Comment">-- -- (nf)</a>
+<a id="2914" class="Comment">-- nf : ∀ {Γ A} → Γ ⊢ A → Γ ⊢ⁿᶠ A</a>
+<a id="2948" class="Comment">-- nf M = reify (eval idᵥ M)</a>
+
+
+<a id="2979" class="Comment">--------------------------------------------------------------------------------</a>
 </pre></body></html>
