@@ -41,6 +41,7 @@ import STLCE.Kovacs.Embedding
 import STLCE.Kovacs.Substitution
 import STLCE.Kovacs.NormalForm
 import STLCE.Kovacs.Normalisation.SoundNotComplete
+import STLCE.Kovacs.Normalisation.Experimental
 import STLCE.Kovacs.Normalisation
 import STLCE.Kovacs.Convertibility
 import STLCE.Kovacs.Completeness           -- TODO: Define `_≫_`
