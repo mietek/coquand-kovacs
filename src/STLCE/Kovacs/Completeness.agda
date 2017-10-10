@@ -18,7 +18,7 @@ mutual
   _‼≫_ {A ⩕ B}  {Γ} M s = π₁ M ≫ proj₁ s × π₂ M ≫ proj₂ s
   _‼≫_ {⫪}     {Γ} M s = ⊤
   _‼≫_ {⫫}     {Γ} M s = elim⊥ s
-  _‼≫_ {A ⩖ B}  {Γ} M s = M ⁇ ι₁ (` zero) ∥ ι₂ (` zero) ≫
+  _‼≫_ {A ⩖ B}  {Γ} M s = M ⁇ ι₁ 0 ∥ ι₂ 0 ≫
                           elim⊎ s (λ a → return {A ⩖ B} (inj₁ a))
                                   (λ b → return {A ⩖ B} (inj₂ b))
 
@@ -121,7 +121,7 @@ mutual
 
 --   reify≫ {⎵}      {M = M} p = p
 --   reify≫ {A ⇒ B} {M = M} f = exp⇒ M
---                             ⦙ ƛ∼ (reify≫ (f (wkₑ idₑ) (reflect≫ (` zero))))
+--                             ⦙ ƛ∼ (reify≫ (f (wkₑ idₑ) (reflect≫ 0)))
 
   -- (u≈)
   postulate
@@ -138,7 +138,7 @@ postulate
   id≫⋆ : ∀ {Γ} → idₛ {Γ} ≫⋆ idᵥ
 
 -- id≫⋆ {∅}     = ∅
--- id≫⋆ {Γ , A} = id≫⋆ ⬖≫ wkₑ idₑ , reflect≫ (` zero)
+-- id≫⋆ {Γ , A} = id≫⋆ ⬖≫ wkₑ idₑ , reflect≫ 0
 
 
 complete : ∀ {Γ A} → (M : Γ ⊢ A)

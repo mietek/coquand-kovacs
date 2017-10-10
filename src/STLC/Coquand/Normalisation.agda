@@ -497,7 +497,7 @@ instance
 mutual
   reify : ∀ {A Γ} → Γ ⊩ A → Γ ⊢ A
   reify {⎵}      f = ⟦g⟧⟨ idᵣ ⟩ f
-  reify {A ⇒ B} f = ƛ (reify (f ⟦∙⟧⟨ wkᵣ idᵣ ⟩ ⟪` zero ⟫))
+  reify {A ⇒ B} f = ƛ (reify (f ⟦∙⟧⟨ wkᵣ idᵣ ⟩ ⟪` 0 ⟫))
 
   ⟪_⟫ : ∀ {A Γ} → (∀ {Γ′} → Γ′ ∋⋆ Γ → Γ′ ⊢ A) → Γ ⊩ A
   ⟪_⟫ {⎵}      f = ⟦G⟧ (λ η   → f η)
@@ -535,7 +535,7 @@ mutual
                  → Eq a₁ a₂
                  → reify a₁ ≡ reify a₂
   thm₁ (eq⎵ h) = h idᵣ
-  thm₁ (eq⊃ h) = ƛ & thm₁ (h (wkᵣ idᵣ) ⟪` zero ⟫ᵤ)
+  thm₁ (eq⊃ h) = ƛ & thm₁ (h (wkᵣ idᵣ) ⟪` 0 ⟫ᵤ)
 
   ⟪`_⟫ᵤ : ∀ {Γ A} → (i : Γ ∋ A)
                   → Un (⟪` i ⟫)

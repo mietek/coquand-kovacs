@@ -300,7 +300,7 @@ module _ where
 
     lemexp⇒ : ∀ {Γ A B w} → {ρ : w ⊩⋆ Γ}
                            → (M : Γ ⊢ A ⇒ B) → Un⋆ ρ
-                           → Eq (⟦ M ⟧ ρ) (⟦ ƛ (wk M ∙ ` zero) ⟧ ρ)
+                           → Eq (⟦ M ⟧ ρ) (⟦ ƛ (wk M ∙ 0) ⟧ ρ)
     lemexp⇒ {ρ = ρ} M υ =
       eq⊃ (λ η {a} u → acc⟦∙⟧idEq η (⟦ M ⟧Un υ) u ⁻¹
                       ⦙ cong⟦∙⟧Eq idᵣ (⟦ M ⟧⬗Eq η υ ⁻¹) (congaccUn η (⟦ M ⟧Un υ)) (⟦ M ⟧Un (cong⬗Un⋆ η υ))

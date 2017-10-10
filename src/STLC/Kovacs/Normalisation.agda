@@ -58,7 +58,7 @@ mutual
   -- (qᴺ)
   reify : ∀ {A Γ} → Γ ⊩ A → Γ ⊢ⁿᶠ A
   reify {⎵}      M = M
-  reify {A ⇒ B} f = ƛ (reify (f (wkₑ idₑ) (reflect (` zero))))
+  reify {A ⇒ B} f = ƛ (reify (f (wkₑ idₑ) (reflect 0)))
 
   -- (uᴺ)
   reflect : ∀ {A Γ} → Γ ⊢ⁿᵉ A → Γ ⊩ A
@@ -68,7 +68,7 @@ mutual
 -- (uᶜᴺ)
 idᵥ : ∀ {Γ} → Γ ⊩⋆ Γ
 idᵥ {∅}     = ∅
-idᵥ {Γ , A} = idᵥ ⬖ wkₑ idₑ , reflect (` zero)
+idᵥ {Γ , A} = idᵥ ⬖ wkₑ idₑ , reflect 0
 
 
 -- (nf)

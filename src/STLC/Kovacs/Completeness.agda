@@ -104,7 +104,7 @@ mutual
                    → M ∼ embⁿᶠ (reify a)
   reify≫ {⎵}      {M = M} p = p
   reify≫ {A ⇒ B} {M = M} f = exp⇒ M
-                            ⦙ ƛ∼ (reify≫ (f (wkₑ idₑ) (reflect≫ (` zero))))
+                            ⦙ ƛ∼ (reify≫ (f (wkₑ idₑ) (reflect≫ 0)))
 
   -- (u≈)
   reflect≫ : ∀ {A Γ} → (M : Γ ⊢ⁿᵉ A)
@@ -118,7 +118,7 @@ mutual
 -- (uᶜ≈)
 id≫⋆ : ∀ {Γ} → idₛ {Γ} ≫⋆ idᵥ
 id≫⋆ {∅}     = ∅
-id≫⋆ {Γ , A} = id≫⋆ ⬖≫ wkₑ idₑ , reflect≫ (` zero)
+id≫⋆ {Γ , A} = id≫⋆ ⬖≫ wkₑ idₑ , reflect≫ 0
 
 
 complete : ∀ {Γ A} → (M : Γ ⊢ A)

@@ -87,7 +87,7 @@ eval ρ (M ⁇ N₁ ∥ N₂) = elim⊎ (eval ρ M) (λ M₁ → eval (ρ , M₁
 --   -- (qᴺ)
 --   reify : ∀ {A Γ} → Γ ⊩ A → Γ ⊢ⁿᶠ A
 --   reify {⎵}      M = M
---   reify {A ⇒ B} f = ƛ (reify (f (wkₑ idₑ) (reflect (` zero))))
+--   reify {A ⇒ B} f = ƛ (reify (f (wkₑ idₑ) (reflect 0)))
 --   reify {A ⩕ B}  s = reify (proj₁ s) , reify (proj₂ s)
 --   reify {⫪}     s = τ
 --   reify {⫫}     s = elim⊥ s
@@ -106,7 +106,7 @@ eval ρ (M ⁇ N₁ ∥ N₂) = elim⊎ (eval ρ M) (λ M₁ → eval (ρ , M₁
 -- -- (uᶜᴺ)
 -- idᵥ : ∀ {Γ} → Γ ⊩⋆ Γ
 -- idᵥ {∅}     = ∅
--- idᵥ {Γ , A} = idᵥ ⬖ wkₑ idₑ , reflect (` zero)
+-- idᵥ {Γ , A} = idᵥ ⬖ wkₑ idₑ , reflect 0
 
 
 -- -- (nf)

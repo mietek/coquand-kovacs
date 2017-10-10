@@ -92,31 +92,32 @@ getᵥ (ρ , a) (suc i) = getᵥ ρ i
 
 -- (Tmᴺ)
 eval : ∀ {Γ Ξ A} → Γ ⊩⋆ Ξ → Ξ ⊢ A → Γ ⊩ A
-eval ρ (` i)                           = getᵥ ρ i
-eval ρ (ƛ {A = A} {B} M)               = return {A ⇒ B}
-                                           λ η a → eval (ρ ⬖ η , a) M
-eval ρ (_∙_ {A = A} {B} M N)           = bind {A ⇒ B} {B} (eval ρ M)
-                                           λ η f → f idₑ (eval (ρ ⬖ η) N)
-eval ρ (_,_ {A = A} {B} M N)           = return {A ⩕ B} (eval ρ M , eval ρ N)
-eval ρ (π₁ {A = A} {B} M)              = bind {A ⩕ B} {A} (eval ρ M)
-                                           λ η s → proj₁ s
-eval ρ (π₂ {A = A} {B} M)              = bind {A ⩕ B} {B} (eval ρ M)
-                                           λ η s → proj₂ s
-eval ρ τ                               = return {⫪} tt
-eval ρ (φ {C = C} M)                   = bind {⫫} {C} (eval ρ M)
-                                           λ η s → elim⊥ s
-eval ρ (ι₁ {A = A} {B} M)              = return {A ⩖ B} (inj₁ (eval ρ M))
-eval ρ (ι₂ {A = A} {B} M)              = return {A ⩖ B} (inj₂ (eval ρ M))
-eval ρ (_⁇_∥_ {A = A} {B} {C} M N₁ N₂) = bind {A ⩖ B} {C} (eval ρ M)
-                                           λ η s → elim⊎ s (λ a → eval (ρ ⬖ η , a) N₁)
-                                                            (λ b → eval (ρ ⬖ η , b) N₂)
+eval ρ (` i)                 = getᵥ ρ i
+eval ρ (ƛ {A = A} {B} M)     = return {A ⇒ B}
+                                 λ η a → eval (ρ ⬖ η , a) M
+eval ρ (_∙_ {A = A} {B} M N) = bind {A ⇒ B} {B} (eval ρ M)
+                                 λ η f → f idₑ (eval (ρ ⬖ η) N)
+eval ρ (_,_ {A = A} {B} M N) = return {A ⩕ B} (eval ρ M , eval ρ N)
+eval ρ (π₁ {A = A} {B} M)    = bind {A ⩕ B} {A} (eval ρ M)
+                                 λ η s → proj₁ s
+eval ρ (π₂ {A = A} {B} M)    = bind {A ⩕ B} {B} (eval ρ M)
+                                 λ η s → proj₂ s
+eval ρ τ                     = return {⫪} tt
+eval ρ (φ {C = C} M)         = bind {⫫} {C} (eval ρ M)
+                                 λ η s → elim⊥ s
+eval ρ (ι₁ {A = A} {B} M)    = return {A ⩖ B} (inj₁ (eval ρ M))
+eval ρ (ι₂ {A = A} {B} M)    = return {A ⩖ B} (inj₂ (eval ρ M))
+eval ρ (_⁇_∥_ {A = A} {B} {C} M N₁ N₂) =
+  bind {A ⩖ B} {C} (eval ρ M)
+    λ η s → elim⊎ s (λ a → eval (ρ ⬖ η , a) N₁)
+                     (λ b → eval (ρ ⬖ η , b) N₂)
 
 
 mutual
   -- (qᴺ)
   reify : ∀ {A Γ} → Γ ⊩ A → Γ ⊢ⁿᶠ A
   reify {⎵}      = call λ η M → M
-  reify {A ⇒ B} = call λ η f → ƛ (reify (f (wkₑ idₑ) (reflect (` zero))))
+  reify {A ⇒ B} = call λ η f → ƛ (reify (f (wkₑ idₑ) (reflect 0)))
   reify {A ⩕ B}  = call λ η s → reify (proj₁ s) , reify (proj₂ s)
   reify {⫪}     = call λ η s → τ
   reify {⫫}     = call λ η s → elim⊥ s
@@ -130,13 +131,14 @@ mutual
   reflect {A ⩕ B}  M = return {A ⩕ B} (reflect (π₁ M) , reflect (π₂ M))
   reflect {⫪}     M = return {⫪} tt
   reflect {⫫}     M = λ η k → ne (φ (renⁿᵉ η M))
-  reflect {A ⩖ B}  M = λ η k → ne (renⁿᵉ η M ⁇ k (wkₑ idₑ) (inj₁ (reflect (` zero)))
-                                              ∥ k (wkₑ idₑ) (inj₂ (reflect (` zero))))
+  reflect {A ⩖ B}  M =
+    λ η k → ne (renⁿᵉ η M ⁇ k (wkₑ idₑ) (inj₁ (reflect 0))
+                           ∥ k (wkₑ idₑ) (inj₂ (reflect 0)))
 
 -- (uᶜᴺ)
 idᵥ : ∀ {Γ} → Γ ⊩⋆ Γ
 idᵥ {∅}     = ∅
-idᵥ {Γ , A} = idᵥ ⬖ wkₑ idₑ , reflect (` zero)
+idᵥ {Γ , A} = idᵥ ⬖ wkₑ idₑ , reflect 0
 
 
 -- (nf)

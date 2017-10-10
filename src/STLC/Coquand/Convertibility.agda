@@ -33,7 +33,7 @@ data _∼_ : ∀ {Γ A} → Γ ⊢ A → Γ ⊢ A → Set
                         → sub σ (ƛ M) ∙ N ∼ sub (σ , N) M
 
     exp⇒ : ∀ {Γ A B} → (M : Γ ⊢ A ⇒ B)
-                      → M ∼ ƛ (wk M ∙ ` zero)
+                      → M ∼ ƛ (wk M ∙ 0)
 
 
 instance
@@ -64,7 +64,7 @@ renred⇒ {η = η} σ M N = ƛ∼ (≡→∼ (sublift◑ η σ M ⁻¹)) ∙∼
 
 renexp⇒` : ∀ {Γ Γ′ A B} → {η : Γ′ ∋⋆ Γ}
                          → (i : Γ ∋ A ⇒ B)
-                         → ren η (` i) ∼ ren η (ƛ (wk (` i) ∙ ` zero))
+                         → ren η (` i) ∼ ren η (ƛ (wk (` i) ∙ 0))
 renexp⇒` {η = η} i = exp⇒ (` (getᵣ η i))
                     ⦙ ƛ∼ (≡→∼ (` & ( get○ (wkᵣ idᵣ) η i ⁻¹
                                     ⦙ (λ η′ → getᵣ η′ i)
@@ -76,20 +76,20 @@ renexp⇒` {η = η} i = exp⇒ (` (getᵣ η i))
 
 renexp⇒ƛ : ∀ {Γ Γ′ A B} → {η : Γ′ ∋⋆ Γ}
                          → (M : Γ , A ⊢ B)
-                         → ren η (ƛ M) ∼ ren η (ƛ (wk (ƛ M) ∙ ` zero))
+                         → ren η (ƛ M) ∼ ren η (ƛ (wk (ƛ M) ∙ 0))
 renexp⇒ƛ {η = η} M = exp⇒ (ƛ (ren (liftᵣ η) M))
                     ⦙ ƛ∼ (ƛ∼ (≡→∼ ( renlift○ (wkᵣ idᵣ) η M ⁻¹
                                    ⦙ (λ η′ → ren η′ M)
                                      & (liftᵣ & ( wklid○ η
                                                 ⦙ wkrid○ η ⁻¹
-                                                ⦙ zap○ (wkᵣ η) idᵣ zero ⁻¹
+                                                ⦙ zap○ (wkᵣ η) idᵣ 0 ⁻¹
                                                 ))
                                    ⦙ renlift○ (liftᵣ η) (wkᵣ idᵣ) M
                                    )) ∙∼ refl∼)
 
 renexp⇒∙ : ∀ {Γ Γ′ A B C} → {η : Γ′ ∋⋆ Γ}
                            → (M : Γ ⊢ A ⇒ B ⇒ C) (N : Γ ⊢ A)
-                           → ren η (M ∙ N) ∼ ren η (ƛ (wk (M ∙ N) ∙ ` zero))
+                           → ren η (M ∙ N) ∼ ren η (ƛ (wk (M ∙ N) ∙ 0))
 renexp⇒∙ {η = η} M N = exp⇒ (ren η M ∙ ren η N)
                       ⦙ ƛ∼ ((≡→∼ ( ren○ (wkᵣ idᵣ) η M ⁻¹
                                   ⦙ (λ η′ → ren η′ M)
@@ -136,7 +136,7 @@ subred⇒ {σ₁ = σ₁} σ₂ M N = ƛ∼ (≡→∼ (sublift● σ₁ σ₂ M
 
 subexp⇒` : ∀ {Γ Ξ A B} → {σ : Γ ⊢⋆ Ξ}
                         → (i : Ξ ∋ A ⇒ B)
-                        → sub σ (` i) ∼ sub σ (ƛ (wk (` i) ∙ ` zero))
+                        → sub σ (` i) ∼ sub σ (ƛ (wk (` i) ∙ 0))
 subexp⇒` {σ = σ} i = exp⇒ (getₛ σ i)
                     ⦙ ƛ∼ (≡→∼ ( natgetₛ σ i ⁻¹
                                ⦙ (λ σ′ → getₛ σ′ i) & liftwkrid◐ σ ⁻¹
@@ -145,21 +145,21 @@ subexp⇒` {σ = σ} i = exp⇒ (getₛ σ i)
 
 subexp⇒ƛ : ∀ {Γ Ξ A B} → {σ : Γ ⊢⋆ Ξ}
                         → (M : Ξ , A ⊢ B)
-                        → sub σ (ƛ M) ∼ sub σ (ƛ (wk (ƛ M) ∙ ` zero))
+                        → sub σ (ƛ M) ∼ sub σ (ƛ (wk (ƛ M) ∙ 0))
 subexp⇒ƛ {σ = σ} M = ƛ∼ ( ≡→∼ ( (λ σ′ → sub σ′ M)
-                                  & ((_, ` zero)
+                                  & ((_, 0)
                                      & ( rid◐ (wkₛ σ) ⁻¹
-                                       ⦙ zap◐ (wkₛ σ) idᵣ (` zero) ⁻¹
-                                       ⦙ zap◐ (liftₛ σ) (wkᵣ idᵣ) (` zero) ⁻¹
+                                       ⦙ zap◐ (wkₛ σ) idᵣ 0 ⁻¹
+                                       ⦙ zap◐ (liftₛ σ) (wkᵣ idᵣ) 0 ⁻¹
                                        ))
-                                ⦙ sub◐ (liftₛ σ , ` zero) (liftᵣ (wkᵣ idᵣ)) M
+                                ⦙ sub◐ (liftₛ σ , 0) (liftᵣ (wkᵣ idᵣ)) M
                                 )
-                         ⦙ red⇒ (liftₛ σ) (ren (liftᵣ (wkᵣ idᵣ)) M) (` zero) ⁻¹
+                         ⦙ red⇒ (liftₛ σ) (ren (liftᵣ (wkᵣ idᵣ)) M) 0 ⁻¹
                          )
 
 subexp⇒∙ : ∀ {Γ Ξ A B C} → {σ : Γ ⊢⋆ Ξ}
                           → (M : Ξ ⊢ A ⇒ B ⇒ C) (N : Ξ ⊢ A)
-                          → sub σ (M ∙ N) ∼ sub σ (ƛ (wk (M ∙ N) ∙ ` zero))
+                          → sub σ (M ∙ N) ∼ sub σ (ƛ (wk (M ∙ N) ∙ 0))
 subexp⇒∙ {σ = σ} M N = exp⇒ (sub σ M ∙ sub σ N)
                       ⦙ ƛ∼ ((≡→∼ ( sub◑ (wkᵣ idᵣ) σ M ⁻¹
                                   ⦙ (λ σ′ → sub σ′ M)

@@ -239,8 +239,8 @@ mutual
   reify≈ {⎵}      p = p
   reify≈ {A ⇒ B} F = ƛ & reify≈ (F (wkₑ {A = A} idₑ)
                                     (reflect≈ refl)
-                                    (reflect𝒰 (` zero))
-                                    (reflect𝒰 (` zero)))
+                                    (reflect𝒰 0)
+                                    (reflect𝒰 0))
 
   -- (u≈)
   reflect≈ : ∀ {A Γ} → {M₁ M₂ : Γ ⊢ⁿᵉ A}

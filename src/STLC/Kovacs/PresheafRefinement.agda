@@ -142,15 +142,15 @@ mutual
   natreify {⎵}      η M u = refl
   natreify {A ⇒ B} η f u =
     let
-      natf , u′ = u (wkₑ idₑ) (reflect𝒰 (` zero))
+      natf , u′ = u (wkₑ idₑ) (reflect𝒰 0)
     in
       ƛ & ( reify & ( f & (wkₑ & ( rid○ η
                                  ⦙ lid○ η ⁻¹
                                  ))
-                        ⊗ natreflect (liftₑ η) (` zero)
+                        ⊗ natreflect (liftₑ η) 0
                     ⦙ natf (liftₑ η)
                     )
-          ⦙ natreify (liftₑ η) (f (wkₑ idₑ) (reflect (` zero))) u′
+          ⦙ natreify (liftₑ η) (f (wkₑ idₑ) (reflect 0)) u′
           )
 
   -- (uᴺ-nat)
@@ -164,7 +164,7 @@ mutual
 -- (uᶜᴾ)
 id𝒰 : ∀ {Γ} → 𝒰⋆ (idᵥ {Γ})
 id𝒰 {∅}     = ∅
-id𝒰 {Γ , A} = id𝒰 ⬖𝒰 wkₑ idₑ , reflect𝒰 (` zero)
+id𝒰 {Γ , A} = id𝒰 ⬖𝒰 wkₑ idₑ , reflect𝒰 0
 
 
 --------------------------------------------------------------------------------

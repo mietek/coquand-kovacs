@@ -39,7 +39,7 @@ wkₛ σ = σ ◐ wkₑ idₑ
 
 -- (keepₛ)
 liftₛ : ∀ {A Γ Ξ} → Γ ⊢⋆ Ξ → Γ , A ⊢⋆ Ξ , A
-liftₛ σ = wkₛ σ , ` zero
+liftₛ σ = wkₛ σ , 0
 
 -- (⌜_⌝ᵒᵖᵉ)
 ⌊_⌋ : ∀ {Γ Γ′} → Γ′ ⊇ Γ → Γ′ ⊢⋆ Γ
@@ -107,13 +107,13 @@ lid◐ done      = refl
 lid◐ (wkₑ η)   = ((idₛ ◐_) ∘ wkₑ) & rid○ η ⁻¹
                ⦙ comp◐○ (wkₑ idₑ) η idₛ ⁻¹
                ⦙ wkₛ & lid◐ η
-lid◐ (liftₑ η) = (_, ` zero) & ( comp◐○ (liftₑ η) (wkₑ idₑ) idₛ
-                               ⦙ ((idₛ ◐_) ∘ wkₑ) & ( lid○ η
-                                                    ⦙ rid○ η ⁻¹
-                                                    )
-                               ⦙ comp◐○ (wkₑ idₑ) η idₛ ⁻¹
-                               ⦙ (_◐ wkₑ idₑ) & lid◐ η
-                               )
+lid◐ (liftₑ η) = (_, 0) & ( comp◐○ (liftₑ η) (wkₑ idₑ) idₛ
+                          ⦙ ((idₛ ◐_) ∘ wkₑ) & ( lid○ η
+                                               ⦙ rid○ η ⁻¹
+                                               )
+                          ⦙ comp◐○ (wkₑ idₑ) η idₛ ⁻¹
+                          ⦙ (_◐ wkₑ idₑ) & lid◐ η
+                          )
 
 -- (idrₑₛ)
 rid◑ : ∀ {Γ Γ′} → (η : Γ′ ⊇ Γ)
@@ -121,9 +121,9 @@ rid◑ : ∀ {Γ Γ′} → (η : Γ′ ⊇ Γ)
 rid◑ done      = refl
 rid◑ (wkₑ η)   = comp◑◐ (wkₑ idₑ) idₛ η ⁻¹
                ⦙ wkₛ & rid◑ η
-rid◑ (liftₑ η) = (_, ` zero) & ( comp◑◐ (wkₑ idₑ) idₛ η ⁻¹
-                               ⦙ (_◐ wkₑ idₑ) & rid◑ η
-                               )
+rid◑ (liftₑ η) = (_, 0) & ( comp◑◐ (wkₑ idₑ) idₛ η ⁻¹
+                          ⦙ (_◐ wkₑ idₑ) & rid◑ η
+                          )
 
 
 --------------------------------------------------------------------------------
@@ -149,7 +149,7 @@ mutual
   sublift◑ : ∀ {Γ Ξ Ξ′ A B} → (σ : Γ ⊢⋆ Ξ′) (η : Ξ′ ⊇ Ξ) (M : Ξ , B ⊢ A)
                             → sub (liftₛ {B} (η ◑ σ)) M ≡
                                (sub (liftₛ σ) ∘ ren (liftₑ η)) M
-  sublift◑ σ η M = (λ σ′ → sub (σ′ , ` zero) M)
+  sublift◑ σ η M = (λ σ′ → sub (σ′ , 0) M)
                    & comp◑◐ (wkₑ idₑ) σ η
                  ⦙ sub◑ (liftₛ σ) (liftₑ η) M
 
@@ -175,7 +175,7 @@ mutual
   sublift◐ : ∀ {Γ Γ′ Ξ A B} → (η : Γ′ ⊇ Γ) (σ : Γ ⊢⋆ Ξ) (M : Ξ , B ⊢ A)
                             → sub (liftₛ {B} (σ ◐ η)) M ≡
                                (ren (liftₑ η) ∘ sub (liftₛ σ)) M
-  sublift◐ η σ M = (λ σ′ → sub (σ′ , ` zero) M)
+  sublift◐ η σ M = (λ σ′ → sub (σ′ , 0) M)
                    & ( comp◐○ (wkₑ idₑ) η σ
                      ⦙ (σ ◐_) & (wkₑ & ( rid○ η
                                        ⦙ lid○ η ⁻¹
@@ -224,7 +224,7 @@ mutual
   sublift● : ∀ {Γ Ξ Φ A B} → (σ₁ : Γ ⊢⋆ Ξ) (σ₂ : Ξ ⊢⋆ Φ) (M : Φ , B ⊢ A)
                            → sub (liftₛ {B} (σ₂ ● σ₁)) M ≡
                               (sub (liftₛ σ₁) ∘ sub (liftₛ σ₂)) M
-  sublift● σ₁ σ₂ M = (λ σ′ → sub (σ′ , ` zero) M)
+  sublift● σ₁ σ₂ M = (λ σ′ → sub (σ′ , 0) M)
                      & ( comp●◐ (wkₑ idₑ) σ₁ σ₂
                        ⦙ (σ₂ ●_) & (lid◑ (wkₛ σ₁) ⁻¹)
                        ⦙ comp●◑ (liftₛ σ₁) (wkₑ idₑ) σ₂ ⁻¹

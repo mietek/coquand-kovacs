@@ -33,7 +33,7 @@ data _∼_ : ∀ {Γ A} → Γ ⊢ A → Γ ⊢ A → Set
                       → (ƛ M) ∙ N ∼ cut N M
 
     exp⇒ : ∀ {Γ A B} → (M : Γ ⊢ A ⇒ B)
-                      → M ∼ ƛ (wk M ∙ ` zero)
+                      → M ∼ ƛ (wk M ∙ 0)
 
 
 instance
@@ -49,7 +49,8 @@ instance
 
 
 renwk : ∀ {Γ Γ′ A B} → (η : Γ′ ⊇ Γ) (M : Γ ⊢ A)
-                     → (wk {B} ∘ ren η) M ≡ (ren (liftₑ η) ∘ wk) M
+                     → (wk {B} ∘ ren η) M ≡
+                        (ren (liftₑ η) ∘ wk) M
 renwk η M = ren○ (wkₑ idₑ) η M ⁻¹
           ⦙ (λ η′ → ren (wkₑ η′) M) & ( rid○ η
                                        ⦙ lid○ η ⁻¹
@@ -57,7 +58,8 @@ renwk η M = ren○ (wkₑ idₑ) η M ⁻¹
           ⦙ ren○ (liftₑ η) (wkₑ idₑ) M
 
 rencut : ∀ {Γ Γ′ A B} → (η : Γ′ ⊇ Γ) (M : Γ ⊢ A) (N : Γ , A ⊢ B)
-                      → (cut (ren η M) ∘ ren (liftₑ η)) N ≡ (ren η ∘ cut M) N
+                      → (cut (ren η M) ∘ ren (liftₑ η)) N ≡
+                         (ren η ∘ cut M) N
 rencut η M N = sub◑ (idₛ , ren η M) (liftₑ η) N ⁻¹
              ⦙ (λ σ → sub (σ , ren η M) N) & ( rid◑ η
                                               ⦙ lid◐ η ⁻¹
@@ -77,7 +79,7 @@ ren∼ η (p ∙∼ q)    = ren∼ η p ∙∼ ren∼ η q
 ren∼ η (red⇒ M N) = coe (((ƛ (ren (liftₑ η) M) ∙ ren η N) ∼_)
                           & rencut η N M)
                          (red⇒ (ren (liftₑ η) M) (ren η N))
-ren∼ η (exp⇒ M)   = coe ((λ M′ → ren η M ∼ ƛ (M′ ∙ ` zero))
+ren∼ η (exp⇒ M)   = coe ((λ M′ → ren η M ∼ ƛ (M′ ∙ 0))
                           & renwk η M)
                          (exp⇒ (ren η M))
 

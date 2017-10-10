@@ -33,6 +33,16 @@ data 𝒞 : Set
     _,_ : (Γ : 𝒞) (A : 𝒯) → 𝒞
 
 
+length : 𝒞 → Nat
+length ∅       = zero
+length (Γ , x) = suc (length Γ)
+
+lookup : (Γ : 𝒞) (i : Nat) {{_ : True (length Γ >? i)}} → 𝒯
+lookup ∅       i       {{()}}
+lookup (Γ , A) zero    {{yes}} = A
+lookup (Γ , B) (suc i) {{p}}   = lookup Γ i
+
+
 -- Variables
 infix 4 _∋_
 data _∋_ : 𝒞 → 𝒯 → Set
@@ -41,6 +51,22 @@ data _∋_ : 𝒞 → 𝒯 → Set
 
     suc  : ∀ {Γ A B} → (i : Γ ∋ A)
                      → Γ , B ∋ A
+
+
+Nat→∋ : ∀ {Γ} → (i : Nat) {{_ : True (length Γ >? i)}}
+               → Γ ∋ lookup Γ i
+Nat→∋ {Γ = ∅}     i       {{()}}
+Nat→∋ {Γ = Γ , A} zero    {{yes}} = zero
+Nat→∋ {Γ = Γ , B} (suc i) {{p}}   = suc (Nat→∋ i)
+
+instance
+  num∋ : ∀ {Γ A} → Number (Γ ∋ A)
+  num∋ {Γ} {A} =
+    record
+      { Constraint = λ i → Σ (True (length Γ >? i))
+                              (λ p → lookup Γ i {{p}} ≡ A)
+      ; fromNat    = λ { i {{p , refl}} → Nat→∋ i }
+      }
 
 
 -- Terms
@@ -78,6 +104,16 @@ data _⊢_ : 𝒞 → 𝒯 → Set
 
     _⁇_∥_ : ∀ {Γ A B C} → (M : Γ ⊢ A ⩖ B) (N₁ : Γ , A ⊢ C) (N₂ : Γ , B ⊢ C)
                         → Γ ⊢ C
+
+
+instance
+  num⊢ : ∀ {Γ A} → Number (Γ ⊢ A)
+  num⊢ {Γ} {A} =
+    record
+      { Constraint = λ i → Σ (True (length Γ >? i))
+                              (λ p → lookup Γ i {{p}} ≡ A)
+      ; fromNat    = λ { i {{p , refl}} → ` (Nat→∋ i) }
+      }
 
 
 --------------------------------------------------------------------------------
@@ -135,6 +171,16 @@ mutual
                            (N₁ : Γ , A ⊢ⁿᶠ C)
                            (N₂ : Γ , B ⊢ⁿᶠ C)
                         → Γ ⊢ⁿᵉ C
+
+
+instance
+  num⊢ⁿᵉ : ∀ {Γ A} → Number (Γ ⊢ⁿᵉ A)
+  num⊢ⁿᵉ {Γ} {A} =
+    record
+      { Constraint = λ i → Σ (True (length Γ >? i))
+                              (λ p → lookup Γ i {{p}} ≡ A)
+      ; fromNat    = λ { i {{p , refl}} → ` (Nat→∋ i) }
+      }
 
 
 --------------------------------------------------------------------------------
