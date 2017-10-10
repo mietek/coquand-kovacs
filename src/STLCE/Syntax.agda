@@ -6,6 +6,7 @@ open import Prelude public
 --------------------------------------------------------------------------------
 
 
+-- Types
 infix  9 _⩕_
 infix  8 _⩖_
 infixr 7 _⇒_
@@ -24,6 +25,7 @@ data 𝒯 : Set
     _⩖_  : (A B : 𝒯) → 𝒯
 
 
+-- Contexts
 data 𝒞 : Set
   where
     ∅   : 𝒞
@@ -31,6 +33,7 @@ data 𝒞 : Set
     _,_ : (Γ : 𝒞) (A : 𝒯) → 𝒞
 
 
+-- Variables
 infix 4 _∋_
 data _∋_ : 𝒞 → 𝒯 → Set
   where
@@ -40,6 +43,7 @@ data _∋_ : 𝒞 → 𝒯 → Set
                      → Γ , B ∋ A
 
 
+-- Terms
 infix 3 _⊢_
 data _⊢_ : 𝒞 → 𝒯 → Set
   where
@@ -89,6 +93,7 @@ data _⊢_ : 𝒞 → 𝒯 → Set
 --       _⩖_ : (A B : 𝒯) → 𝒯ⁿᵉ (A ⩖ B)
 
 
+-- Normal forms
 mutual
   infix 3 _⊢ⁿᶠ_
   data _⊢ⁿᶠ_ : 𝒞 → 𝒯 → Set where
