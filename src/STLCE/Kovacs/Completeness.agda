@@ -9,34 +9,30 @@ open import STLCE.Kovacs.Convertibility public
 
 -- (_≈_)
 mutual
-  infix 3 _‼≫_
-  _‼≫_ : ∀ {A Γ} → Γ ⊢ A → Γ ‼⊩ A → Set
-  _‼≫_ {⎵}      {Γ} M N = M ∼ embⁿᶠ N
-  _‼≫_ {A ⇒ B} {Γ} M f = ∀ {Γ′} → (η : Γ′ ⊇ Γ) {N : Γ′ ⊢ A} {a : Γ′ ⊩ A}
-                                    (p : N ≫ a)
-                                 → ren η M ∙ N ≫ f η a
-  _‼≫_ {A ⩕ B}  {Γ} M s = π₁ M ≫ proj₁ s × π₂ M ≫ proj₂ s
-  _‼≫_ {⫪}     {Γ} M s = ⊤
-  _‼≫_ {⫫}     {Γ} M s = elim⊥ s
-  _‼≫_ {A ⩖ B}  {Γ} M s = M ⁇ ι₁ 0 ∥ ι₂ 0 ≫
-                          elim⊎ s (λ a → return {A ⩖ B} (inj₁ a))
-                                  (λ b → return {A ⩖ B} (inj₂ b))
-
   infix 3 _≫_
-  postulate
-    _≫_ : ∀ {A Γ} → Γ ⊢ A → Γ ⊩ A → Set
+  _≫_ : ∀ {A Γ} → Γ ⊢ A → Γ ⊩ A → Set
+  _≫_ {⎵}      {Γ} M N = M ∼ embⁿᶠ N
+  _≫_ {A ⇒ B} {Γ} M f = ∀ {Γ′} → (η : Γ′ ⊇ Γ) {N : Γ′ ⊢ A} {a : Γ′ ∂⊩ A} (p : N ∂≫ a)
+                                → ren η M ∙ N ∂≫ f η a
+  _≫_ {A ⩕ B}  {Γ} M s = π₁ M ∂≫ proj₁ s × π₂ M ∂≫ proj₂ s
+  _≫_ {⫪}     {Γ} M s = M ∂≫ return tt
+  _≫_ {⫫}     {Γ} M s = elim⊥ s
+  _≫_ {A ⩖ B}  {Γ} M s = M ⁇ ι₁ 0 ∥ ι₂ 0 ∂≫ elim⊎ s (λ a → return {_ ⩖ B} (inj₁ a))
+                                                    (λ b → return {A ⩖ _} (inj₂ b))
 
-  -- M ≫ k = {!!}
+  infix 3 _∂≫_
+  postulate
+    _∂≫_ : ∀ {Γ A} → Γ ⊢ A → Γ ∂⊩ A → Set
 
 
 -- (_≈ᶜ_)
 infix 3 _≫⋆_
-data _≫⋆_ : ∀ {Γ Ξ} → Γ ⊢⋆ Ξ → Γ ⊩⋆ Ξ → Set
+data _≫⋆_ : ∀ {Γ Ξ} → Γ ⊢⋆ Ξ → Γ ∂⊩⋆ Ξ → Set
   where
     ∅   : ∀ {Γ} → ∅ {Γ = Γ} ≫⋆ ∅
 
-    _,_ : ∀ {Γ Ξ A} → {σ : Γ ⊢⋆ Ξ} {ρ : Γ ⊩⋆ Ξ} {M : Γ ⊢ A} {a : Γ ⊩ A}
-                    → (χ : σ ≫⋆ ρ) (p : M ≫ a)
+    _,_ : ∀ {Γ Ξ A} → {σ : Γ ⊢⋆ Ξ} {ρ : Γ ∂⊩⋆ Ξ} {M : Γ ⊢ A} {a : Γ ∂⊩ A}
+                    → (χ : σ ≫⋆ ρ) (p : M ∂≫ a)
                     → σ , M ≫⋆ ρ , a
 
 
@@ -45,9 +41,9 @@ data _≫⋆_ : ∀ {Γ Ξ} → Γ ⊢⋆ Ξ → Γ ⊩⋆ Ξ → Set
 
 -- (≈ₑ)
 postulate
-  acc≫ : ∀ {A Γ Γ′} → {M : Γ ⊢ A} {a : Γ ⊩ A}
-                    → (η : Γ′ ⊇ Γ) → M ≫ a
-                    → ren η M ≫ acc η a
+  acc≫ : ∀ {A Γ Γ′} → {M : Γ ⊢ A} {a : Γ ∂⊩ A}
+                    → (η : Γ′ ⊇ Γ) → M ∂≫ a
+                    → ren η M ∂≫ ∂acc η a
 
 -- acc≫ {⎵}      {M = M} {N} η p = coe ((λ N′ → ren η M ∼ N′) & (natembⁿᶠ η N ⁻¹))
 --                                     (ren∼ η p)
@@ -57,7 +53,7 @@ postulate
 
 -- (≈ᶜₑ)
 postulate
-  _⬖≫_ : ∀ {Γ Γ′ Ξ} → {σ : Γ ⊢⋆ Ξ} {ρ : Γ ⊩⋆ Ξ}
+  _⬖≫_ : ∀ {Γ Γ′ Ξ} → {σ : Γ ⊢⋆ Ξ} {ρ : Γ ∂⊩⋆ Ξ}
                     → (χ : σ ≫⋆ ρ) (η : Γ′ ⊇ Γ)
                     → σ ◐ η ≫⋆ ρ ⬖ η
 -- ∅       ⬖≫ η = ∅
@@ -65,7 +61,7 @@ postulate
 
 
 -- -- (_∼◾≈_)
--- coe≫ : ∀ {A Γ} → {M₁ M₂ : Γ ⊢ A} {a : Γ ⊩ A}
+-- coe≫ : ∀ {A Γ} → {M₁ M₂ : Γ ⊢ A} {a : Γ ∂⊩ A}
 --                → M₁ ∼ M₂ → M₁ ≫ a
 --                → M₂ ≫ a
 -- coe≫ {⎵}      p q = p ⁻¹ ⦙ q
@@ -78,7 +74,7 @@ postulate
 
 
 -- -- (∈≈)
--- get≫ : ∀ {Γ Ξ A} → {σ : Γ ⊢⋆ Ξ} {ρ : Γ ⊩⋆ Ξ}
+-- get≫ : ∀ {Γ Ξ A} → {σ : Γ ⊢⋆ Ξ} {ρ : Γ ∂⊩⋆ Ξ}
 --                  → σ ≫⋆ ρ → (i : Ξ ∋ A)
 --                  → getₛ σ i ≫ getᵥ ρ i
 -- get≫ (χ , p) zero    = p
@@ -87,9 +83,9 @@ postulate
 
 -- (Tm≈)
 postulate
-  eval≫ : ∀ {Γ Ξ A} → {σ : Γ ⊢⋆ Ξ} {ρ : Γ ⊩⋆ Ξ}
+  eval≫ : ∀ {Γ Ξ A} → {σ : Γ ⊢⋆ Ξ} {ρ : Γ ∂⊩⋆ Ξ}
                     → σ ≫⋆ ρ → (M : Ξ ⊢ A)
-                    → sub σ M ≫ eval ρ M
+                    → sub σ M ∂≫ eval ρ M
 
 -- eval≫ χ (` i) = get≫ χ i
 
@@ -115,8 +111,8 @@ postulate
 mutual
   -- (q≈)
   postulate
-    reify≫ : ∀ {A Γ} → {M : Γ ⊢ A} {a : Γ ⊩ A}
-                     → (p : M ≫ a)
+    reify≫ : ∀ {A Γ} → {M : Γ ⊢ A} {a : Γ ∂⊩ A}
+                     → (p : M ∂≫ a)
                      → M ∼ embⁿᶠ (reify a)
 
 --   reify≫ {⎵}      {M = M} p = p
@@ -126,7 +122,7 @@ mutual
   -- (u≈)
   postulate
     reflect≫ : ∀ {A Γ} → (M : Γ ⊢ⁿᵉ A)
-                       → embⁿᵉ M ≫ reflect M
+                       → embⁿᵉ M ∂≫ reflect M
 --   reflect≫ {⎵}      M = refl∼
 --   reflect≫ {A ⇒ B} M η {N} {a} p rewrite natembⁿᵉ η M ⁻¹
 --                       = coe≫ (refl∼ ∙∼ reify≫ p ⁻¹)
