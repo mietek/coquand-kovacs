@@ -132,7 +132,8 @@ infixl 6 _,_
 record Σ {ℓ ℓ′}
          (X : Set ℓ) (P : X → Set ℓ′)
        : Set (ℓ ⊔ ℓ′) where
-  constructor _,_
+  instance
+    constructor _,_
   field
     proj₁ : X
 
@@ -180,6 +181,92 @@ case⊎ : ∀ {ℓ ℓ′ ℓ″ ℓ‴} → {X : Set ℓ} {Y : Set ℓ′} {Z�
                        → X ⊎ Y → (X → Z₁) → (Y → Z₂)
                        → Z₁ ⊎ Z₂
 case⊎ s f g = map⊎ f g s
+
+
+--------------------------------------------------------------------------------
+
+
+open import Agda.Builtin.Bool public
+  using (Bool ; false ; true)
+
+
+if_then_else_ : ∀ {ℓ} → {X : Set ℓ}
+                      → Bool → X → X
+                      → X
+if_then_else_ true  t f = t
+if_then_else_ false t f = f
+
+not : Bool → Bool
+not true  = false
+not false = true
+
+and : Bool → Bool → Bool
+and true  b = b
+and false b = false
+
+or : Bool → Bool → Bool
+or true  b = true
+or false b = b
+
+xor : Bool → Bool → Bool
+xor true  b = not b
+xor false b = b
+
+
+data True : Bool → Set
+  where
+    instance
+      yes : True true
+
+
+--------------------------------------------------------------------------------
+
+
+open import Agda.Builtin.Nat public
+  using (Nat ; zero ; suc)
+open import Agda.Builtin.FromNat public
+  using (Number ; fromNat)
+
+
+instance
+  numNat : Number Nat
+  numNat =
+    record
+      { Constraint = λ n → ⊤
+      ; fromNat    = λ n → n
+      }
+
+
+_>?_ : Nat → Nat → Bool
+zero  >? k     = false
+suc n >? zero  = true
+suc n >? suc k = n >? k
+
+
+--------------------------------------------------------------------------------
+
+
+data Fin : Nat → Set
+  where
+    zero : ∀ {n} → Fin (suc n)
+
+    suc  : ∀ {n} → Fin n
+                 → Fin (suc n)
+
+
+Nat→Fin : ∀ {n} → (k : Nat) {{_ : True (n >? k)}}
+                 → Fin n
+Nat→Fin {n = zero}  k       {{()}}
+Nat→Fin {n = suc n} zero    {{is-true}} = zero
+Nat→Fin {n = suc n} (suc k) {{p}}       = suc (Nat→Fin k {{p}})
+
+instance
+  numFin : ∀ {n} → Number (Fin n)
+  numFin {n} =
+    record
+      { Constraint = λ k → True (n >? k)
+      ; fromNat    = Nat→Fin
+      }
 
 
 --------------------------------------------------------------------------------
