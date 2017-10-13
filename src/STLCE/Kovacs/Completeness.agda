@@ -91,13 +91,10 @@ mutual
                      → ren η M ∂≫ ∂acc η ∂a
   ∂acc≫ η {M} ∂q =
     λ η′ {N} {Nⁿᶠ} f →
-      ∂q (η ○ η′) {N} {Nⁿᶠ} (λ η″ {a} q →
-        f η″ (coe≫ (coe (( (λ M′ → M′ ∼ ren (η ○ (η′ ○ η″)) M)
-                            & ((λ η′ → ren η′ M)
-                               & assoc○ η″ η′ η ⁻¹)
-                         ⦙ (λ M′ → ren ((η ○ η′) ○ η″) M ∼ M′)
-                            & ren○ (η′ ○ η″) η M
-                         )) refl∼)
+      ∂q (η ○ η′) {N} {Nⁿᶠ} (λ η″ q →
+        f η″ (coe≫ (coe (_∼_ & ((λ η‴ → ren η‴ M) & assoc○ η″ η′ η ⁻¹)
+                             ⊗ ren○ (η′ ○ η″) η M)
+                        refl∼)
                    q))
 
 
@@ -152,17 +149,14 @@ bind≫ {M = M} {∂a} {N} {∂c} ∂q f =
       f (η ○ η′) {a} q idₑ {ren η′ N′} {renⁿᶠ η′ Nⁿᶠ′} (λ η″ {c} q′ →
         coe (_∼_ & ren○ η″ η′ N′
                  ⊗ embⁿᶠ & renⁿᶠ○ η″ η′ Nⁿᶠ′)
-            (f′ (η′ ○ η″) {c} (coe≫ {M₁ = ren (idₑ ○ η″) (ren (η ○ η′) N)}
-                                    {M₂ = ren (η ○ (η′ ○ η″)) N}
-                                    (coe (_∼_ & ren○ (idₑ ○ η″) (η ○ η′) N
-                                              ⊗ (λ ‵η → ren ‵η N)
-                                                & ( (λ ‶η → (η ○ η′) ○ ‶η)
-                                                    & lid○ η″
-                                                  ⦙ assoc○ η″ η′ η
-                                                  ))
-                                         refl∼)
-                                    {c}
-                                    q′))))
+            (f′ (η′ ○ η″) (coe≫ (coe (_∼_ & ren○ (idₑ ○ η″) (η ○ η′) N
+                                          ⊗ (λ η‴ → ren η‴ N)
+                                            & ( (λ η‴ → (η ○ η′) ○ η‴)
+                                                & lid○ η″
+                                              ⦙ assoc○ η″ η′ η
+                                              ))
+                                     refl∼)
+                                q′))))
 
 
 --------------------------------------------------------------------------------
@@ -188,17 +182,17 @@ eval≫ {σ = σ} {ρ} χ (ƛ M) =
           {a = λ {Γ′} η ∂a → eval (ρ ⬖ η , ∂a) M}
     (λ {Γ′} η {N} {∂a} ∂q →
       ∂coe≫ {∂a = eval (ρ ⬖ η , ∂a) M}
-            ((coe (((ƛ (ren (liftₑ η) (sub (liftₛ σ) M)) ∙ N) ∼_)
-                   & ( sub◑ (idₛ , N) (liftₑ η) (sub (liftₛ σ) M) ⁻¹
-                     ⦙ sub● (liftₑ η ◑ (idₛ , N)) (liftₛ σ) M ⁻¹
-                     ⦙ (λ σ′ → sub (σ′ , N) M)
-                       & ( comp●◑ (η ◑ idₛ , N) (wkₑ idₑ) σ
-                         ⦙ (σ ●_) & lid◑ (η ◑ idₛ)
-                         ⦙ comp●◑ idₛ η σ ⁻¹
-                         ⦙ rid● (σ ◐ η)
-                         )
-                     ))
-                  (red⇒ (ren (liftₑ η) (sub (liftₛ σ) M)) N) ⁻¹))
+            (coe (((ƛ (ren (liftₑ η) (sub (liftₛ σ) M)) ∙ N) ∼_)
+                  & ( sub◑ (idₛ , N) (liftₑ η) (sub (liftₛ σ) M) ⁻¹
+                    ⦙ sub● (liftₑ η ◑ (idₛ , N)) (liftₛ σ) M ⁻¹
+                    ⦙ (λ σ′ → sub (σ′ , N) M)
+                      & ( comp●◑ (η ◑ idₛ , N) (wkₑ idₑ) σ
+                        ⦙ (σ ●_) & lid◑ (η ◑ idₛ)
+                        ⦙ comp●◑ idₛ η σ ⁻¹
+                        ⦙ rid● (σ ◐ η)
+                        )
+                    ))
+                 (red⇒ (ren (liftₑ η) (sub (liftₛ σ) M)) N) ⁻¹)
             (eval≫ (_,_ (χ ⬖≫ η) {∂a = ∂a} (∂q)) M))
 
 eval≫ {σ = σ} {ρ} χ (M ∙ N) =
