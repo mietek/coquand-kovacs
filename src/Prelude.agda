@@ -123,6 +123,9 @@ elim⊥ : ∀ {ℓ} → {X : Set ℓ}
                → ⊥ → X
 elim⊥ ()
 
+¬_ : ∀ {ℓ} → Set ℓ → Set ℓ
+¬ X = X → ⊥
+
 
 Π : ∀ {ℓ ℓ′} → Set ℓ → Set ℓ′ → Set (ℓ ⊔ ℓ′)
 Π X Y = X → Y
