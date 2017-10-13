@@ -131,13 +131,13 @@ return≫ : ∀ {A Γ} → {M : Γ ⊢ A} {a : Γ ⊩ A}
                   → M ≫ a → M ∂≫ return a
 return≫ {M = M} {a} q =
   λ η {N} {Nⁿᶠ} f →
-    coe ( (λ N′ → N′ ∼ embⁿᶠ (renⁿᶠ idₑ Nⁿᶠ)) & idren N
-        ⦙ (λ Nⁿᶠ′ → N ∼ embⁿᶠ Nⁿᶠ′) & idrenⁿᶠ Nⁿᶠ
-        )
-        (f idₑ {acc η a} (coe≫ (coe ((λ η′ → ren η M ∼ ren η′ M)
-                                     & (rid○ η ⁻¹))
-                                    refl∼)
-                               (acc≫ η {M} {a} q)))
+    coe (_∼_ & idren N
+             ⊗ embⁿᶠ & idrenⁿᶠ Nⁿᶠ)
+        (f idₑ {acc η a}
+               (coe≫ (coe ((λ η′ → ren η M ∼ ren η′ M)
+                           & (rid○ η ⁻¹))
+                          refl∼)
+                     (acc≫ η {M} {a} q)))
 
 bind≫ : ∀ {A C Γ} → {M : Γ ⊢ A} {∂a : Γ ∂⊩ A}
                      {N : Γ ⊢ C} {∂c : Γ ∂⊩ C}
