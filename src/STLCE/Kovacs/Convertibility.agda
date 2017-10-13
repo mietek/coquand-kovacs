@@ -184,6 +184,7 @@ rencut η M N = sub◑ (idₛ , ren η M) (liftₑ η) N ⁻¹
 ren∼ : ∀ {Γ Γ′ A} → {M₁ M₂ : Γ ⊢ A}
                   → (η : Γ′ ⊇ Γ) → M₁ ∼ M₂
                   → ren η M₁ ∼ ren η M₂
+
 ren∼ η refl∼                   = refl∼
 ren∼ η (p ⁻¹∼)                 = ren∼ η p ⁻¹
 ren∼ η (p ⦙∼ q)                = ren∼ η p ⦙ ren∼ η q

@@ -33,14 +33,15 @@ data _≫⋆_ : ∀ {Γ Ξ} → Γ ⊢⋆ Ξ → Γ ⊩⋆ Ξ → Set
 
 
 -- (≈ₑ)
-acc≫ : ∀ {A Γ Γ′} → {M : Γ ⊢ A} {a : Γ ⊩ A}
-                  → (η : Γ′ ⊇ Γ) → M ≫ a
+acc≫ : ∀ {A Γ Γ′} → (η : Γ′ ⊇ Γ)
+                  → {M : Γ ⊢ A} {a : Γ ⊩ A}
+                  → M ≫ a
                   → ren η M ≫ acc η a
-acc≫ {⎵}      {M = M} {N} η p = coe ((λ N′ → ren η M ∼ N′) & (natembⁿᶠ η N ⁻¹))
-                                    (ren∼ η p)
+acc≫ {⎵}      η {M} {N} p = coe ((λ N′ → ren η M ∼ N′) & (natembⁿᶠ η N ⁻¹))
+                                (ren∼ η p)
+acc≫ {A ⇒ B} η {M} {f} g η′ rewrite ren○ η′ η M ⁻¹
+                          = g (η ○ η′)
 
-acc≫ {A ⇒ B} {M = M} {f} η g η′ rewrite ren○ η′ η M ⁻¹
-                              = g (η ○ η′)
 
 -- (≈ᶜₑ)
 _⬖≫_ : ∀ {Γ Γ′ Ξ} → {σ : Γ ⊢⋆ Ξ} {ρ : Γ ⊩⋆ Ξ}
