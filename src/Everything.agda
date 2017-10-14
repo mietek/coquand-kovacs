@@ -33,6 +33,23 @@ import STLC.Kovacs.Soundness
 --------------------------------------------------------------------------------
 
 
+-- The syntax of STLC, extended with products.
+import STLCP.Syntax
+
+-- An extension of Kovacs 2017.
+import STLCP.Kovacs.Embedding
+import STLCP.Kovacs.Substitution
+import STLCP.Kovacs.NormalForm
+import STLCP.Kovacs.Normalisation
+import STLCP.Kovacs.Convertibility
+import STLCP.Kovacs.Completeness
+import STLCP.Kovacs.PresheafRefinement
+import STLCP.Kovacs.Soundness
+
+
+--------------------------------------------------------------------------------
+
+
 -- The syntax of STLC, extended with products and coproducts.
 import STLCE.Syntax
 
