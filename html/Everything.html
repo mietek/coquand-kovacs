@@ -34,21 +34,38 @@
 <a id="883" class="Comment">--------------------------------------------------------------------------------</a>
 
 
-<a id="966" class="Comment">-- The syntax of STLC, extended with products and coproducts.</a>
-<a id="1028" class="Keyword">import</a> <a id="1035" href="STLCE.Syntax.html" class="Module">STLCE.Syntax</a>
+<a id="966" class="Comment">-- The syntax of STLC, extended with products.</a>
+<a id="1013" class="Keyword">import</a> <a id="1020" href="STLCP.Syntax.html" class="Module">STLCP.Syntax</a>
 
-<a id="1049" class="Comment">-- An extension of Kovacs 2017.</a>
-<a id="1081" class="Keyword">import</a> <a id="1088" href="STLCE.Kovacs.Embedding.html" class="Module">STLCE.Kovacs.Embedding</a>
-<a id="1111" class="Keyword">import</a> <a id="1118" href="STLCE.Kovacs.Substitution.html" class="Module">STLCE.Kovacs.Substitution</a>
-<a id="1144" class="Keyword">import</a> <a id="1151" href="STLCE.Kovacs.NormalForm.html" class="Module">STLCE.Kovacs.NormalForm</a>
-<a id="1175" class="Keyword">import</a> <a id="1182" href="STLCE.Kovacs.Normalisation.SoundNotComplete.html" class="Module">STLCE.Kovacs.Normalisation.SoundNotComplete</a>
-<a id="1226" class="Keyword">import</a> <a id="1233" href="STLCE.Kovacs.Normalisation.Experimental.html" class="Module">STLCE.Kovacs.Normalisation.Experimental</a>
-<a id="1273" class="Keyword">import</a> <a id="1280" href="STLCE.Kovacs.Normalisation.html" class="Module">STLCE.Kovacs.Normalisation</a>
-<a id="1307" class="Keyword">import</a> <a id="1314" href="STLCE.Kovacs.Convertibility.html" class="Module">STLCE.Kovacs.Convertibility</a>
-<a id="1342" class="Keyword">import</a> <a id="1349" href="STLCE.Kovacs.Completeness.html" class="Module">STLCE.Kovacs.Completeness</a>
-<a id="1375" class="Comment">-- import STLCE.Kovacs.PresheafRefinement  -- TODO: Start</a>
-<a id="1433" class="Comment">-- import STLCE.Kovacs.Soundness           -- TODO: Start</a>
+<a id="1034" class="Comment">-- An extension of Kovacs 2017.</a>
+<a id="1066" class="Keyword">import</a> <a id="1073" href="STLCP.Kovacs.Embedding.html" class="Module">STLCP.Kovacs.Embedding</a>
+<a id="1096" class="Keyword">import</a> <a id="1103" href="STLCP.Kovacs.Substitution.html" class="Module">STLCP.Kovacs.Substitution</a>
+<a id="1129" class="Keyword">import</a> <a id="1136" href="STLCP.Kovacs.NormalForm.html" class="Module">STLCP.Kovacs.NormalForm</a>
+<a id="1160" class="Keyword">import</a> <a id="1167" href="STLCP.Kovacs.Normalisation.html" class="Module">STLCP.Kovacs.Normalisation</a>
+<a id="1194" class="Keyword">import</a> <a id="1201" href="STLCP.Kovacs.Convertibility.html" class="Module">STLCP.Kovacs.Convertibility</a>
+<a id="1229" class="Keyword">import</a> <a id="1236" href="STLCP.Kovacs.Completeness.html" class="Module">STLCP.Kovacs.Completeness</a>
+<a id="1262" class="Keyword">import</a> <a id="1269" href="STLCP.Kovacs.PresheafRefinement.html" class="Module">STLCP.Kovacs.PresheafRefinement</a>
+<a id="1301" class="Keyword">import</a> <a id="1308" href="STLCP.Kovacs.Soundness.html" class="Module">STLCP.Kovacs.Soundness</a>
 
 
-<a id="1493" class="Comment">--------------------------------------------------------------------------------</a>
+<a id="1333" class="Comment">--------------------------------------------------------------------------------</a>
+
+
+<a id="1416" class="Comment">-- The syntax of STLC, extended with products and coproducts.</a>
+<a id="1478" class="Keyword">import</a> <a id="1485" href="STLCE.Syntax.html" class="Module">STLCE.Syntax</a>
+
+<a id="1499" class="Comment">-- An extension of Kovacs 2017.</a>
+<a id="1531" class="Keyword">import</a> <a id="1538" href="STLCE.Kovacs.Embedding.html" class="Module">STLCE.Kovacs.Embedding</a>
+<a id="1561" class="Keyword">import</a> <a id="1568" href="STLCE.Kovacs.Substitution.html" class="Module">STLCE.Kovacs.Substitution</a>
+<a id="1594" class="Keyword">import</a> <a id="1601" href="STLCE.Kovacs.NormalForm.html" class="Module">STLCE.Kovacs.NormalForm</a>
+<a id="1625" class="Keyword">import</a> <a id="1632" href="STLCE.Kovacs.Normalisation.SoundNotComplete.html" class="Module">STLCE.Kovacs.Normalisation.SoundNotComplete</a>
+<a id="1676" class="Keyword">import</a> <a id="1683" href="STLCE.Kovacs.Normalisation.Experimental.html" class="Module">STLCE.Kovacs.Normalisation.Experimental</a>
+<a id="1723" class="Keyword">import</a> <a id="1730" href="STLCE.Kovacs.Normalisation.html" class="Module">STLCE.Kovacs.Normalisation</a>
+<a id="1757" class="Keyword">import</a> <a id="1764" href="STLCE.Kovacs.Convertibility.html" class="Module">STLCE.Kovacs.Convertibility</a>
+<a id="1792" class="Keyword">import</a> <a id="1799" href="STLCE.Kovacs.Completeness.html" class="Module">STLCE.Kovacs.Completeness</a>           <a id="1835" class="Comment">-- TODO: Finish this</a>
+<a id="1856" class="Comment">-- import STLCE.Kovacs.PresheafRefinement  -- TODO: Start this</a>
+<a id="1919" class="Comment">-- import STLCE.Kovacs.Soundness           -- TODO: Start this</a>
+
+
+<a id="1984" class="Comment">--------------------------------------------------------------------------------</a>
 </pre></body></html>
