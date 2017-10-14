@@ -266,6 +266,21 @@ eval≫ {σ = σ} {ρ} χ (ι₂ M) =
 eval≫ {σ = σ} {ρ} χ (M ⁇ N₁ ∥ N₂) =
   oops
 
+--  bind≫ {M  = sub σ M}
+--        {∂a = eval ρ M}
+--        {N  = sub σ M ⁇ sub (liftₛ σ) N₁
+--                      ∥ sub (liftₛ σ) N₂}
+--        {∂c = eval ρ M ∂!⁇ (λ η ∂a → eval (ρ ⬖ η , ∂a) N₁)
+--                       ∂!∥ (λ η ∂b → eval (ρ ⬖ η , ∂b) N₂)}
+--    (eval≫ χ M)
+--    (λ { η {inj₁ ∂a} (M₁ , ∂q) →
+--           λ η′ {N} {Nⁿᶠ} f →
+--             ∂q η′ {N} {Nⁿᶠ} (λ η″ {a} q →
+--               {!!})
+--       ; η {inj₂ ∂b} (M₂ , ∂q) →
+--           {!!}
+--       })
+
 
 mutual
   -- (q≈)
@@ -274,10 +289,45 @@ mutual
                    → M ∼ embⁿᶠ (reify a)
   reify≫ = oops
 
+  -- reify≫ {⎵}      {M = M} {∂a} ∂q = ∂q idₑ {M} {reify ∂a} (λ η {N} p →
+  --                                     {!!})
+  -- reify≫ {A ⇒ B} {M = M} {∂a} ∂q = ∂q idₑ {M} {reify ∂a} (λ η {f} g →
+  --                                     {!!})
+  -- reify≫ {A ⩕ B}  {M = M} {∂a} ∂q = ∂q idₑ {M} {reify ∂a} (λ η {s} q →
+  --                                     {!!})
+  -- reify≫ {⫪}     {M = M} {∂a} ∂q = ∂q idₑ {M} {reify ∂a} (λ η {s} q →
+  --                                     {!!})
+  -- reify≫ {⫫}     {M = M} {∂a} ∂q = ∂q idₑ {M} {reify ∂a} (λ η {s} q →
+  --                                     {!!})
+  -- reify≫ {A ⩖ B}  {M = M} {∂a} ∂q = ∂q idₑ {M} {reify ∂a} (λ η {s} q →
+  --                                     {!!})
+
   -- (u≈)
   reflect≫ : ∀ {A Γ} → (M : Γ ⊢ⁿᵉ A)
                      → embⁿᵉ M ∂≫ reflect M
-  reflect≫ = oops
+  reflect≫ {⎵}      M = return≫ {M = embⁿᵉ M}
+                                {a = run (reflect M)}
+                                (≡→∼ (embⁿᵉ & idrenⁿᵉ M ⁻¹))
+  reflect≫ {A ⇒ B} M = return≫ {M = embⁿᵉ M}
+                                {a = λ η ∂a → reflect (renⁿᵉ η M ∙ reify ∂a)}
+                                (λ η {N} {∂a} ∂q →
+                                  ∂coe≫ {∂a = ∂acc η (reflect M) ∂!∙ ∂a}
+                                        (≡→∼ (natembⁿᵉ η M ⁻¹) ∙∼ reify≫ ∂q ⁻¹)
+                                        (reflect≫ (renⁿᵉ η M ∙ reify ∂a)))
+  reflect≫ {A ⩕ B}  M = return≫ {M = embⁿᵉ M}
+                                {a = reflect (π₁ M) , reflect (π₂ M)}
+                                (reflect≫ (π₁ M) , reflect≫ (π₂ M))
+  reflect≫ {⫪}     M = return≫ {M = τ}
+                                {a = tt}
+                                tt
+  reflect≫ {⫫}     M = λ η {N} {Nⁿᶠ} f →
+                          coe (_∼_ & idren N
+                                   ⊗ embⁿᶠ & idrenⁿᶠ Nⁿᶠ)
+                              oops
+  reflect≫ {A ⩖ B}  M = λ η {N} {Nⁿᶠ} f →
+                          coe (_∼_ & idren N
+                                   ⊗ embⁿᶠ & idrenⁿᶠ Nⁿᶠ)
+                              oops
 
 
 -- (uᶜ≈)
