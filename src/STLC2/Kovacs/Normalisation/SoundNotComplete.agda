@@ -5,9 +5,9 @@
 -- is not big enough to represent neutral terms of the coproduct types.
 -- The problem is visible in the definition of `reflect`.
 
-module STLCE.Kovacs.Normalisation.SoundNotComplete where
+module STLC2.Kovacs.Normalisation.SoundNotComplete where
 
-open import STLCE.Kovacs.NormalForm public
+open import STLC2.Kovacs.NormalForm public
 
 
 --------------------------------------------------------------------------------

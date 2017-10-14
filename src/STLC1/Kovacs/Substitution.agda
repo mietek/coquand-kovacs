@@ -1,6 +1,6 @@
-module STLCP.Kovacs.Substitution where
+module STLC1.Kovacs.Substitution where
 
-open import STLCP.Kovacs.Embedding public
+open import STLC1.Kovacs.Embedding public
 open import Category
 
 

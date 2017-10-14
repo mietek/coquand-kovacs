@@ -1,6 +1,6 @@
-module STLCP.Kovacs.Embedding where
+module STLC1.Kovacs.Embedding where
 
-open import STLCP.Syntax public
+open import STLC1.Syntax public
 open import Category
 
 

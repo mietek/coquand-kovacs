@@ -1,7 +1,7 @@
-module STLCP.Kovacs.Completeness where
+module STLC1.Kovacs.Completeness where
 
-open import STLCP.Kovacs.Normalisation public
-open import STLCP.Kovacs.Convertibility public
+open import STLC1.Kovacs.Normalisation public
+open import STLC1.Kovacs.Convertibility public
 
 
 --------------------------------------------------------------------------------

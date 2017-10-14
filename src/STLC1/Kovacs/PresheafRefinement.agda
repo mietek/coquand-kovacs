@@ -1,7 +1,7 @@
-module STLCP.Kovacs.PresheafRefinement where
+module STLC1.Kovacs.PresheafRefinement where
 
-open import STLCP.Kovacs.Substitution public
-open import STLCP.Kovacs.Normalisation public
+open import STLC1.Kovacs.Substitution public
+open import STLC1.Kovacs.Normalisation public
 open import Category
 
 

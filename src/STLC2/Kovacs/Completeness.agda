@@ -1,7 +1,7 @@
-module STLCE.Kovacs.Completeness where
+module STLC2.Kovacs.Completeness where
 
-open import STLCE.Kovacs.Normalisation public
-open import STLCE.Kovacs.Convertibility public
+open import STLC2.Kovacs.Normalisation public
+open import STLC2.Kovacs.Convertibility public
 
 
 -- TODO: Remove this

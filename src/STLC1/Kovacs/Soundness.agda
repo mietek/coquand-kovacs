@@ -1,7 +1,7 @@
-module STLCP.Kovacs.Soundness where
+module STLC1.Kovacs.Soundness where
 
-open import STLCP.Kovacs.Convertibility public
-open import STLCP.Kovacs.PresheafRefinement public
+open import STLC1.Kovacs.Convertibility public
+open import STLC1.Kovacs.PresheafRefinement public
 
 
 --------------------------------------------------------------------------------

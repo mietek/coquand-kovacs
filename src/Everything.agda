@@ -33,37 +33,37 @@ import STLC.Kovacs.Soundness
 --------------------------------------------------------------------------------
 
 
--- The syntax of STLC, extended with products.
-import STLCP.Syntax
+-- The syntax of STLC, with simple products.
+import STLC1.Syntax
 
 -- An extension of Kovacs 2017.
-import STLCP.Kovacs.Embedding
-import STLCP.Kovacs.Substitution
-import STLCP.Kovacs.NormalForm
-import STLCP.Kovacs.Normalisation
-import STLCP.Kovacs.Convertibility
-import STLCP.Kovacs.Completeness
-import STLCP.Kovacs.PresheafRefinement
-import STLCP.Kovacs.Soundness
+import STLC1.Kovacs.Embedding
+import STLC1.Kovacs.Substitution
+import STLC1.Kovacs.NormalForm
+import STLC1.Kovacs.Normalisation
+import STLC1.Kovacs.Convertibility
+import STLC1.Kovacs.Completeness
+import STLC1.Kovacs.PresheafRefinement
+import STLC1.Kovacs.Soundness
 
 
 --------------------------------------------------------------------------------
 
 
--- The syntax of STLC, extended with products and coproducts.
-import STLCE.Syntax
+-- The syntax of STLC, with simple products and coproducts.
+import STLC2.Syntax
 
 -- An extension of Kovacs 2017.
-import STLCE.Kovacs.Embedding
-import STLCE.Kovacs.Substitution
-import STLCE.Kovacs.NormalForm
-import STLCE.Kovacs.Normalisation.SoundNotComplete
-import STLCE.Kovacs.Normalisation.Experimental
-import STLCE.Kovacs.Normalisation
-import STLCE.Kovacs.Convertibility
-import STLCE.Kovacs.Completeness           -- TODO: Finish this
--- import STLCE.Kovacs.PresheafRefinement  -- TODO: Start this
--- import STLCE.Kovacs.Soundness           -- TODO: Start this
+import STLC2.Kovacs.Embedding
+import STLC2.Kovacs.Substitution
+import STLC2.Kovacs.NormalForm
+import STLC2.Kovacs.Normalisation.SoundNotComplete
+import STLC2.Kovacs.Normalisation.Experimental
+import STLC2.Kovacs.Normalisation
+import STLC2.Kovacs.Convertibility
+import STLC2.Kovacs.Completeness           -- TODO: Finish this
+-- import STLC2.Kovacs.PresheafRefinement  -- TODO: Start this
+-- import STLC2.Kovacs.Soundness           -- TODO: Start this
 
 
 --------------------------------------------------------------------------------
