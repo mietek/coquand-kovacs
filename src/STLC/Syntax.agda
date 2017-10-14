@@ -69,7 +69,7 @@ instance
 infix 3 _⊢_
 data _⊢_ : 𝒞 → 𝒯 → Set
   where
-    `   : ∀ {Γ A} → (i : Γ ∋ A)
+    𝓋   : ∀ {Γ A} → (i : Γ ∋ A)
                   → Γ ⊢ A
 
     ƛ   : ∀ {Γ A B} → (M : Γ , A ⊢ B)
@@ -85,7 +85,7 @@ instance
     record
       { Constraint = λ i → Σ (True (length Γ >? i))
                               (λ p → lookup Γ i {{p}} ≡ A)
-      ; fromNat    = λ { i {{p , refl}} → ` (Nat→∋ i) }
+      ; fromNat    = λ { i {{p , refl}} → 𝓋 (Nat→∋ i) }
       }
 
 
@@ -104,7 +104,7 @@ mutual
 
   infix 3 _⊢ⁿᵉ_
   data _⊢ⁿᵉ_ : 𝒞 → 𝒯 → Set where
-    `   : ∀ {Γ A} → (i : Γ ∋ A)
+    𝓋   : ∀ {Γ A} → (i : Γ ∋ A)
                   → Γ ⊢ⁿᵉ A
 
     _∙_ : ∀ {Γ A B} → (M : Γ ⊢ⁿᵉ A ⇒ B) (N : Γ ⊢ⁿᶠ A)
@@ -117,7 +117,7 @@ instance
     record
       { Constraint = λ i → Σ (True (length Γ >? i))
                               (λ p → lookup Γ i {{p}} ≡ A)
-      ; fromNat    = λ { i {{p , refl}} → ` (Nat→∋ i) }
+      ; fromNat    = λ { i {{p , refl}} → 𝓋 (Nat→∋ i) }
       }
 
 

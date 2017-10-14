@@ -190,7 +190,7 @@ getᵥ (ρ , ∂a) (suc i) = getᵥ ρ i
 
 -- (Tmᴺ)
 eval : ∀ {Γ Ξ A} → Γ ∂⊩⋆ Ξ → Ξ ⊢ A → Γ ∂⊩ A
-eval ρ (` i)         = getᵥ ρ i
+eval ρ (𝓋 i)         = getᵥ ρ i
 eval ρ (ƛ M)         = ∂!λ (λ η ∂a → eval (ρ ⬖ η , ∂a) M)
 eval ρ (M ∙ N)       = eval ρ M ∂!∙ eval ρ N
 eval ρ (M , N)       = eval ρ M ∂!, eval ρ N

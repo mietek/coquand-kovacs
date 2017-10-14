@@ -50,7 +50,7 @@ postulate
 postulate
   getCV : ∀ {Γ Ξ A} → {σ : Γ ⊢⋆ Ξ} {ρ : Γ ⊩⋆ Ξ}
                     → (i : Ξ ∋ A) → CV⋆ σ ρ
-                    → CV (sub σ (` i)) (getᵥ ρ i)
+                    → CV (sub σ (𝓋 i)) (getᵥ ρ i)
 
 -- (cong↑⟨_⟩CV⋆)
 postulate
