@@ -44,7 +44,7 @@ import STLCE.Kovacs.Normalisation.SoundNotComplete
 import STLCE.Kovacs.Normalisation.Experimental
 import STLCE.Kovacs.Normalisation
 import STLCE.Kovacs.Convertibility
-import STLCE.Kovacs.Completeness           -- TODO: Define `_∂≫_`
+import STLCE.Kovacs.Completeness
 -- import STLCE.Kovacs.PresheafRefinement  -- TODO: Start
 -- import STLCE.Kovacs.Soundness           -- TODO: Start
 

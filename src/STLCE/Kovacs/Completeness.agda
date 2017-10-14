@@ -201,10 +201,19 @@ eval≫ {σ = σ} {ρ} χ (M ∙ N) =
         {N  = sub σ M ∙ sub σ N}
         {∂c = eval ρ M ∂!∙ eval ρ N}
     (eval≫ χ M)
-    oops
-    -- (λ η q → coe ?
-    --               (q idₑ (coe ?
-    --                           (eval≫ χ N))))
+    (λ η {f} g →
+      ∂coe≫ {∂a = eval (ρ ⬖ η) M ∂!∙ eval (ρ ⬖ η) N}
+            (coe (_∼_ & ((λ M′ → M′ ∙ ren η (sub σ N))
+                         & ( (λ η′ → ren η′ (sub σ M))
+                             & (rid○ η ⁻¹)
+                           ⦙ ren○ idₑ η (sub σ M)
+                           ))
+                      ⊗ refl)
+                 refl∼)
+            (g idₑ {∂a = ∂acc η (eval ρ N)}
+                   (∂coe≫ {∂a = eval (ρ ⬖ η) N}
+                          (≡→∼ (sub◐ η σ N))
+                          (eval≫ (χ ⬖≫ η) N))))
 
 eval≫ {σ = σ} {ρ} χ (M , N) =
   return≫ {M = sub σ M , sub σ N}
