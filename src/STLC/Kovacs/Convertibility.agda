@@ -36,6 +36,11 @@ data _∼_ : ∀ {Γ A} → Γ ⊢ A → Γ ⊢ A → Set
                       → M ∼ ƛ (wk M ∙ 0)
 
 
+≡→∼ : ∀ {Γ A} → {M₁ M₂ : Γ ⊢ A}
+               → M₁ ≡ M₂
+               → M₁ ∼ M₂
+≡→∼ refl = refl∼
+
 instance
   per∼ : ∀ {Γ A} → PER (Γ ⊢ A) _∼_
   per∼ =

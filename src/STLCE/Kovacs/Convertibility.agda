@@ -140,6 +140,11 @@ data _∼_ : ∀ {Γ A} → Γ ⊢ A → Γ ⊢ A → Set
                                     ∥ (N₂ ⁇ liftwk O₁ ∥ liftwk O₂)
 
 
+≡→∼ : ∀ {Γ A} → {M₁ M₂ : Γ ⊢ A}
+               → M₁ ≡ M₂
+               → M₁ ∼ M₂
+≡→∼ refl = refl∼
+
 instance
   per∼ : ∀ {Γ A} → PER (Γ ⊢ A) _∼_
   per∼ =
