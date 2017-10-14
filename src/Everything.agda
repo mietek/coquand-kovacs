@@ -44,9 +44,9 @@ import STLCE.Kovacs.Normalisation.SoundNotComplete
 import STLCE.Kovacs.Normalisation.Experimental
 import STLCE.Kovacs.Normalisation
 import STLCE.Kovacs.Convertibility
-import STLCE.Kovacs.Completeness
--- import STLCE.Kovacs.PresheafRefinement  -- TODO: Start
--- import STLCE.Kovacs.Soundness           -- TODO: Start
+import STLCE.Kovacs.Completeness           -- TODO: Finish this
+-- import STLCE.Kovacs.PresheafRefinement  -- TODO: Start this
+-- import STLCE.Kovacs.Soundness           -- TODO: Start this
 
 
 --------------------------------------------------------------------------------

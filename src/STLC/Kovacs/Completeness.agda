@@ -32,25 +32,6 @@ data _≫⋆_ : ∀ {Γ Ξ} → Γ ⊢⋆ Ξ → Γ ⊩⋆ Ξ → Set
 --------------------------------------------------------------------------------
 
 
--- (≈ₑ)
-acc≫ : ∀ {A Γ Γ′} → (η : Γ′ ⊇ Γ)
-                  → {M : Γ ⊢ A} {a : Γ ⊩ A}
-                  → M ≫ a
-                  → ren η M ≫ acc η a
-acc≫ {⎵}      η {M} {N} p = coe ((λ N′ → ren η M ∼ N′) & (natembⁿᶠ η N ⁻¹))
-                                (ren∼ η p)
-acc≫ {A ⇒ B} η {M} {f} g η′ rewrite ren○ η′ η M ⁻¹
-                          = g (η ○ η′)
-
-
--- (≈ᶜₑ)
-_⬖≫_ : ∀ {Γ Γ′ Ξ} → {σ : Γ ⊢⋆ Ξ} {ρ : Γ ⊩⋆ Ξ}
-                  → (χ : σ ≫⋆ ρ) (η : Γ′ ⊇ Γ)
-                  → σ ◐ η ≫⋆ ρ ⬖ η
-∅       ⬖≫ η = ∅
-(χ , p) ⬖≫ η = χ ⬖≫ η , acc≫ η p
-
-
 -- (_∼◾≈_)
 coe≫ : ∀ {A Γ} → {M₁ M₂ : Γ ⊢ A} {a : Γ ⊩ A}
                → M₁ ∼ M₂ → M₁ ≫ a
@@ -59,6 +40,30 @@ coe≫ {⎵}      p q = p ⁻¹ ⦙ q
 coe≫ {A ⇒ B} p f = λ η q →
                       coe≫ (ren∼ η p ∙∼ refl∼)
                            (f η q)
+
+
+--------------------------------------------------------------------------------
+
+
+-- (≈ₑ)
+acc≫ : ∀ {A Γ Γ′} → (η : Γ′ ⊇ Γ)
+                  → {M : Γ ⊢ A} {a : Γ ⊩ A}
+                  → M ≫ a
+                  → ren η M ≫ acc η a
+acc≫ {⎵}      η {M} {N} p = coe ((λ N′ → ren η M ∼ N′) & (natembⁿᶠ η N ⁻¹))
+                                (ren∼ η p)
+acc≫ {A ⇒ B} η {M} {f} g η′
+                          rewrite ren○ η′ η M ⁻¹
+                          = g (η ○ η′)
+
+
+-- (≈ᶜₑ)
+-- NOTE: _⬖≫_ = ∂acc≫⋆
+_⬖≫_ : ∀ {Γ Γ′ Ξ} → {σ : Γ ⊢⋆ Ξ} {ρ : Γ ⊩⋆ Ξ}
+                  → (χ : σ ≫⋆ ρ) (η : Γ′ ⊇ Γ)
+                  → σ ◐ η ≫⋆ ρ ⬖ η
+∅       ⬖≫ η = ∅
+(χ , p) ⬖≫ η = χ ⬖≫ η , acc≫ η p
 
 
 --------------------------------------------------------------------------------
@@ -77,25 +82,29 @@ eval≫ : ∀ {Γ Ξ A} → {σ : Γ ⊢⋆ Ξ} {ρ : Γ ⊩⋆ Ξ}
                   → σ ≫⋆ ρ → (M : Ξ ⊢ A)
                   → sub σ M ≫ eval ρ M
 
-eval≫ χ (` i) = get≫ χ i
+eval≫ χ (` i)
+  = get≫ χ i
 
-eval≫ {σ = σ} χ (ƛ M) η {N} q =
-  coe≫ (coe (((ƛ (ren (liftₑ η) (sub (liftₛ σ) M)) ∙ N) ∼_)
-             & ( sub◑ (idₛ , N) (liftₑ η) (sub (liftₛ σ) M) ⁻¹
-               ⦙ sub● (liftₑ η ◑ (idₛ , N)) (liftₛ σ) M ⁻¹
-               ⦙ (λ σ′ → sub (σ′ , N) M)
-                 & ( comp●◑ (η ◑ idₛ , N) (wkₑ idₑ) σ
-                   ⦙ (σ ●_) & lid◑ (η ◑ idₛ)
-                   ⦙ comp●◑ idₛ η σ ⁻¹
-                   ⦙ rid● (σ ◐ η)
-                   )
-               ))
-            (red⇒ (ren (liftₑ η) (sub (liftₛ σ) M)) N) ⁻¹)
-       (eval≫ (χ ⬖≫ η , q) M)
+eval≫ {σ = σ} χ (ƛ M) η {N} q
+  = coe≫ (coe (((ƛ (ren (liftₑ η) (sub (liftₛ σ) M)) ∙ N) ∼_)
+               & ( sub◑ (idₛ , N) (liftₑ η) (sub (liftₛ σ) M) ⁻¹
+                 ⦙ sub● (liftₑ η ◑ (idₛ , N)) (liftₛ σ) M ⁻¹
+                 ⦙ (λ σ′ → sub (σ′ , N) M)
+                   & ( comp●◑ (η ◑ idₛ , N) (wkₑ idₑ) σ
+                     ⦙ (σ ●_) & lid◑ (η ◑ idₛ)
+                     ⦙ comp●◑ idₛ η σ ⁻¹
+                     ⦙ rid● (σ ◐ η)
+                     )
+                 ))
+              (red⇒ (ren (liftₑ η) (sub (liftₛ σ) M)) N) ⁻¹)
+         (eval≫ (χ ⬖≫ η , q) M)
 
 eval≫ {σ = σ} χ (M ∙ N)
   rewrite idren (sub σ M) ⁻¹
   = eval≫ χ M idₑ (eval≫ χ N)
+
+
+--------------------------------------------------------------------------------
 
 
 mutual
@@ -111,7 +120,8 @@ mutual
   reflect≫ : ∀ {A Γ} → (M : Γ ⊢ⁿᵉ A)
                      → embⁿᵉ M ≫ reflect M
   reflect≫ {⎵}      M = refl∼
-  reflect≫ {A ⇒ B} M η {N} {a} p rewrite natembⁿᵉ η M ⁻¹
+  reflect≫ {A ⇒ B} M η {N} {a} p
+                      rewrite natembⁿᵉ η M ⁻¹
                       = coe≫ (refl∼ ∙∼ reify≫ p ⁻¹)
                              (reflect≫ (renⁿᵉ η M ∙ reify a))
 

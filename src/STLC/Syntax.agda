@@ -6,7 +6,7 @@ open import Prelude public
 --------------------------------------------------------------------------------
 
 
--- Types (Ty ; ι ; _⇒_)
+-- Types
 infixr 7 _⇒_
 data 𝒯 : Set
   where
@@ -15,7 +15,10 @@ data 𝒯 : Set
     _⇒_ : (A B : 𝒯) → 𝒯
 
 
--- Contexts (Con ; ∙ ; _,_)
+--------------------------------------------------------------------------------
+
+
+-- Contexts
 data 𝒞 : Set
   where
     ∅   : 𝒞
@@ -33,7 +36,7 @@ lookup (Γ , A) zero    {{yes}} = A
 lookup (Γ , B) (suc i) {{p}}   = lookup Γ i
 
 
--- Variables (_∈_ ; vz ; vs)
+-- Variables
 infix 4 _∋_
 data _∋_ : 𝒞 → 𝒯 → Set
   where
@@ -59,7 +62,10 @@ instance
       }
 
 
--- Terms (Tm ; var ; lam ; app)
+--------------------------------------------------------------------------------
+
+
+-- Terms
 infix 3 _⊢_
 data _⊢_ : 𝒞 → 𝒯 → Set
   where
@@ -86,7 +92,7 @@ instance
 --------------------------------------------------------------------------------
 
 
--- Normal forms (Nf ; lam ; ne ; Ne ; var ; app)
+-- Normal forms
 mutual
   infix 3 _⊢ⁿᶠ_
   data _⊢ⁿᶠ_ : 𝒞 → 𝒯 → Set where

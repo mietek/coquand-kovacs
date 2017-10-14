@@ -101,7 +101,7 @@ ren η (M ⁇ N₁ ∥ N₂) = ren η M ⁇ ren (liftₑ η) N₁ ∥ ren (lift�
 wk : ∀ {B Γ A} → Γ ⊢ A → Γ , B ⊢ A
 wk M = ren (wkₑ idₑ) M
 
-liftwk : ∀ {C Γ A B} → Γ , A ⊢ B → Γ , C , A ⊢ B
+liftwk : ∀ {B Γ A C} → Γ , C ⊢ A → Γ , B , C ⊢ A
 liftwk M = ren (liftₑ (wkₑ idₑ)) M
 
 -- (Tm-idₑ)

@@ -204,34 +204,34 @@ ren∼ η (ι₂∼ p)                 = ι₂∼ (ren∼ η p)
 ren∼ η (p ⁇∼ q₁ ∥∼ q₂)         = ren∼ η p ⁇∼ ren∼ (liftₑ η) q₁
                                           ∥∼ ren∼ (liftₑ η) q₂
 
-ren∼ η (red⇒ M N) =
-  coe (((ƛ (ren (liftₑ η) M) ∙ ren η N) ∼_)
-       & rencut η N M)
-      (red⇒ (ren (liftₑ η) M) (ren η N))
+ren∼ η (red⇒ M N)
+  = coe (((ƛ (ren (liftₑ η) M) ∙ ren η N) ∼_)
+         & rencut η N M)
+        (red⇒ (ren (liftₑ η) M) (ren η N))
 
 ren∼ η (red⩕₁ M N)             = red⩕₁ (ren η M) (ren η N)
 ren∼ η (red⩕₂ M N)             = red⩕₂ (ren η M) (ren η N)
 
-ren∼ η (red⩖₁ M N₁ N₂) =
-  coe (((ι₁ (ren η M) ⁇ ren (liftₑ η) N₁
-                      ∥ ren (liftₑ η) N₂) ∼_)
-       & rencut η M N₁)
-      (red⩖₁ (ren η M)
-             (ren (liftₑ η) N₁)
-             (ren (liftₑ η) N₂))
+ren∼ η (red⩖₁ M N₁ N₂)
+  = coe (((ι₁ (ren η M) ⁇ ren (liftₑ η) N₁
+                        ∥ ren (liftₑ η) N₂) ∼_)
+         & rencut η M N₁)
+        (red⩖₁ (ren η M)
+               (ren (liftₑ η) N₁)
+               (ren (liftₑ η) N₂))
 
-ren∼ η (red⩖₂ M N₁ N₂) =
-  coe (((ι₂ (ren η M) ⁇ ren (liftₑ η) N₁
-                      ∥ ren (liftₑ η) N₂) ∼_)
-       & rencut η M N₂)
-      (red⩖₂ (ren η M)
-             (ren (liftₑ η) N₁)
-             (ren (liftₑ η) N₂))
+ren∼ η (red⩖₂ M N₁ N₂)
+  = coe (((ι₂ (ren η M) ⁇ ren (liftₑ η) N₁
+                        ∥ ren (liftₑ η) N₂) ∼_)
+         & rencut η M N₂)
+        (red⩖₂ (ren η M)
+               (ren (liftₑ η) N₁)
+               (ren (liftₑ η) N₂))
 
-ren∼ η (exp⇒ M) =
-  coe ((λ M′ → ren η M ∼ ƛ (M′ ∙ 0))
-       & renwk η M)
-      (exp⇒ (ren η M))
+ren∼ η (exp⇒ M)
+  = coe ((λ M′ → ren η M ∼ ƛ (M′ ∙ 0))
+         & renwk η M)
+        (exp⇒ (ren η M))
 
 ren∼ η (exp⩕ M)                = exp⩕ (ren η M)
 ren∼ η (exp⫪ M)               = exp⫪ (ren η M)
@@ -244,18 +244,18 @@ ren∼ η (comm⫫⁇∥ M N₁ N₂)      = comm⫫⁇∥ (ren η M)
                                           (ren (liftₑ η) N₁)
                                           (ren (liftₑ η) N₂)
 
-ren∼ η (comm⩖∙ M N₁ N₂ O) =
-  coe ((((ren η M ⁇ ren (liftₑ η) N₁
-                  ∥ ren (liftₑ η) N₂) ∙ ren η O ) ∼_)
-       & ((λ N₁′ N₂′ → ren η M ⁇ N₁′ ∥ N₂′)
-          & ((λ O′ → ren (liftₑ η) N₁ ∙ O′)
-             & renwk η O)
-          ⊗ ((λ O′ → ren (liftₑ η) N₂ ∙ O′)
-             & renwk η O)))
-  (comm⩖∙ (ren η M)
-          (ren (liftₑ η) N₁)
-          (ren (liftₑ η) N₂)
-          (ren η O))
+ren∼ η (comm⩖∙ M N₁ N₂ O)
+  = coe ((((ren η M ⁇ ren (liftₑ η) N₁
+                    ∥ ren (liftₑ η) N₂) ∙ ren η O ) ∼_)
+         & ((λ N₁′ N₂′ → ren η M ⁇ N₁′ ∥ N₂′)
+            & ((λ O′ → ren (liftₑ η) N₁ ∙ O′)
+               & renwk η O)
+            ⊗ ((λ O′ → ren (liftₑ η) N₂ ∙ O′)
+               & renwk η O)))
+        (comm⩖∙ (ren η M)
+                (ren (liftₑ η) N₁)
+                (ren (liftₑ η) N₂)
+                (ren η O))
 
 ren∼ η (comm⩖π₁ M N₁ N₂)       = comm⩖π₁ (ren η M)
                                          (ren (liftₑ η) N₁)
@@ -267,20 +267,20 @@ ren∼ η (comm⩖φ M N₁ N₂)        = comm⩖φ (ren η M)
                                         (ren (liftₑ η) N₁)
                                         (ren (liftₑ η) N₂)
 
-ren∼ η (comm⩖⁇∥ M N₁ N₂ O₁ O₂) =
-  coe ((((ren η M ⁇ ren (liftₑ η) N₁
-                  ∥ ren (liftₑ η) N₂) ⁇ ren (liftₑ η) O₁
-                                      ∥ ren (liftₑ η) O₂) ∼_)
-       & ((λ N₁′ N₂′ → ren η M ⁇ N₁′ ∥ N₂′)
-          & ((λ O₁′ O₂′ → ren (liftₑ η) N₁ ⁇ O₁′ ∥ O₂′)
-             & renliftwk η O₁ ⊗ renliftwk η O₂)
-          ⊗ ((λ O₁′ O₂′ → ren (liftₑ η) N₂ ⁇ O₁′ ∥ O₂′)
-             & renliftwk η O₁ ⊗ renliftwk η O₂)))
-  (comm⩖⁇∥ (ren η M)
-           (ren (liftₑ η) N₁)
-           (ren (liftₑ η) N₂)
-           (ren (liftₑ η) O₁)
-           (ren (liftₑ η) O₂))
+ren∼ η (comm⩖⁇∥ M N₁ N₂ O₁ O₂)
+  = coe ((((ren η M ⁇ ren (liftₑ η) N₁
+                    ∥ ren (liftₑ η) N₂) ⁇ ren (liftₑ η) O₁
+                                        ∥ ren (liftₑ η) O₂) ∼_)
+         & ((λ N₁′ N₂′ → ren η M ⁇ N₁′ ∥ N₂′)
+            & ((λ O₁′ O₂′ → ren (liftₑ η) N₁ ⁇ O₁′ ∥ O₂′)
+               & renliftwk η O₁ ⊗ renliftwk η O₂)
+            ⊗ ((λ O₁′ O₂′ → ren (liftₑ η) N₂ ⁇ O₁′ ∥ O₂′)
+               & renliftwk η O₁ ⊗ renliftwk η O₂)))
+        (comm⩖⁇∥ (ren η M)
+                 (ren (liftₑ η) N₁)
+                 (ren (liftₑ η) N₂)
+                 (ren (liftₑ η) O₁)
+                 (ren (liftₑ η) O₂))
 
 
 --------------------------------------------------------------------------------
